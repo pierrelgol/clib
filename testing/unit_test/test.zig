@@ -524,6 +524,43 @@ test "string_count_until : test5" {
 
 // ***********************************+************************************** //
 
+test "string_count_token : test1" {
+    const str = "This is a very long string with a lot of words";
+    const delim = " ";
+    const result = bind.stringCountToken(str, delim);
+    try expectTrue(result == 11);
+}
+
+test "string_count_token : test2" {
+    const str = "This is a very long string with a lot of words";
+    const delim = "z";
+    const result = bind.stringCountToken(str, delim);
+    try expectTrue(result == 1);
+}
+
+test "string_count_token : test3" {
+    const str = "";
+    const delim = "z";
+    const result = bind.stringCountToken(str, delim);
+    try expectTrue(result == 0);
+}
+
+test "string_count_token : test4" {
+    const str = "This is a very long string with a lot of words";
+    const delim = "abcdefhijklmnopqrstuvwxyz";
+    const result = bind.stringCountToken(str, delim);
+    try expectTrue(result == 11);
+}
+
+test "string_count_token : test5" {
+    const str = "   This   is  a   very long     string with a lot of words  ";
+    const delim = " ";
+    const result = bind.stringCountToken(str, delim);
+    try expectTrue(result == 11);
+}
+
+// ***********************************+************************************** //
+
 test "string_join : test1" {
     const heap = bind.ClibHeapAllocator().init();
     defer heap.deinit();
@@ -957,6 +994,151 @@ test "string_reverse : test3" {
 }
 
 // ***********************************+************************************** //
+
+test "string_search : test1" {
+    const haystack = "This is a very long string with a lot of words";
+    var iterator = std.mem.splitAny(u8, haystack, " ");
+    while (iterator.next()) |needle| {
+        const result = try bind.stringSearch(haystack, needle, haystack.len);
+        try expectEqualString(needle, result);
+    }
+}
+
+test "string_search : test2" {
+    const haystack = "This is a very long string with a lot of words";
+    const needle = "Zig";
+    try expectError(Cresult.NotFound, bind.stringSearch(haystack, needle, haystack.len));
+}
+
+test "string_search : test3" {
+    const haystack = "This is a very long string with a lot of words";
+    const needle = "Zig";
+    try expectError(Cresult.NotFound, bind.stringSearch(haystack, needle, 0));
+}
+
+test "string_search : test4" {
+    const result = bind.clib.string_search(null, @ptrCast("This"), 0);
+    try expectTrue(result == null);
+}
+
+test "string_search : test5" {
+    const result = bind.clib.string_search(@ptrCast("This"), @ptrCast("This"), 0);
+    try expectTrue(result == null);
+}
+
+test "string_search : test6" {
+    const haystack = "This is a very long string with a lot of words";
+    const needle = bind.memoryZalloc(0);
+    defer bind.memoryDealloc(needle);
+
+    const result = try bind.stringSearch(haystack, needle, haystack.len);
+    try expectEqualString(haystack, result);
+}
+
+// ***********************************+************************************** //
+
+test "string_span : test1" {
+    const result = bind.stringSpan("This is a string", " ");
+    try expectTrue(result == 0);
+}
+
+test "string_span : test2" {
+    const result = bind.stringSpan("This is a string", "z");
+    try expectTrue(result == 0);
+}
+
+test "string_span : test3" {
+    const result = bind.stringSpan("This is a string", "T");
+    try expectTrue(result == 1);
+}
+
+test "string_span : test4" {
+    const result = bind.stringSpan("This is a string", "This");
+    try expectTrue(result == 4);
+}
+
+// ***********************************+************************************** //
+
+test "string_substring : test1" {
+    const heap = bind.ClibHeapAllocator().init();
+    defer heap.deinit();
+
+    const str = "This is a very long string";
+
+    const result = bind.stringSubstring(heap.allocator, str, 0, str.len);
+    defer heap.dealloc(result);
+
+    try expectEqualString(str, result);
+}
+
+test "string_substring : test2" {
+    const heap = bind.ClibHeapAllocator().init();
+    defer heap.deinit();
+
+    const str = "This is a very long string";
+
+    for (0..@mod(str.len, 2)) |i| {
+        const start = i;
+        const end = str.len - i;
+        const result = bind.stringSubstring(heap.allocator, str, start, end);
+        try expectEqualString(str[start..end], result);
+        heap.dealloc(result);
+    }
+}
+
+test "string_substring : test3" {
+    const heap = bind.ClibHeapAllocator().init();
+    defer heap.deinit();
+
+    const str = "This is a very long string";
+
+    const result = bind.stringSubstring(heap.allocator, str, 0, 4);
+    defer heap.dealloc(result);
+
+    try expectEqualString("This", result);
+}
+
+// ***********************************+************************************** //
+
+test "string_tokenize : test1" {
+    const heap = bind.ClibHeapAllocator().init();
+    defer heap.deinit();
+
+    const str = heap.alloc(256);
+    _ = bind.stringConcat(str, "This is a very long string to test the tokenizer");
+    defer heap.dealloc(str);
+
+    var ptr = str;
+    var token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "This");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "is");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "a");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "very");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "long");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "string");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "to");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "test");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "the");
+
+    token = bind.stringTokenize(&ptr, " ");
+    try expectEqualString(token, "tokenizer");
+}
 
 // test "string_split : test1" {
 //     const heap = bind.clib.heap_init();

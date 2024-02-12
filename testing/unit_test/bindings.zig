@@ -246,8 +246,10 @@ pub fn stringCountLeading(str: []const u8, c: i32) u64 {
 }
 
 /// uint64_t string_count_token(const uint8_t *string, const uint8_t *delim);
-pub fn string_count_token(str: []const u8, c: i32) u64 {
-    return (clib.string_count_leading(str.ptr, c));
+pub fn stringCountToken(str: []const u8, delim: []const u8) u64 {
+    const ptr1: [*c]const u8 = @ptrCast(str);
+    const ptr2: [*c]const u8 = @ptrCast(delim);
+    return (clib.string_count_token(ptr1, ptr2));
 }
 
 /// uint64_t string_count_trailing(const uint8_t *string, int32_t c);
@@ -350,8 +352,22 @@ pub fn stringReverse(str: []const u8) []const u8 {
 }
 
 // uint8_t *string_search(const uint8_t *haystack, const uint8_t *needle, uint64_t len);
-pub fn stringSearch(haystack: []const u8, needle: []const u8, len: u64) []const u8 {
-    return clib.string_search(haystack.ptr, needle.ptr, len);
+pub fn stringSearch(haystack: []const u8, needle: []const u8, len: u64) ![]const u8 {
+    const ptr1: [*c]const u8 = @ptrCast(haystack);
+    const ptr2: [*c]const u8 = @ptrCast(needle);
+    const n = needle.len;
+    const result: ?[*:0]const u8 = clib.string_search(ptr1, ptr2, len);
+    if (result != null) {
+        if (n == 0) {
+            const res = std.mem.span(result.?);
+            const h = haystack.len;
+            return (res[0..h]);
+        }
+        const res = std.mem.span(result.?);
+        return (res[0..n]);
+    } else {
+        return (CResult.NotFound);
+    }
 }
 
 // uint64_t string_span(const uint8_t *s, const uint8_t *charset);
@@ -376,13 +392,18 @@ pub fn stringSplitDestoy(allocator: *Callocator, str: []const u8) [][]const u8 {
 }
 
 // uint8_t *string_substring(struct s_allocator *allocator, uint8_t const *s, uint64_t start, uint64_t len);
-pub fn stringSubstring(allocator: *Callocator, string: *[]const u8, start: u64, len: u64) void {
-    clib.string_substring(allocator, string, start, len);
+pub fn stringSubstring(allocator: *Callocator, string: []const u8, start: u64, len: u64) []const u8 {
+    const ptr1: [*c]const u8 = @ptrCast(string);
+    const result: []const u8 = @as([*]u8, @ptrCast(clib.string_substring(allocator, ptr1, start, len)))[0..len];
+    return (result);
 }
 
 // uint8_t *string_tokenize(const uint8_t **string, const uint8_t *delim);
-pub fn stringTokenize(string: *[]const u8, delim: []const u8) void {
-    clib.string_tokenize(string, delim);
+pub fn stringTokenize(string: *[]const u8, delim: []const u8) []const u8 {
+    const ptr1: [*c][*c]u8 = @constCast(@ptrCast(string));
+    const len = stringCspan(string.*, delim);
+    const result: []const u8 = @as([*]u8, @ptrCast(clib.string_tokenize(ptr1, delim.ptr)))[0..len];
+    return (result);
 }
 
 // uint8_t *string_tolower(uint8_t *string);

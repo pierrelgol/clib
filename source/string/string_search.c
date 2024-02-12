@@ -20,7 +20,7 @@ uint8_t	*string_search(const uint8_t *haystack, const uint8_t *needle,
 
 	if (!haystack && len == 0)
 		return (0);
-	if (!*needle)
+	if (needle[0] == '\0')
 		return ((uint8_t *)haystack);
 	u1 = 0;
 	while (haystack[u1])
@@ -35,5 +35,5 @@ uint8_t	*string_search(const uint8_t *haystack, const uint8_t *needle,
 			return ((uint8_t *)&haystack[(uint64_t)u1 - u2]);
 		u1 = (u1 - u2) + 1;
 	}
-	return ((uint8_t*)&haystack[u1]);
+	return (0);
 }
