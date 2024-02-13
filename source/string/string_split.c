@@ -16,16 +16,16 @@ uint8_t	**string_split(struct s_allocator *allocator, const uint8_t *string,
 		const uint8_t *delim)
 {
 	uint8_t		**result;
-	uint8_t		*ptr;
 	uint64_t	size;
 	uint64_t	i;
+	uint64_t	j;
 
 	size = string_count_token(string, delim);
-	result = allocator->alloc(allocator, size * sizeof(uint8_t *) + 1);
+	result = allocator->alloc(allocator, size * sizeof(uint8_t*) + 1);
 	i = 0;
-	ptr = (uint8_t *)string;
+	j = 0;
 	while (i < size)
-		string_next_token(allocator, &ptr, (result + i++), delim);
-	result[i] = 0x00;
+		j += string_next_token(allocator, &string[j], delim, &result[i++]);
+	result[i] = NULL;
 	return (result);
 }

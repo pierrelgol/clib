@@ -60,11 +60,19 @@ pub fn memoryDealloc(ptr: []const u8) void {
 }
 
 pub fn memoryCopy(dest: []const u8, src: []const u8, n: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_copy(dest.ptr, src.ptr, n).?))[0..n]);
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(dest));
+    const ptr2: ?*anyopaque = @constCast(@ptrCast(src));
+    return (@as([*c]u8, @ptrCast(clib.memory_copy(ptr1, ptr2, n).?))[0..n]);
 }
 
-pub fn memoryCcopy(dest: []const u8, src: []const u8, delim: i32, n: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_copy(dest.ptr, src.ptr, delim, n).?))[0..n]);
+pub fn memoryCcopy(dest: []const u8, src: []const u8, delim: i32, n: u64) ?[]const u8 {
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(dest));
+    const ptr2: ?*anyopaque = @constCast(@ptrCast(src));
+
+    if (clib.memory_ccopy(ptr1, ptr2, delim, n)) |some| {
+        const len = clib.string_length(@ptrCast(some));
+        return (@as([*]u8, @ptrCast(some))[0..len]);
+    } else return null;
 }
 
 pub fn memoryCompare(dest: []const u8, src: []const u8, n: u64) i32 {
@@ -72,15 +80,23 @@ pub fn memoryCompare(dest: []const u8, src: []const u8, n: u64) i32 {
 }
 
 pub fn memoryMove(dest: []const u8, src: []const u8, len: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_move(dest.ptr, src.ptr, len).?))[0..]);
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(dest));
+    const ptr2: ?*anyopaque = @constCast(@ptrCast(src));
+    return (@as([*c]u8, @ptrCast(clib.memory_move(ptr1, ptr2, len).?))[0..len]);
 }
 
-pub fn memorySearch(s: []const u8, c: i32, n: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_search(s.ptr, c, n).?))[0..]);
+pub fn memorySearch(s: []const u8, c: i32, n: u64) ![]const u8 {
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(s));
+    const result = clib.memory_search(ptr1, c, n);
+    if (result != null) {
+        const ret: []const u8 = @as([*]u8, @ptrCast(result))[0..n];
+        return (ret);
+    } else return CResult.NotFound;
 }
 
 pub fn memorySet(dest: []const u8, c: i32, len: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_set(dest.ptr, c, len).?))[0..len]);
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(dest));
+    return (@as([*c]u8, @ptrCast(clib.memory_set(ptr1, c, len).?))[0..len]);
 }
 
 pub fn memoryZalloc(size: u64) []const u8 {
@@ -88,7 +104,8 @@ pub fn memoryZalloc(size: u64) []const u8 {
 }
 
 pub fn memoryRealloc(ptr: []const u8, osize: u64, nsize: u64) []const u8 {
-    return (@as([*c]u8, @ptrCast(clib.memory_realloc(ptr.ptr, osize, nsize).?))[0..nsize]);
+    const ptr1: ?*anyopaque = @constCast(@ptrCast(ptr));
+    return (@as([*c]u8, @ptrCast(clib.memory_realloc(ptr1, osize, nsize).?))[0..nsize]);
 }
 
 pub fn memoryDup(m: []const u8, size: u64) []const u8 {
@@ -328,9 +345,9 @@ pub fn stringNcopy(dst: []const u8, src: []const u8, n: u64) []const u8 {
 }
 
 // void string_next_token(struct s_allocator *allocator, uint8_t **string, uint8_t **out_token, const uint8_t *delim);
-pub fn stringNextToken(allocator: *Callocator, string: *[]const u8, out: [*c][*c]u8, delim: []const u8) void {
-    const ptr1: [*c][*c]u8 = @constCast(@ptrCast(string));
-    clib.string_next_token(allocator, ptr1, out, delim.ptr);
+pub fn stringNextToken(allocator: *Callocator, string: []const u8, delim: []const u8, out: [*c][*c]u8) u64 {
+    const ptr1: [*c]u8 = @constCast(@ptrCast(string));
+    return clib.string_next_token(allocator, ptr1, delim.ptr, out);
 }
 
 // uint8_t *string_rbsearch(const uint8_t *s, int32_t c);
@@ -408,10 +425,14 @@ pub fn stringTokenize(string: *[]const u8, delim: []const u8) []const u8 {
 
 // uint8_t *string_tolower(uint8_t *string);
 pub fn stringToLower(string: []const u8) []const u8 {
-    return (clib.string_tolower(string.ptr));
+    const ptr1: [*c]u8 = @constCast(@ptrCast(string));
+    const result: []const u8 = @as([*]u8, @ptrCast(clib.string_tolower(ptr1)))[0..string.len];
+    return (result);
 }
 
 // uint8_t *string_toupper(uint8_t *string);
 pub fn stringToUpper(string: []const u8) []const u8 {
-    return (clib.string_toupper(string.ptr));
+    const ptr1: [*c]u8 = @constCast(@ptrCast(string));
+    const result: []const u8 = @as([*]u8, @ptrCast(clib.string_toupper(ptr1)))[0..string.len];
+    return (result);
 }

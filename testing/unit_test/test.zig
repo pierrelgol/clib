@@ -856,100 +856,55 @@ test "string_next_token : test1" {
     const heap = bind.ClibHeapAllocator().init();
     defer heap.deinit();
 
-    const source = bind.memoryDupz("This is a string", 16);
-    defer bind.memoryDealloc(source);
-
-    var ptr: []const u8 = source;
-    var result1: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result1, " ");
-    try expectEqualString(std.mem.span(result1), "This");
-    defer heap.dealloc(std.mem.span(result1));
-
-    var result2: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result2, " ");
-    try expectEqualString(std.mem.span(result2), "is");
-    defer heap.dealloc(std.mem.span(result2));
-
-    var result3: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result3, " ");
-    try expectEqualString(std.mem.span(result3), "a");
-    defer heap.dealloc(std.mem.span(result3));
-
-    var result4: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result4, " ");
-    try expectEqualString(std.mem.span(result4), "string");
-    defer heap.dealloc(std.mem.span(result4));
+    const source: []const u8 = "This is a very long string";
+    var iter = std.mem.splitAny(u8, source, " ");
+    var index: u64 = 0;
+    var ptr: [*c]u8 = undefined;
+    var token_len: usize = 0;
+    while (iter.next()) |token| {
+        index += bind.stringNextToken(heap.allocator, source[index..], " ", &ptr);
+        token_len = bind.clib.string_length(ptr);
+        const result: []const u8 = @as([*]u8, @ptrCast(ptr))[0..token_len];
+        try expectEqualString(result, token);
+        heap.dealloc(mem.span(ptr));
+    }
 }
 
 test "string_next_token : test2" {
     const heap = bind.ClibHeapAllocator().init();
     defer heap.deinit();
 
-    const source = bind.memoryDupz("", 1);
-    defer bind.memoryDealloc(source);
-
-    var ptr: []const u8 = source;
-    var result1: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result1, " ");
-    try expectTrue(result1 == null);
+    const source: []const u8 = "    This   is  a   very long string  ";
+    var iter = std.mem.splitAny(u8, source, " ");
+    var index: u64 = 0;
+    var ptr: [*c]u8 = undefined;
+    var token_len: usize = 0;
+    while (iter.next()) |token| {
+        if (token.len == 0)
+            continue;
+        index += bind.stringNextToken(heap.allocator, source[index..], " ", &ptr);
+        token_len = bind.clib.string_length(ptr);
+        const result: []const u8 = @as([*]u8, @ptrCast(ptr))[0..token_len];
+        try expectEqualString(result, token);
+        heap.dealloc(mem.span(ptr));
+    }
 }
 
 test "string_next_token : test3" {
     const heap = bind.ClibHeapAllocator().init();
     defer heap.deinit();
 
-    const source = bind.memoryDupz("T i a s ", 16);
-    defer bind.memoryDealloc(source);
+    const source: []const u8 = "This is a very long string";
+    var ptr: [*c]u8 = undefined;
+    var token_len: usize = 0;
 
-    var ptr: []const u8 = source;
-    var result1: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result1, " ");
-    try expectEqualString(std.mem.span(result1), "T");
-    defer heap.dealloc(std.mem.span(result1));
+    _ = bind.stringNextToken(heap.allocator, source, "z", &ptr);
+    defer heap.dealloc(mem.span(ptr));
 
-    var result2: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result2, " ");
-    try expectEqualString(std.mem.span(result2), "i");
-    defer heap.dealloc(std.mem.span(result2));
+    token_len = bind.clib.string_length(ptr);
+    const result: []const u8 = @as([*]u8, @ptrCast(ptr))[0..token_len];
 
-    var result3: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result3, " ");
-    try expectEqualString(std.mem.span(result3), "a");
-    defer heap.dealloc(std.mem.span(result3));
-
-    var result4: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result4, " ");
-    try expectEqualString(std.mem.span(result4), "s");
-    defer heap.dealloc(std.mem.span(result4));
-}
-
-test "string_next_token : test4" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    const source = bind.memoryDupz("     T i a s      ", 18);
-    defer bind.memoryDealloc(source);
-
-    var ptr: []const u8 = source;
-    var result1: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result1, " ");
-    try expectEqualString(std.mem.span(result1), "T");
-    defer heap.dealloc(std.mem.span(result1));
-
-    var result2: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result2, " ");
-    try expectEqualString(std.mem.span(result2), "i");
-    defer heap.dealloc(std.mem.span(result2));
-
-    var result3: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result3, " ");
-    try expectEqualString(std.mem.span(result3), "a");
-    defer heap.dealloc(std.mem.span(result3));
-
-    var result4: [*c]u8 = null;
-    bind.stringNextToken(heap.allocator, &ptr, &result4, " ");
-    try expectEqualString(std.mem.span(result4), "s");
-    defer heap.dealloc(std.mem.span(result4));
+    try expectEqualString(result, "This is a very long string");
 }
 
 // ***********************************+************************************** //
@@ -1140,14 +1095,405 @@ test "string_tokenize : test1" {
     try expectEqualString(token, "tokenizer");
 }
 
-// test "string_split : test1" {
-//     const heap = bind.clib.heap_init();
-//     defer _ = bind.clib.heap_deinit(heap);
-//     const result = try bind.stringSplit(heap, "This is a test", " ");
-//     var itterator = std.mem.splitAny(u8, "This is a test", " ");
-//     var i: usize = 0;
-//     while (itterator.next()) |split| : (i += 1) {
-//         try expectEqualString(split, std.mem.span(result[i]));
-//     }
-//     defer _ = bind.clib.string_split_destroy(heap, @constCast(@ptrCast(result)));
-// }
+// ***********************************+************************************** //
+
+test "string_to_lower : test1" {
+    const src = "This is a super string";
+    const str = bind.memoryDupz(src, src.len);
+    defer bind.memoryDealloc(str);
+    _ = bind.stringToLower(str);
+    try expectEqualString("this is a super string", str);
+}
+
+test "string_to_lower : test2" {
+    const src = "THIS IS A SUPER STRING";
+    const str = bind.memoryDupz(src, src.len);
+    defer bind.memoryDealloc(str);
+    _ = bind.stringToLower(str);
+    try expectEqualString("this is a super string", str);
+}
+
+// ***********************************+************************************** //
+
+test "string_to_upper : test1" {
+    const src = "This is a super string";
+    const str = bind.memoryDupz(src, src.len);
+    defer bind.memoryDealloc(str);
+    _ = bind.stringToUpper(str);
+    try expectEqualString("THIS IS A SUPER STRING", str);
+}
+
+test "string_to_upper : test2" {
+    const src = "THIS IS A SUPER STRING";
+    const str = bind.memoryDupz(src, src.len);
+    defer bind.memoryDealloc(str);
+    _ = bind.stringToUpper(str);
+    try expectEqualString("THIS IS A SUPER STRING", str);
+}
+
+// ***********************************+************************************** //
+
+test "string_split : test1" {
+    const heap = bind.clib.heap_init();
+    defer _ = bind.clib.heap_deinit(heap);
+    const result = try bind.stringSplit(heap, "This is a test", " ");
+    var itterator = std.mem.splitAny(u8, "This is a test", " ");
+    var i: usize = 0;
+    while (itterator.next()) |split| : (i += 1) {
+        try expectEqualString(split, std.mem.span(result[i]));
+    }
+    defer _ = bind.clib.string_split_destroy(heap, @constCast(@ptrCast(result)));
+}
+
+test "string_split : test2" {
+    const heap = bind.clib.heap_init();
+    defer _ = bind.clib.heap_deinit(heap);
+    const result = try bind.stringSplit(heap, "    This   is  a  test", " ");
+    var itterator = std.mem.splitAny(u8, "This is a test", " ");
+    var i: usize = 0;
+    while (itterator.next()) |split| : (i += 1) {
+        try expectEqualString(split, std.mem.span(result[i]));
+    }
+    defer _ = bind.clib.string_split_destroy(heap, @constCast(@ptrCast(result)));
+}
+
+test "string_split : test3" {
+    const heap = bind.clib.heap_init();
+    defer _ = bind.clib.heap_deinit(heap);
+
+    const result = try bind.stringSplit(heap, "", " ");
+    defer _ = bind.clib.string_split_destroy(heap, @constCast(@ptrCast(result)));
+
+    try expectTrue(result[0] == null);
+}
+
+test "string_split : test4" {
+    const heap = bind.clib.heap_init();
+    defer _ = bind.clib.heap_deinit(heap);
+
+    const result = try bind.stringSplit(heap, "This is a very long string", "z");
+    defer _ = bind.clib.string_split_destroy(heap, @constCast(@ptrCast(result)));
+
+    try expectEqualString(std.mem.span(result[0]), "This is a very long string");
+}
+
+// ***********************************+************************************** //
+//                                 memory                                     //
+// ************************************************************************** //
+
+test "memory_alloc : test1" {
+    const ptr = bind.memoryAlloc(42);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 42);
+}
+
+test "memory_alloc : test2" {
+    const ptr = bind.memoryAlloc(0);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 0);
+}
+
+// ************************************************************************** //
+
+test "memory_ccopy : test1" {
+    const str = "This is a string";
+    const buffer = bind.memoryAlloc(4);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCcopy(buffer, str, ' ', str.len);
+    if (result == null) {
+        @panic("result is null");
+    } else {
+        try expectEqualString(buffer, "This");
+        try expectTrue(result.?[0] == 'i');
+    }
+}
+
+test "memory_ccopy : test2" {
+    const str = "This";
+    const buffer = bind.memoryAlloc(4);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCcopy(buffer, str, ' ', str.len);
+    if (result == null) {
+        try expectEqualString(buffer, "This");
+        try expectTrue(result == null);
+    } else {
+        @panic("result is not null");
+    }
+}
+
+test "memory_ccopy : test3" {
+    const str = "";
+    const buffer = bind.memoryAlloc(0);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCcopy(buffer, str, ' ', str.len);
+    if (result == null) {
+        try expectEqualString(buffer, "");
+        try expectTrue(result == null);
+    } else {
+        @panic("result is not null");
+    }
+}
+
+// ************************************************************************** //
+
+test "memory_compare : test1" {
+    const str1 = "This is a string";
+    const str2 = "This is a string";
+    try expectTrue(bind.memoryCompare(str1, str2, str1.len) == 0);
+}
+
+test "memory_compare : test2" {
+    const str1 = "This is a stringa";
+    const str2 = "This is a stringb";
+    try expectTrue(bind.memoryCompare(str1, str2, str1.len) == -1);
+}
+
+test "memory_compare : test3" {
+    const str1 = "This is a stringb";
+    const str2 = "This is a stringa";
+    try expectTrue(bind.memoryCompare(str1, str2, str1.len) == 1);
+}
+
+test "memory_compare : test4" {
+    const str1 = "";
+    const str2 = "";
+    try expectTrue(bind.memoryCompare(str1, str2, str1.len) == 0);
+}
+
+// ************************************************************************** //
+
+test "memory_copy : test1" {
+    const source = "This is a very long string";
+    const buffer = bind.memoryZalloc(source.len);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCopy(buffer, source, source.len);
+    try expectEqualString(result, source);
+}
+
+test "memory_copy : test2" {
+    const source = "";
+    const buffer = bind.memoryZalloc(source.len);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCopy(buffer, source, source.len);
+    try expectEqualString(result, source);
+}
+
+test "memory_copy : test3" {
+    const source = "a";
+    const buffer = bind.memoryZalloc(source.len);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCopy(buffer, source, source.len);
+    try expectEqualString(result, source);
+}
+
+test "memory_copy : test4" {
+    const source = "abcdefhijklmnopqrstuvwxyz" ** 1000;
+    const buffer = bind.memoryZalloc(source.len);
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memoryCopy(buffer, source, source.len);
+    try expectEqualString(result, source);
+}
+
+// ************************************************************************** //
+
+test "memory_dealloc : test1" {
+    const ptr = bind.memoryZalloc(42);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 42);
+}
+
+test "memory_dealloc : test2" {
+    const ptr = bind.memoryZalloc(0);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 0);
+}
+
+// ************************************************************************** //
+
+test "memory_dup : test1" {
+    const source = "This is a very long string";
+    const buffer = bind.memoryDup(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dup : test2" {
+    const source = "";
+    const buffer = bind.memoryDup(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dup : test3" {
+    const source = "a";
+    const buffer = bind.memoryDup(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dup : test4" {
+    const source = "abcdefhijklmnopqrstuvwxyz" ** 1000;
+    const buffer = bind.memoryDup(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+// ************************************************************************** //
+
+test "memory_dupz : test1" {
+    const source = "This is a very long string";
+    const buffer = bind.memoryDupz(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dupz : test2" {
+    const source = "";
+    const buffer = bind.memoryDupz(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dupz : test3" {
+    const source = "a";
+    const buffer = bind.memoryDupz(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+test "memory_dupz : test4" {
+    const source = "abcdefhijklmnopqrstuvwxyz" ** 1000;
+    const buffer = bind.memoryDupz(source, source.len);
+    defer bind.memoryDealloc(buffer);
+
+    try expectEqualString(buffer, source);
+}
+
+// ************************************************************************** //
+
+test "memory_realloc : test1" {
+    const str = bind.memoryDupz("Hello, ", 6);
+    const to_append = "World!";
+
+    var ptr = bind.memoryRealloc(str, str.len, str.len + to_append.len);
+    ptr = bind.stringConcat(ptr, to_append);
+    defer bind.memoryDealloc(ptr);
+}
+
+// ************************************************************************** //
+
+test "memory_search : test1" {
+    const str = "This is a very long string";
+    var bytes_set = std.bit_set.IntegerBitSet(256).initEmpty();
+    var set_iter = bytes_set.iterator(.{});
+    var index_of_matching_byte: ?u64 = 0;
+
+    for (str) |bytes| {
+        bytes_set.setValue(bytes, true);
+    }
+
+    while (set_iter.next()) |value| {
+        const ch: i32 = @intCast(@as(u32, @truncate(value)));
+        const result = try bind.memorySearch(str, ch, str.len);
+        index_of_matching_byte = mem.indexOfScalar(u8, str, @truncate(value));
+        if (index_of_matching_byte) |found| {
+            try expectEqualString(str[found..], result);
+        }
+    }
+}
+
+test "memory_search : test2" {
+    const str = "This is a very long string";
+    const ch: i32 = 'T';
+    const result = try bind.memorySearch(str, ch, str.len);
+    try expectTrue(result[0] == ch);
+}
+
+test "memory_search : test3" {
+    const str = "This is a very long stringz";
+    const ch: i32 = 'z';
+    const result = try bind.memorySearch(str, ch, str.len);
+    try expectTrue(result[0] == ch);
+}
+
+test "memory_search : test4" {
+    const str = "This is a very long string";
+    const ch: i32 = 'z';
+    try expectError(Cresult.NotFound, bind.memorySearch(str, ch, str.len));
+}
+
+// ************************************************************************** //
+
+test "memory_set : test1" {
+    const buffer = bind.memoryZalloc(32);
+    const model = [_]u8{0xaa};
+    const expect = model ** 32;
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memorySet(buffer, 0xaa, buffer.len);
+    try expectEqualSlice(u8, &expect, result);
+}
+
+test "memory_set : test2" {
+    const buffer = bind.memoryZalloc(1);
+    const model = [_]u8{0xaa};
+    const expect = model ** 1;
+    defer bind.memoryDealloc(buffer);
+
+    const result = bind.memorySet(buffer, 0xaa, buffer.len);
+    try expectEqualSlice(u8, &expect, result);
+}
+
+// ************************************************************************** //
+
+test "memory_move : test1" {
+    const buff = bind.memoryDupz("abcdefghijklmnopqrstuvwxyz", 26);
+    const result = bind.memoryMove(buff[0..], buff[1..], buff.len - 1);
+    try expectEqualSlice(u8, result, "bcdefghijklmnopqrstuvwxyz"[0 .. buff.len - 1]);
+}
+
+test "memory_move : test2" {
+    const buff = bind.memoryDupz("abcdefghijklmnopqrstuvwxyz", 26);
+    const result = bind.memoryMove(buff[1..], buff[0..], buff.len - 1);
+    try expectEqualSlice(u8, result, "abcdefghijklmnopqrstuvwxy"[0 .. buff.len - 1]);
+}
+
+// ************************************************************************** //
+
+test "memory_zalloc : test1" {
+    const ptr = bind.memoryZalloc(42);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 42);
+}
+
+test "memory_zalloc : test2" {
+    const ptr = bind.memoryZalloc(0);
+    defer bind.memoryDealloc(ptr);
+
+    try expectTrue(@TypeOf(ptr) == []const u8);
+    try expectTrue(ptr.len == 0);
+}

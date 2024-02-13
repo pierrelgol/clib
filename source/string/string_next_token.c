@@ -12,21 +12,13 @@
 
 #include "../../include/clib.h"
 
-void	string_next_token(struct s_allocator *allocator, uint8_t **string,
-		uint8_t **out_token, const uint8_t *delim)
+uint64_t string_next_token(struct s_allocator *allocator, const uint8_t *string, const uint8_t *delim, uint8_t **out_token)
 {
-	uint8_t		*str;
-	uint64_t	start;
-	uint64_t	end;
+	uint64_t start;
+	uint64_t end;
 
-	str = *string;
-	if (*str == 0)
-	{
-		*out_token = 0;
-		return ;
-	}
-	start = string_span(str, delim);
-	end = string_cspan(&str[start], delim);
-	*out_token = string_nclone(allocator, &str[start], end);
-	string[0] = &string[0][start + end];
+	start = string_span(string, delim);
+	end = string_cspan(&string[start], delim);
+	*out_token = string_substring(allocator, string, start, end);
+	return (start + end);
 }

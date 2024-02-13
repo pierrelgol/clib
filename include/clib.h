@@ -163,7 +163,8 @@ uint8_t *string_nclone(struct s_allocator *allocator, const uint8_t *string, uin
 int32_t  string_ncompare(const uint8_t *s1, const uint8_t *s2, uint64_t n);
 uint8_t *string_nconcat(uint8_t *s1, const uint8_t *s2, uint64_t n);
 uint8_t *string_ncopy(uint8_t *dst, const uint8_t *src, uint64_t n);
-void string_next_token(struct s_allocator *allocator, uint8_t **string, uint8_t **out_token, const uint8_t *delim);
+uint64_t string_next_token(struct s_allocator *allocator, const uint8_t *string, const uint8_t *delim, uint8_t **out_token);
+
 uint8_t *string_rbsearch(const uint8_t *s, int32_t c);
 uint8_t *string_reverse(uint8_t *str);
 uint8_t *string_search(const uint8_t *haystack, const uint8_t *needle, uint64_t len);
