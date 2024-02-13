@@ -13,7 +13,7 @@
 #include "../../include/clib.h"
 
 static t_list	*list_insert_front(struct s_allocator *allocator, t_list **list,
-		void *data)
+		uintptr_t data)
 {
 	t_list	*new_head;
 
@@ -32,7 +32,7 @@ static t_list	*list_insert_front(struct s_allocator *allocator, t_list **list,
 }
 
 static t_list	*list_insert_back(struct s_allocator *allocator, t_list **list,
-		void *data)
+		uintptr_t data)
 {
 	t_list	*new_tail;
 	t_list	*temp;
@@ -54,7 +54,7 @@ static t_list	*list_insert_back(struct s_allocator *allocator, t_list **list,
 }
 
 t_list	*list_insert_at(struct s_allocator *allocator, t_list **list,
-		void *data, uint64_t index)
+		uintptr_t data, uint64_t index)
 {
 	t_list	*new_node;
 	t_list	*temp;

@@ -20,7 +20,7 @@ static void	deinit_list(struct s_allocator *self, t_list *list)
 	priv = self->priv;
 	while (list)
 	{
-		entry = list->data;
+		entry = (struct s_track_entry*)list->data;
 		if (entry != 0)
 		{
 			priv->dealloc(priv, entry);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <assert.h>
 
 uint8_t	*string_clone(struct s_allocator *allocator, const uint8_t *string)
 {

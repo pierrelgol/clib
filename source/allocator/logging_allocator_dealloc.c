@@ -12,13 +12,13 @@
 
 #include "../../include/clib.h"
 
-int64_t compare_entry(void *ptr1, void *ptr2)
+int64_t compare_entry(uintptr_t ptr1, uintptr_t ptr2)
 {
 	struct s_track_entry	*e1;
 	struct s_track_entry	*e2;
 
-	e1 = ptr1;
-	e2 = ptr2;
+	e1 = (struct s_track_entry*)ptr1;
+	e2 = (struct s_track_entry*)ptr2;
 	return (e1->ptr - e2->ptr);
 }
 
@@ -30,7 +30,7 @@ struct s_list	*logging_allocator_is_double_free(struct s_allocator *self,
 
 	entry.bytes = 0;
 	entry.ptr = (intptr_t)ptr;
-	node = list_search(self->freelist, &entry, compare_entry);
+	node = list_search(self->freelist, (uintptr_t)&entry, compare_entry);
 	if (node != 0)
 		return (node);
 	return (0);
@@ -44,7 +44,7 @@ static bool	logging_allocator_add_to_freelist(struct s_allocator *s,
 
 	entry.bytes = 0;
 	entry.ptr = (intptr_t)p;
-	node = list_pop_first(&s->refcount, &entry, compare_entry);
+	node = list_pop_first(&s->refcount, (uintptr_t)&entry, compare_entry);
 	if (node == 0)
 	{
 		dprintf(s->fd, "[deallocation][ptr: @%p][size: unknown][FAIL]\n", p);
@@ -71,7 +71,7 @@ void	*logging_allocator_dealloc(struct s_allocator *self, void *ptr)
 	node = logging_allocator_is_double_free(self, ptr);
 	if (node != 0)
 	{
-		entry = node->data;
+		entry = (struct s_track_entry*)node->data;
 		dprintf(self->fd, "[double free ][ptr: @%p][size: %llu][Err ]\n",
 			(void *)entry->ptr, entry->bytes);
 		return (0);

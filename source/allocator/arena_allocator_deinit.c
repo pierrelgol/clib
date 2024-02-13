@@ -77,7 +77,7 @@ struct s_allocator	*arena_allocator_deinit(struct s_allocator *self)
 		temp = list_pop_at(&list, 0);
 		if (temp != 0)
 		{
-			child = temp->data;
+			child = (struct s_allocator *)temp->data;
 			parent->dealloc(parent, temp);
 			arena_deinit_child(parent, child);
 		}

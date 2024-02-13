@@ -32,7 +32,7 @@ static void	*new_arena(struct s_allocator *self, t_list *tail, size_t size)
 	assert(node != 0);
 	arena = arena_allocator_init(parent, size);
 	assert(arena != 0);
-	node->data = arena;
+	node->data = (uintptr_t)(arena);
 	node->next = 0;
 	if (!tail)
 		self->next = node;
@@ -54,7 +54,7 @@ void	*arena_allocator_alloc(struct s_allocator *self, uint64_t size)
 	list = self->next;
 	while (list)
 	{
-		arena = list->data;
+		arena = (struct s_allocator*)list->data;
 		if ((arena->count + size) <= arena->size)
 			break ;
 		prev = list;

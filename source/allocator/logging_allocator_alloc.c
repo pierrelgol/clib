@@ -32,7 +32,7 @@ void	*logging_allocator_alloc(struct s_allocator *self, uint64_t s)
 	entry = priv->alloc(priv, sizeof(struct s_track_entry));
 	entry->bytes = s;
 	entry->ptr = (intptr_t)p;
-	list_insert_at(priv, &self->refcount, entry, self->count++);
+	list_insert_at(priv, &self->refcount, (uintptr_t)entry, self->count++);
 	dprintf(self->fd, "[allocation  ][ptr: @%p][size: %llu][OK  ]\n", p, s);
 	return (p);
 }

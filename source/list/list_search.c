@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-t_list	*list_search(struct s_list *head, void *target,
+t_list	*list_search(struct s_list *head, uintptr_t target,
 		t_compare_function compare)
 {
 	struct s_list	*current;

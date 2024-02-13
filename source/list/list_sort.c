@@ -13,7 +13,7 @@
 #include "../../include/clib.h"
 
 static t_list	*list_sorted_merge(t_list *left, t_list *right,
-		int (*f)(void *d1, void *d2))
+		int (*f)(uintptr_t d1, uintptr_t d2))
 {
 	t_list	*result;
 
@@ -55,7 +55,7 @@ static void	list_find_middle(t_list *list, t_list **start, t_list **end)
 	slow->next = 0;
 }
 
-void	list_sort(t_list **list, int (*f)(void *d1, void *d2))
+void	list_sort(t_list **list, int (*f)(uintptr_t d1, uintptr_t d2))
 {
 	t_list	*head;
 	t_list	*a;

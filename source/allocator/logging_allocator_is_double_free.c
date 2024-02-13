@@ -12,13 +12,13 @@
 
 #include "../../include/clib.h"
 
-int64_t	compare_entry(void *ptr1, void *ptr2)
+int64_t	compare_entry(uintptr_t ptr1, uintptr_t ptr2)
 {
 	struct s_track_entry	*e1;
 	struct s_track_entry	*e2;
 
-	e1 = ptr1;
-	e2 = ptr2;
+	e1 = (struct s_track_entry*)ptr1;
+	e2 = (struct s_track_entry*)ptr2;
 	return (e1->ptr - e2->ptr);
 }
 
@@ -30,7 +30,7 @@ struct s_list	*logging_allocator_is_double_free(struct s_allocator *self,
 
 	entry.bytes = 0;
 	entry.ptr = (intptr_t)ptr;
-	node = list_search(self->freelist, &entry, compare_entry);
+	node = list_search(self->freelist, (uintptr_t)&entry, compare_entry);
 	if (node != 0)
 		return (node);
 	return (0);

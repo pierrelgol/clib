@@ -77,6 +77,8 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME) $(SHARED_NAME)
+	$(RM) ./zig-cache
+	$(RM) ./zig-out
 
 re: fclean all
 

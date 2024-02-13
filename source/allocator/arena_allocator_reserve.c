@@ -13,7 +13,7 @@
 #include "../../include/clib.h"
 
 static void	arena_new_arena_alloc(struct s_allocator *allocator, t_list *tail,
-		size_t size)
+		uint64_t size)
 {
 	struct s_allocator	*parent;
 	struct s_allocator	*arena;
@@ -24,7 +24,7 @@ static void	arena_new_arena_alloc(struct s_allocator *allocator, t_list *tail,
 	assert(node != 0);
 	arena = arena_allocator_init(parent, size);
 	assert(arena != 0);
-	node->data = arena;
+	node->data = (uintptr_t)arena;
 	node->next = 0;
 	if (!tail)
 		allocator->next = node;
@@ -45,7 +45,7 @@ void	arena_allocator_reserve(struct s_allocator *self, uint64_t size)
 	list = self->next;
 	while (list)
 	{
-		arena = list->data;
+		arena = (struct s_allocator*)list->data;
 		if ((arena->count + size) <= arena->size)
 			break ;
 		prev = list;

@@ -180,32 +180,34 @@ uint8_t *string_toupper(uint8_t *string);
 //                                  List                                      //
 // ************************************************************************** //
 
-typedef int64_t (*t_compare_function)(void *, void *);
+typedef int64_t (*t_compare_function)(uintptr_t, uintptr_t);
 
 struct s_list
 {
 	struct s_list *next;
-	void          *data;
+	uintptr_t      data;
 };
 
 typedef struct s_list t_list;
 
-t_list *list_search(struct s_list *head, void *target, t_compare_function compare);
+t_list *list_search(struct s_list *head, uintptr_t target, t_compare_function compare);
 t_list *list_create(struct s_allocator *allocator);
 t_list *list_destroy(struct s_allocator *allocator, t_list *self);
-t_list *list_insert_at(struct s_allocator *allocator, t_list **self, void *data, uint64_t index);
+t_list *list_insert_at(struct s_allocator *allocator, t_list **list, uintptr_t data, uint64_t index);
+
 t_list *list_pop_at(t_list **self, uint64_t index);
-t_list *list_pop_first(struct s_list **head, void *target, t_compare_function compare);
+t_list *list_pop_first(struct s_list **head, uintptr_t target, t_compare_function compare);
 t_list *list_push_at(t_list **self, t_list *node, uint64_t index);
 t_list *list_split_at(t_list **self, uint64_t index);
 t_list *list_clone(struct s_allocator *allocator, t_list **self);
 t_list *list_concat(t_list **dstl, t_list **srcl);
 t_list *list_rotate(t_list **list, int shift);
 void    list_clear(t_list *list, uint64_t n);
-void *list_remove_at(struct s_allocator *allocator, t_list **self, uint64_t index);
-void    *list_peek_at(t_list **self, uint64_t index);
-void     list_sort(t_list **list, int (*f)(void *d1, void *d2));
-uint64_t list_length(t_list *list);
+uintptr_t list_remove_at(struct s_allocator *allocator, t_list **list, uint64_t index);
+uintptr_t list_peek_at(t_list **list, uint64_t index);
+void	list_sort(t_list **list, int (*f)(uintptr_t d1, uintptr_t d2));
+uint64_t  list_length(t_list *list);
+
 
 #define RESET "\x1B[0m"
 #define BLACK "\x1B[30m"

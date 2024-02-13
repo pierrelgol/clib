@@ -6,6 +6,7 @@ const process = std.process;
 const log = std.log;
 const cstd = std.c;
 const ascii = std.ascii;
+
 pub const clib = @cImport({
     @cInclude("clib.h");
 });
@@ -20,7 +21,104 @@ pub const CResult = error{
     OutOfMemory,
 };
 
+pub export fn compare(v1: usize, v2: usize) callconv(.C) i64 {
+    return (@intCast(v1 - v2));
+}
+
 pub const Callocator = clib.struct_s_allocator;
+
+pub const Node = clib.t_list;
+
+pub fn MyList() type {
+    return struct {
+        const Self = @This();
+        list: ?*Node,
+        allocator: *Callocator,
+
+        pub fn init(allocator: *Callocator) Self {
+            return Self{
+                .list = null,
+                .allocator = allocator,
+            };
+        }
+
+        /// t_list *list_create(struct s_allocator *allocator);
+        pub fn create(self: Self) ?*Node {
+            return (clib.list_create(@ptrCast(self.allocator)));
+        }
+
+        /// t_list *list_destroy(struct s_allocator *allocator, t_list *self);
+        pub fn destroy(self: Self) void {
+            _ = clib.list_destroy(@ptrCast(self.allocator), self.list);
+        }
+
+        /// void    list_clear(t_list *list, uint64_t n);
+        pub fn clear(self: Self, n: u64) void {
+            clib.list_clear(self.list, n);
+        }
+
+        /// void *list_remove_at(struct s_allocator *allocator, t_list **self, uint64_t index);
+        pub fn removeAt(self: Self, index: usize) usize {
+            return (clib.list_remove_at(self.allocator, @constCast(@ptrCast(self.list)), index));
+        }
+
+        /// t_list *list_insert_at(struct s_allocator *allocator, t_list **self, void *data, uint64_t index);
+        pub fn insertAt(self: Self, uintptr: usize, index: usize) ?*Node {
+            return clib.list_insert_at(self.allocator, @constCast(@ptrCast(&self.list)), uintptr, index);
+        }
+
+        /// void    *list_peek_at(t_list **self, uint64_t index);
+        pub fn peekAt(self: Self, index: usize) usize {
+            var list_ptr: [*c]clib.t_list = @constCast(@ptrCast(self.list.?));
+            return clib.list_peek_at(&list_ptr, index);
+        }
+
+        /// t_list *list_pop_at(t_list **self, uint64_t index);
+        pub fn popAt(self: Self, index: usize) ?*Node {
+            return clib.list_pop_at(&self.list, index);
+        }
+
+        /// t_list *list_push_at(t_list **self, t_list *node, uint64_t index);
+        pub fn pushAt(self: Self, node: *Node, index: usize) ?*Node {
+            return (clib.list_push_at(&self.list, node, index));
+        }
+
+        /// t_list *list_pop_first(struct s_list **head, void *target, t_compare_function compare);
+        pub fn popFirst(self: Self, target: usize, cmp: compare) ?*Node {
+            return clib.list_pop_first(&self.list, target, cmp);
+        }
+
+        /// t_list *list_search(struct s_list *head, void *target, t_compare_function compare);
+        pub fn search(self: Self, target: usize, cmp: compare) ?*Node {
+            return clib.list_search(self.list, target, cmp);
+        }
+
+        /// t_list *list_clone(struct s_allocator *allocator, t_list **self);
+        pub fn clone(self: Self) ?*Node {
+            return clib.list_clone(self.allocator, &self.list);
+        }
+
+        /// uint64_t list_length(t_list *list);
+        pub fn len(self: Self) u64 {
+            return (clib.list_length(self.list));
+        }
+
+        /// t_list *list_concat(t_list **dstl, t_list **srcl);
+        pub fn concat(self: Self, srcl: *?*Node) ?*Node {
+            return (clib.list_concat(&self.list, srcl));
+        }
+
+        /// t_list *list_rotate(t_list **list, int shift);
+        pub fn rotate(self: Self, shift: i32) ?*Node {
+            return (clib.list_rotate(&self.list, shift));
+        }
+
+        /// void    list_sort(t_list **list, int (*f)(void *d1, void *d2));
+        pub fn sort(self: Self, cmp: compare) void {
+            return (clib.list_sort(&self.list, cmp));
+        }
+    };
+}
 
 pub fn ClibHeapAllocator() type {
     return struct {

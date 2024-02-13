@@ -21,7 +21,7 @@ void	logging_allocator_sanitize(struct s_allocator *self, const intptr_t *ptr)
 	node = logging_allocator_is_double_free(self, ptr);
 	if (node != 0)
 	{
-		entry = node->data;
+		entry = (struct s_track_entry*)node->data;
 		dprintf(self->fd, "[double free ][ptr: @%p][size: %llu][Err ]\n}\n",
 			(void *)entry->ptr, entry->bytes);
 		exit(0);
