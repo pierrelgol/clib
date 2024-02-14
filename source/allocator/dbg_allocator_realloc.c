@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logging_allocator_realloc.c                        :+:      :+:    :+:   */
+/*   dbg_allocator_realloc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,13 +12,13 @@
 
 #include "../../include/clib.h"
 
-void	*logging_allocator_realloc(struct s_allocator *allocator, void *ptr,
+void	*dbg_allocator_realloc(struct s_allocator *allocator, void *ptr,
 		uint64_t old, uint64_t size)
 {
 	void	*new_ptr;
 
-	new_ptr = logging_allocator_alloc(allocator, size);
+	new_ptr = dbg_allocator_alloc(allocator, size);
 	memory_copy(new_ptr, ptr, old);
-	logging_allocator_dealloc(allocator, ptr);
+	dbg_allocator_dealloc(allocator, ptr);
 	return (new_ptr);
 }

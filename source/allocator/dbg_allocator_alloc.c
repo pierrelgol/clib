@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logging_allocator_alloc.c                          :+:      :+:    :+:   */
+/*   dbg_allocator_alloc.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-void	*logging_allocator_alloc(struct s_allocator *self, uint64_t s)
+void	*dbg_allocator_alloc(struct s_allocator *self, uint64_t s)
 {
 	struct s_allocator		*parent;
 	struct s_allocator		*priv;

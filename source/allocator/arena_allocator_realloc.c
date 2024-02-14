@@ -20,5 +20,5 @@ void	*arena_allocator_realloc(struct s_allocator *self, void *ptr,
 	arena_allocator_reserve(self, nsize + 1);
 	new_ptr = arena_allocator_alloc(self, nsize);
 	memory_copy(new_ptr, ptr, osize);
-    return (new_ptr);
+	return (new_ptr);
 }

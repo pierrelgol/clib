@@ -14,7 +14,7 @@
 
 void	table_entry_set(t_table *table, uint8_t *key, uintptr_t value)
 {
-	uint64_t index;
+	uint64_t	index;
 
 	index = table_body_find_empty(table, key);
 	if (table->body[index].key != 0)

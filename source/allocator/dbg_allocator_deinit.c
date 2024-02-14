@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logging_allocator_deinit.c                         :+:      :+:    :+:   */
+/*   dbg_allocator_deinit.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,7 +20,7 @@ static void	deinit_list(struct s_allocator *self, t_list *list)
 	priv = self->priv;
 	while (list)
 	{
-		entry = (struct s_track_entry*)list->data;
+		entry = (struct s_track_entry *)list->data;
 		if (entry != 0)
 		{
 			priv->dealloc(priv, entry);
@@ -30,7 +30,7 @@ static void	deinit_list(struct s_allocator *self, t_list *list)
 	list_destroy(priv, list);
 }
 
-struct s_allocator	*logging_allocator_deinit(struct s_allocator *self)
+struct s_allocator	*dbg_allocator_deinit(struct s_allocator *self)
 {
 	struct s_allocator	*priv;
 

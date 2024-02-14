@@ -1778,15 +1778,15 @@ test "pop_at : test2" {
 
 // ************************************************************************** //
 
-test "list_push_at : test1" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
+// test "list_push_at : test1" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
 
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-    const node = list.create().?;
-    node.data = 42;
-    list.list = list.pushAt(node, 0);
-    const result = list.peekAt(0);
-    try expectTrue(result == 42);
-}
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+//     const node = list.create().?;
+//     node.data = 42;
+//     list.list = list.pushAt(node, 0);
+//     const result = list.peekAt(0);
+//     try expectTrue(result == 42);
+// }

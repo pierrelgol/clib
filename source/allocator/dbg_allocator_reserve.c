@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logging_allocator_reserve.c                        :+:      :+:    :+:   */
+/*   dbg_allocator_reserve.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-void	logging_allocator_reserve(struct s_allocator *self, uint64_t size)
+void	dbg_allocator_reserve(struct s_allocator *self, uint64_t size)
 {
 	self->parent->reserve(self->parent, size);
 }

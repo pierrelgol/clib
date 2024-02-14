@@ -12,11 +12,11 @@
 
 #include "../../include/clib.h"
 
-void table_body_resize(t_table *table, uint64_t new_capacity)
+void	table_body_resize(t_table *table, uint64_t new_capacity)
 {
-	t_entry *entry_old;
-	uint64_t capacity_old;
-	uint64_t i;
+	t_entry		*entry_old;
+	uint64_t	capacity_old;
+	uint64_t	i;
 
 	entry_old = table->body;
 	capacity_old = table->capacity;

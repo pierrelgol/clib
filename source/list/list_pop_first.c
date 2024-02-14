@@ -13,7 +13,7 @@
 #include "../../include/clib.h"
 
 t_list	*list_pop_first(struct s_list **head, uintptr_t target,
-		t_compare_function compare)
+		int64_t (*f)(uintptr_t a, uintptr_t b))
 {
 	struct s_list	*current;
 	struct s_list	*prev;
@@ -22,7 +22,7 @@ t_list	*list_pop_first(struct s_list **head, uintptr_t target,
 	prev = 0;
 	while (current != 0)
 	{
-		if (current->data != 0 && compare(current->data, target) == 0)
+		if (current->data != 0 && f(current->data, target) == 0)
 		{
 			if (prev == NULL)
 				*head = current->next;

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   logging_allocator_init.c                           :+:      :+:    :+:   */
+/*   dbg_allocator_init.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-struct s_allocator	*logging_allocator_init(struct s_allocator *p, bool flag)
+struct s_allocator	*dbg_allocator_init(struct s_allocator *p, bool flag)
 {
 	struct s_allocator	*priv;
 	struct s_allocator	*self;
@@ -21,10 +21,10 @@ struct s_allocator	*logging_allocator_init(struct s_allocator *p, bool flag)
 	self = priv->alloc(priv, 1 * sizeof(struct s_allocator));
 	self->parent = p;
 	self->priv = priv;
-	self->alloc = logging_allocator_alloc;
-	self->dealloc = logging_allocator_dealloc;
-	self->realloc = logging_allocator_realloc;
-	self->reserve = logging_allocator_reserve;
+	self->alloc = dbg_allocator_alloc;
+	self->dealloc = dbg_allocator_dealloc;
+	self->realloc = dbg_allocator_realloc;
+	self->reserve = dbg_allocator_reserve;
 	self->count = 0;
 	self->refcount = list_create(priv);
 	self->allocated = 0;

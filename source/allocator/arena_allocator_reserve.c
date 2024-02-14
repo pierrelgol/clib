@@ -45,7 +45,7 @@ void	arena_allocator_reserve(struct s_allocator *self, uint64_t size)
 	list = self->next;
 	while (list)
 	{
-		arena = (struct s_allocator*)list->data;
+		arena = (struct s_allocator *)list->data;
 		if ((arena->count + size) <= arena->size)
 			break ;
 		prev = list;

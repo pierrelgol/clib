@@ -14,7 +14,7 @@
 
 void	table_destroy(t_table *table)
 {
-	struct s_allocator *allocator;
+	struct s_allocator	*allocator;
 
 	if (!table)
 		return ;

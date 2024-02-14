@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t table_body_find_empty(t_table *table, uint8_t *key)
+uint64_t	table_body_find_empty(t_table *table, uint8_t *key)
 {
-	uint64_t index;
+	uint64_t	index;
 
 	index = table_hash(key) % table->capacity;
 	while (table->body[index].key != NULL

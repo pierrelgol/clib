@@ -24,12 +24,12 @@ static void	pretty_print_region_cell(uint8_t ch)
 
 static void	pretty_print_region(uint8_t *region, uint64_t size)
 {
-	uint64_t	i;
+	uint64_t		i;
 	static uint64_t	count;
 
 	i = 0;
 	printf("region :\n");
-	printf("\n%p :%llu\t", &region[i],count++);
+	printf("\n%p :%llu\t", &region[i], count++);
 	while (i < size)
 	{
 		if (((i + 1) % 64) == 0)

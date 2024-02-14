@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uintptr_t table_entry_get(t_table *table, uint8_t *key)
+uintptr_t	table_entry_get(t_table *table, uint8_t *key)
 {
-	uint64_t index;
+	uint64_t	index;
 
 	index = table_body_find_empty(table, key);
 	if (table->body[index].key != NULL)
