@@ -14,7 +14,7 @@
 
 int32_t	string_ncasecompare(const uint8_t *s1, const uint8_t *s2, uint64_t n)
 {
-	while (*s1 && (*s1 | 32) == (*s2 | 32) && n != 0 )
+	while (*s1 && (*s1 | 32) == (*s2 | 32) && n != 0)
 	{
 		++s1;
 		++s2;
@@ -22,4 +22,3 @@ int32_t	string_ncasecompare(const uint8_t *s1, const uint8_t *s2, uint64_t n)
 	}
 	return ((int32_t)(*s1 | 32) - (*s2 | 32));
 }
-

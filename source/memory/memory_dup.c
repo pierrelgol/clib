@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void *memory_dup(void *ptr, uint64_t size)
+void	*memory_dup(void *ptr, uint64_t size)
 {
-	void *dup;
+	void	*dup;
 
 	dup = memory_alloc(size);
 	memory_copy(dup, ptr, size);

@@ -164,7 +164,6 @@ int32_t  string_ncompare(const uint8_t *s1, const uint8_t *s2, uint64_t n);
 uint8_t *string_nconcat(uint8_t *s1, const uint8_t *s2, uint64_t n);
 uint8_t *string_ncopy(uint8_t *dst, const uint8_t *src, uint64_t n);
 uint64_t string_next_token(struct s_allocator *allocator, const uint8_t *string, const uint8_t *delim, uint8_t **out_token);
-
 uint8_t *string_rbsearch(const uint8_t *s, int32_t c);
 uint8_t *string_reverse(uint8_t *str);
 uint8_t *string_search(const uint8_t *haystack, const uint8_t *needle, uint64_t len);
@@ -194,7 +193,6 @@ t_list *list_search(struct s_list *head, uintptr_t target, t_compare_function co
 t_list *list_create(struct s_allocator *allocator);
 t_list *list_destroy(struct s_allocator *allocator, t_list *self);
 t_list *list_insert_at(struct s_allocator *allocator, t_list **list, uintptr_t data, uint64_t index);
-
 t_list *list_pop_at(t_list **self, uint64_t index);
 t_list *list_pop_first(struct s_list **head, uintptr_t target, t_compare_function compare);
 t_list *list_push_at(t_list **self, t_list *node, uint64_t index);
@@ -205,9 +203,8 @@ t_list *list_rotate(t_list **list, int shift);
 void    list_clear(t_list *list, uint64_t n);
 uintptr_t list_remove_at(struct s_allocator *allocator, t_list **list, uint64_t index);
 uintptr_t list_peek_at(t_list **list, uint64_t index);
-void	list_sort(t_list **list, int (*f)(uintptr_t d1, uintptr_t d2));
+void      list_sort(t_list **list, int (*f)(uintptr_t d1, uintptr_t d2));
 uint64_t  list_length(t_list *list);
-
 
 #define RESET "\x1B[0m"
 #define BLACK "\x1B[30m"
@@ -227,5 +224,166 @@ uint64_t  list_length(t_list *list);
 #define BOLD_MAGENTA "\033[1m\033[35m"
 #define BOLD_CYAN "\033[1m\033[36m"
 #define BOLD_WHITE "\033[1m\033[37m"
+
+// ***********************************+************************************** //
+//                                 Stack                                      //
+// ************************************************************************** //
+
+typedef struct s_stack
+{
+	uint64_t            size;
+	uint64_t            count;
+	t_list             *top;
+	t_list             *freelist;
+	struct s_allocator *allocator;
+
+} t_stack;
+
+t_stack  *stack_create(struct s_allocator *allocator);
+t_stack  *stack_destroy(t_stack *self);
+void      stack_growth(t_stack *self);
+bool      stack_is_empty(t_stack *self);
+bool      stack_is_full(t_stack *self);
+void      stack_push(t_stack *self, uintptr_t data);
+uintptr_t stack_pop(t_stack *self);
+uintptr_t stack_peek(t_stack *self);
+uint64_t  stack_length(t_stack *self);
+void      stack_clear(t_stack *self);
+
+// ***********************************+************************************** //
+//                                Queue                                      //
+// ************************************************************************** //
+
+typedef struct s_queue
+{
+	uint64_t            size;
+	uint64_t            count;
+	t_list             *head;
+	t_list             *tail;
+	t_list             *freelist;
+	struct s_allocator *allocator;
+
+} t_queue;
+
+t_queue  *queue_create(struct s_allocator *allocator);
+t_queue  *queue_destroy(t_queue *self);
+bool      queue_is_empty(t_queue *self);
+bool      queue_is_full(t_queue *self);
+void      queue_enqueue(t_queue *self, uintptr_t data);
+uintptr_t queue_dequeue(t_queue *self);
+uintptr_t queue_peek(t_queue *self);
+uint64_t  queue_length(t_queue *self);
+void      queue_clear(t_queue *self);
+void      queue_growth(t_queue *self);
+
+// ***********************************+************************************** //
+//                               Vector                                       //
+// ************************************************************************** //
+
+typedef struct s_vector
+{
+	uint64_t            size;
+	uint64_t            count;
+	uintptr_t          *data;
+	struct s_allocator *allocator;
+
+} t_vector;
+
+t_vector *vector_create(struct s_allocator *allocator, uint64_t size);
+t_vector *vector_destroy(t_vector *self);
+void      vector_resize(t_vector *self, uint64_t new_size);
+void      vector_clear(t_vector *self);
+bool      vector_is_empty(t_vector *self);
+bool      vector_is_full(t_vector *self);
+uint64_t  vector_length(t_vector *self);
+void      vector_push(t_vector *self, uintptr_t data);
+uintptr_t vector_pop(t_vector *self);
+uintptr_t vector_peek_at(t_vector *self, uint64_t index);
+void      vector_set_at(t_vector *self, uintptr_t data, uint64_t index);
+uintptr_t vector_get_at(t_vector *self, uint64_t index);
+uintptr_t vector_insert_at(t_vector *self, uintptr_t data, uint64_t index);
+uintptr_t vector_remove_at(t_vector *self, uint64_t index);
+void      vector_sort(t_vector *self, int (*f)(uintptr_t d1, uintptr_t d2));
+
+// ***********************************+************************************** //
+//                               Buffer                                       //
+// ************************************************************************** //
+
+typedef struct s_buffer
+{
+	uint64_t            size;
+	uint64_t            windex;
+	uint64_t            rindex;
+	uint8_t            *data;
+	struct s_allocator *allocator;
+
+} t_buffer;
+
+t_buffer *buffer_create(struct s_allocator *allocator, uint64_t size);
+t_buffer *buffer_destroy(struct s_allocator *allocator, t_buffer *self);
+bool      buffer_is_empty(t_buffer *self);
+bool      buffer_is_full(t_buffer *self);
+uint8_t   buffer_read(t_buffer *self, uint8_t ch);
+void      buffer_reset(t_buffer *self);
+uint8_t   buffer_write(t_buffer *self, uint8_t ch);
+t_buffer *buffer_growth(t_buffer *self);
+uint8_t  *buffer_ptr(t_buffer *self);
+
+// ***********************************+************************************** //
+//                               Scanner                                      //
+// ************************************************************************** //
+
+typedef struct s_scanner
+{
+	const uint8_t *stream;
+	int32_t        index;
+	int32_t        size;
+
+} t_scanner;
+
+t_scanner scanner_create(const uint8_t *stream);
+uint8_t   advance(t_scanner *scanner);
+uint8_t   rollback(t_scanner *scanner);
+uint8_t   peek(t_scanner *scanner);
+uint8_t   next(t_scanner *scanner);
+uint8_t   prev(t_scanner *scanner);
+bool      match(t_scanner *scanner, bool (*f)(int32_t));
+uint8_t   skip(t_scanner *scanner, bool (*f)(int32_t));
+bool      is_eof(t_scanner *scanner);
+
+/******************************************************************************/
+/*                                                                            */
+/*                                  Table                                     */
+/*                                                                            */
+/******************************************************************************/
+
+#ifndef DEFAULT_TABLE_SIZE
+#define DEFAULT_TABLE_SIZE 37781
+#endif
+
+typedef struct s_entry
+{
+	uint8_t  *key;
+	uintptr_t value;
+} t_entry;
+
+typedef struct s_table
+{
+	uint64_t            size;
+	uint64_t            capacity;
+	t_entry            *body;
+
+	struct s_allocator *allocator;
+} t_table;
+
+t_table  *table_create(struct s_allocator *allocator);
+void      table_destroy(t_table *self);
+void      table_entry_set(t_table *self, uint8_t *key, uintptr_t value);
+uintptr_t table_entry_get(t_table *self, uint8_t *key);
+uint64_t  table_hash(uint8_t *str);
+t_entry  *table_body_create(struct s_allocator *allocator, uint64_t capacity);
+void      table_body_remove(t_table *self, uint8_t *key);
+void      table_body_resize(t_table *self, uint64_t capacity);
+uint64_t  table_body_find_empty(t_table *self, uint8_t *key);
 
 #endif

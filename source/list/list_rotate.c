@@ -15,7 +15,7 @@
 static t_list	*list_rotate_left(t_list **list, unsigned int shift)
 {
 	uint64_t	length;
-	t_list			*temp;
+	t_list		*temp;
 
 	length = list_length(*list);
 	shift %= length;
@@ -32,7 +32,7 @@ static t_list	*list_rotate_left(t_list **list, unsigned int shift)
 static t_list	*list_rotate_right(t_list **list, unsigned int shift)
 {
 	uint64_t	length;
-	t_list			*temp;
+	t_list		*temp;
 
 	length = list_length(*list);
 	shift %= length;

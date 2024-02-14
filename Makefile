@@ -52,7 +52,6 @@ CFLAGS =  -Wall 										\
 
 # CFLAGS =  -Wall 								\
 # 		  -Wextra 								\
-# 		  -Werror 								\
 # 		  -glldb								\
 
 NAME := libplib.a
@@ -61,6 +60,12 @@ SRC_DIRS := source/memory 		\
 			source/string 		\
 			source/list 		\
 			source/allocator 	\
+			source/buffer 		\
+			source/queue 		\
+			source/stack 		\
+			source/scanner 		\
+			source/vector 		\
+			source/table 		\
 
 SRCS := $(foreach dir,$(SRC_DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)
@@ -77,8 +82,6 @@ clean:
 
 fclean: clean
 	$(RM) $(NAME) $(SHARED_NAME)
-	$(RM) ./zig-cache
-	$(RM) ./zig-out
 
 re: fclean all
 

@@ -12,10 +12,11 @@
 
 #include "../../include/clib.h"
 
-static uintptr_t list_remove_front(struct s_allocator *allocator, t_list **list)
+static uintptr_t	list_remove_front(struct s_allocator *allocator,
+		t_list **list)
 {
-	t_list   *temp;
-	uintptr_t data;
+	t_list		*temp;
+	uintptr_t	data;
 
 	if (!*list)
 		return (0);
@@ -26,11 +27,12 @@ static uintptr_t list_remove_front(struct s_allocator *allocator, t_list **list)
 	return (data);
 }
 
-static uintptr_t list_remove_back(struct s_allocator *allocator, t_list **list)
+static uintptr_t	list_remove_back(struct s_allocator *allocator,
+		t_list **list)
 {
-	t_list   *prev;
-	t_list   *curr;
-	uintptr_t data;
+	t_list		*prev;
+	t_list		*curr;
+	uintptr_t	data;
 
 	if (!*list)
 		return (0);
@@ -47,11 +49,12 @@ static uintptr_t list_remove_back(struct s_allocator *allocator, t_list **list)
 	return (data);
 }
 
-uintptr_t list_remove_at(struct s_allocator *allocator, t_list **list, uint64_t index)
+uintptr_t	list_remove_at(struct s_allocator *allocator, t_list **list,
+		uint64_t index)
 {
-	t_list   *prev;
-	t_list   *curr;
-	uintptr_t data;
+	t_list		*prev;
+	t_list		*curr;
+	uintptr_t	data;
 
 	if (index == 0)
 		return (list_remove_front(allocator, list));

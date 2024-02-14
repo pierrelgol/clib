@@ -20,7 +20,7 @@ void	*memory_ccopy(void *dst, const void *src, int32_t c, uint64_t n)
 	while (i < n)
 	{
 		if (*((const uint8_t *)src + i) == (uint8_t)c)
-			return ((uint8_t*)src + i + 1);
+			return ((uint8_t *)src + i + 1);
 		*((uint8_t *)dst + i) = *((const uint8_t *)src + i);
 		++i;
 	}

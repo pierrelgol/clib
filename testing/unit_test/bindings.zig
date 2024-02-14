@@ -75,7 +75,7 @@ pub fn MyList() type {
 
         /// t_list *list_pop_at(t_list **self, uint64_t index);
         pub fn popAt(self: Self, index: usize) ?*Node {
-            return clib.list_pop_at(&self.list, index);
+            return clib.list_pop_at(@constCast(@ptrCast(&self.list)), index);
         }
 
         /// t_list *list_push_at(t_list **self, t_list *node, uint64_t index);

@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-void *memory_search(const void *s, int32_t c, uint64_t n)
+void	*memory_search(const void *s, int32_t c, uint64_t n)
 {
 	uint64_t	i;
 
 	if (n == 0)
-		return ((void*)s);
+		return ((void *)s);
 	i = 0;
 	while (i < n)
 	{

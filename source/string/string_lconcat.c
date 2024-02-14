@@ -20,7 +20,7 @@ uint64_t	string_lconcat(uint8_t *dst, const uint8_t *src, uint64_t size)
 
 	if ((!dst || !src) && !size)
 		return (0);
-    dlen = string_length(dst);
+	dlen = string_length(dst);
 	slen = string_length(src);
 	if (!size)
 		return (slen);

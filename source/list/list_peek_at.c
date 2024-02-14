@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-static uintptr_t list_peek_front(t_list **list)
+static uintptr_t	list_peek_front(t_list **list)
 {
 	return ((*list)->data);
 }
 
-static uintptr_t list_peek_back(t_list **list)
+static uintptr_t	list_peek_back(t_list **list)
 {
 	t_list	*curr;
 
@@ -27,7 +27,7 @@ static uintptr_t list_peek_back(t_list **list)
 	return (curr->data);
 }
 
-uintptr_t list_peek_at(t_list **list, uint64_t index)
+uintptr_t	list_peek_at(t_list **list, uint64_t index)
 {
 	t_list	*curr;
 
