@@ -48,6 +48,7 @@ CFLAGS =  -Wall 										\
 		  -Wunreachable-code-aggressive					\
 		  -fstack-protector-all							\
 		  -fPIE											\
+		  -fno-optimize-sibling-calls					\
 
 
 # CFLAGS =  -Wall 								\

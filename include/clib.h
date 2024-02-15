@@ -90,8 +90,6 @@ void					*dbg_allocator_dealloc(struct s_allocator *self,
 void					dbg_allocator_reserve(struct s_allocator *self,
 							uint64_t size);
 struct s_allocator		*dbg_allocator_deinit(struct s_allocator *self);
-void					dbg_allocator_sanitize(struct s_allocator *self,
-							const intptr_t *ptr);
 
 // ***********************************+************************************** //
 //                                  arena                                     //

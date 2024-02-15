@@ -13,7 +13,7 @@
 #include "../../include/clib.h"
 
 t_list	*list_search(struct s_list *head, uintptr_t target,
-		t_compare_function compare)
+		int64_t (*f)(uintptr_t a,uintptr_t b))
 {
 	struct s_list	*current;
 
@@ -22,7 +22,7 @@ t_list	*list_search(struct s_list *head, uintptr_t target,
 	{
 		if (current->data == 0)
 			current = current->next;
-		if (compare(current->data, target) == 0)
+		if (f(current->data, target) == 0)
 		{
 			return (current);
 		}
