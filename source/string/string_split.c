@@ -21,7 +21,7 @@ uint8_t	**string_split(struct s_allocator *allocator, const uint8_t *string,
 	uint64_t	j;
 
 	size = string_count_token(string, delim);
-	result = allocator->alloc(allocator, size * sizeof(uint8_t *) + 1);
+	result = allocator->alloc(allocator, size * 8 + 8);
 	i = 0;
 	j = 0;
 	while (i < size)

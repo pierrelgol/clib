@@ -12,18 +12,27 @@
 
 #include "../../include/clib.h"
 
-t_list	*list_clone(struct s_allocator *allocator, t_list **list)
+t_list *list_clone(struct s_allocator *allocator, t_list *head)
 {
-	t_list	*clone;
-	t_list	*temp;
+	t_list *temp_old;
+	t_list *new_head;
+	t_list *temp_new;
+	t_list *node;
 
-	temp = (*list)->next;
-	clone = list_create(allocator);
-	clone->data = (*list)->data;
-	while (temp)
+	if (!head)
+		return (0);
+	new_head = list_create(allocator);
+	new_head->data = head->data;
+	temp_new = new_head;
+	temp_old = head->next;
+	while (temp_old)
 	{
-		list_insert_at(allocator, &clone, temp->data, list_length(*list));
-		temp = temp->next;
+		node = list_create(allocator);
+		node->data = temp_old->data;
+		temp_new->next = node;
+		temp_old = temp_old->next;
+		temp_new = temp_new->next;
 	}
-	return (clone);
+	temp_new->next = 0;
+	return new_head;
 }

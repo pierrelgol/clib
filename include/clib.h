@@ -229,8 +229,7 @@ t_list					*list_pop_first(struct s_list **head, uintptr_t target,
 t_list					*list_push_at(t_list **self, t_list *node,
 							uint64_t index);
 t_list					*list_split_at(t_list **self, uint64_t index);
-t_list					*list_clone(struct s_allocator *allocator,
-							t_list **self);
+t_list *list_clone(struct s_allocator *allocator, t_list *head);
 t_list					*list_concat(t_list **dstl, t_list **srcl);
 t_list					*list_rotate(t_list **list, int shift);
 void					list_clear(t_list *list, uint64_t n);
