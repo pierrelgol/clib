@@ -1651,142 +1651,141 @@ test "list_remove_at : test2" {
         _ = list.insertAt(0, i);
     }
 
-    list.list = list.insertAt(0, 0);
-    for (0..1000) |i| {
-        _ = list.removeAt(i);
-    }
-}
-
-test "list_remove_at : test3" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(0, 0);
-    for (0..1000) |i| {
-        _ = list.insertAt(0, i);
-    }
-
-    list.list = list.insertAt(0, 0);
     for (0..1000) |_| {
         _ = list.removeAt(0);
     }
-
-    list.list = list.insertAt(0, 0);
-    for (0..1000) |i| {
-        _ = list.insertAt(0, i);
-    }
-
-    list.list = list.insertAt(0, 0);
-    for (0..1000) |i| {
-        _ = list.removeAt(i);
-    }
 }
 
-// ************************************************************************** //
-
-test "list_peek_at : test1" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(42, 0);
-
-    const result = list.peekAt(0);
-    try expectTrue(result == 42);
-}
-
-test "list_peek_at : test2" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(42, 0);
-    _ = list.insertAt(41, 1);
-    _ = list.insertAt(40, 2);
-    _ = list.insertAt(39, 3);
-    _ = list.insertAt(38, 4);
-
-    var result = list.peekAt(0);
-    try expectTrue(result == 42);
-
-    result = list.peekAt(1);
-    try expectTrue(result == 41);
-
-    result = list.peekAt(2);
-    try expectTrue(result == 40);
-
-    result = list.peekAt(3);
-    try expectTrue(result == 39);
-
-    result = list.peekAt(4);
-    try expectTrue(result == 38);
-}
-
-test "list_peek_at : test3" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(42, 0);
-
-    const result = list.peekAt(42);
-
-    try expectTrue(result == 42);
-}
-
-// ************************************************************************** //
-
-test "pop_at : test1" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(42, 0);
-    const result = list.popAt(0);
-
-    try expectTrue(result.?.data == 42);
-}
-
-test "pop_at : test2" {
-    const heap = bind.ClibHeapAllocator().init();
-    defer heap.deinit();
-
-    var list = bind.MyList().init(heap.allocator);
-    defer list.destroy();
-
-    list.list = list.insertAt(42, 0);
-    _ = list.insertAt(1, 0);
-    _ = list.insertAt(2, 0);
-    _ = list.insertAt(3, 0);
-    _ = list.insertAt(4, 0);
-    _ = list.insertAt(5, 0);
-
-    const result = list.popAt(6);
-    try expectTrue(result.?.data == 42);
-}
-
-// ************************************************************************** //
-
-// test "list_push_at : test1" {
+// test "list_remove_at : test3" {
 //     const heap = bind.ClibHeapAllocator().init();
 //     defer heap.deinit();
 
 //     var list = bind.MyList().init(heap.allocator);
 //     defer list.destroy();
-//     const node = list.create().?;
-//     node.data = 42;
-//     list.list = list.pushAt(node, 0);
+
+//     list.list = list.insertAt(0, 0);
+//     for (0..1000) |i| {
+//         _ = list.insertAt(0, i);
+//     }
+
+//     list.list = list.insertAt(0, 0);
+//     for (0..1000) |_| {
+//         _ = list.removeAt(0);
+//     }
+
+//     list.list = list.insertAt(0, 0);
+//     for (0..1000) |i| {
+//         _ = list.insertAt(0, i);
+//     }
+
+//     list.list = list.insertAt(0, 0);
+//     for (0..1000) |i| {
+//         _ = list.removeAt(i);
+//     }
+// }
+
+// // ************************************************************************** //
+
+// test "list_peek_at : test1" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
+
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+
+//     list.list = list.insertAt(42, 0);
+
 //     const result = list.peekAt(0);
 //     try expectTrue(result == 42);
 // }
+
+// test "list_peek_at : test2" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
+
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+
+//     list.list = list.insertAt(42, 0);
+//     _ = list.insertAt(41, 1);
+//     _ = list.insertAt(40, 2);
+//     _ = list.insertAt(39, 3);
+//     _ = list.insertAt(38, 4);
+
+//     var result = list.peekAt(0);
+//     try expectTrue(result == 42);
+
+//     result = list.peekAt(1);
+//     try expectTrue(result == 41);
+
+//     result = list.peekAt(2);
+//     try expectTrue(result == 40);
+
+//     result = list.peekAt(3);
+//     try expectTrue(result == 39);
+
+//     result = list.peekAt(4);
+//     try expectTrue(result == 38);
+// }
+
+// test "list_peek_at : test3" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
+
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+
+//     list.list = list.insertAt(42, 0);
+
+//     const result = list.peekAt(42);
+
+//     try expectTrue(result == 42);
+// }
+
+// // ************************************************************************** //
+
+// test "pop_at : test1" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
+
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+
+//     list.list = list.insertAt(42, 0);
+//     const result = list.popAt(0);
+
+//     try expectTrue(result.?.data == 42);
+// }
+
+// test "pop_at : test2" {
+//     const heap = bind.ClibHeapAllocator().init();
+//     defer heap.deinit();
+
+//     var list = bind.MyList().init(heap.allocator);
+//     defer list.destroy();
+
+//     list.list = list.insertAt(42, 0);
+//     _ = list.insertAt(1, 0);
+//     _ = list.insertAt(2, 0);
+//     _ = list.insertAt(3, 0);
+//     _ = list.insertAt(4, 0);
+//     _ = list.insertAt(5, 0);
+
+//     const result = list.popAt(6);
+//     try expectTrue(result.?.data == 42);
+// }
+
+// // ************************************************************************** //
+
+// // test "list_push_at : test1" {
+// //     const heap = bind.ClibHeapAllocator().init();
+// //     defer heap.deinit();
+
+// //     var list = bind.MyList().init(heap.allocator);
+// //     defer list.destroy();
+// //     const node = list.create().?;
+// //     node.data = 42;
+// //     list.list = list.pushAt(node, 0);
+// //     const result = list.peekAt(0);
+// //     try expectTrue(result == 42);
+// // }

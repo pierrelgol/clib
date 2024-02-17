@@ -16,8 +16,7 @@ t_list	*list_destroy(struct s_allocator *allocator, t_list *list)
 {
 	t_list	*temp;
 
-	temp = list;
-	while (temp)
+	while (list)
 	{
 		temp = list;
 		list = list->next;
