@@ -1,34 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_pop_at.c                                      :+:      :+:    :+:   */
+/*   list_count.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:53:29 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:53:40 by plgol.perso      ###   ########.fr       */
+/*   Created: 2023/12/05 11:40:06 by plgol.perso       #+#    #+#             */
+/*   Updated: 2023/12/05 11:40:07 by plgol.perso      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_list *list_pop_at(t_list **list, uint64_t index)
+uint64_t list_count(t_list *list, uintptr_t target, int64_t (*f)(uintptr_t a, uintptr_t b))
 {
-	t_list *temp;
-	t_list *to_remove;
+	uint64_t i;
 
-	if (index >= list_length(*list))
-		return (0);
-	if (index == 0)
+	i = 0;
+	while (list)
 	{
-		temp = *list;
-		*list = (*list)->next;
-		return (temp);
+		if (f(list->data, target) == 0)
+			i++;
+		list = list->next;
 	}
-	temp = *list;
-	while (--index)
-		temp = temp->next;
-	to_remove = temp->next;
-	temp->next = to_remove->next;
-	return (to_remove);
+	return (i);
 }

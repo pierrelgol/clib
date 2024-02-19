@@ -67,6 +67,7 @@ SRC_DIRS := source/memory 		\
 			source/scanner 		\
 			source/vector 		\
 			source/table 		\
+			source/file 		\
 
 SRCS := $(foreach dir,$(SRC_DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)

@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_clear.c                                       :+:      :+:    :+:   */
+/*   file_write.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 21:07:21 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 21:07:21 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/19 13:34:29 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 13:34:30 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void list_clear(t_list *list, uint64_t n)
+uint64_t	file_write(t_file *self, t_buffer *buffer, uint64_t size)
 {
-	t_list *temp;
+	uint64_t	total;
+	uint8_t		ch;
 
-	temp = list;
-	while (temp && n--)
+	total = 0;
+	while (self->offset != self->size && size-- > 0)
 	{
-		temp->data = 0;
-		temp = temp->next;
+		ch = self->buffer->data[self->offset++];
+		buffer_write(buffer, ch);
+		total++;
 	}
+	return (total);
 }

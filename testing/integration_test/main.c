@@ -13,7 +13,6 @@
 #include "../../include/clib.h"
 #include <limits.h>
 #include <stdint.h>
-#include "../../include/c-stacktrace.h"
 
 int	main(int argc, char **argv)
 {
@@ -26,12 +25,11 @@ int	main(int argc, char **argv)
 
 	int fd;
 
-	init_exceptions(argv[0]);
 	if (argc == 2)
 	{		
 		heap = heap_init();
 		arena = arena_allocator_init(heap, 16384);
-		logging = logging_allocator_init(arena, 0);
+		logging = dbg_allocator_init(arena, 0);
 		fd = open(argv[1], O_RDONLY);
 		read(fd, buffer, 16383);
 		fd = close(fd);
@@ -43,7 +41,7 @@ int	main(int argc, char **argv)
 			++i;
 		}
 		string_split_destroy(logging, split);
-		logging_allocator_deinit(logging);
+		dbg_allocator_deinit(logging);
 		arena_allocator_deinit(arena);
 		heap_deinit(heap);
 		heap_deinit(heap);

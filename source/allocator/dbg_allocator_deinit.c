@@ -39,8 +39,8 @@ struct s_allocator	*dbg_allocator_deinit(struct s_allocator *self)
 		deinit_list(self, self->refcount);
 	if (self->freelist)
 		deinit_list(self, self->freelist);
-	dprintf(self->fd, "Bytes allocated   : %llu\n", self->allocated);
-	dprintf(self->fd, "Bytes deallocated : %llu\n", self->deallocated);
+	dprintf(self->fd, "Bytes allocated   : %8llu\n", self->allocated);
+	dprintf(self->fd, "Bytes deallocated : %8llu\n", self->deallocated);
 	if (self->fd != 0)
 		close(self->fd);
 	priv->dealloc(priv, self);

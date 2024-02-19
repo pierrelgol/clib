@@ -24,7 +24,7 @@ void	*dbg_allocator_alloc(struct s_allocator *self, uint64_t s)
 	p = parent->alloc(parent, s);
 	if (!p)
 	{
-		dprintf(self->fd, "[allocation  ][ptr: @%p][size: %llu][FAIL]\n", NULL,
+		dprintf(self->fd, "[allocation  ][ptr: @%p][size: %8llu][FAIL]\n", NULL,
 			s);
 		return (0);
 	}
@@ -33,6 +33,6 @@ void	*dbg_allocator_alloc(struct s_allocator *self, uint64_t s)
 	entry->bytes = s;
 	entry->ptr = (intptr_t)p;
 	list_insert_at(priv, &self->refcount, (uintptr_t)entry, self->count++);
-	dprintf(self->fd, "[allocation  ][ptr: @%p][size: %llu][OK  ]\n", p, s);
+	dprintf(self->fd, "[allocation  ][ptr: @%p][size: %8llu][OK  ]\n", p, s);
 	return (p);
 }

@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_search.c                                      :+:      :+:    :+:   */
+/*   file_size.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/10 13:00:24 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/10 13:00:24 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/19 13:34:05 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 13:34:05 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <stdint.h>
 
-t_list *list_search(struct s_list *head, uintptr_t target, int64_t (*f)(uintptr_t a, uintptr_t b))
+uint64_t	file_size(uint8_t *path, uint8_t *mode)
 {
-	t_list *curr;
+	t_file		file;
+	uint64_t	size;
+	uint64_t	total;
+	uint8_t		buffer[512];
 
-	curr = head;
-	while (curr)
+	if (file_open(&file, path, mode) == 0)
+		return (0);
+	size = sizeof(buffer) / sizeof(buffer[0]);
+	total = 0;
+	while (size == (sizeof(buffer) / sizeof(buffer[0])))
 	{
-		if (f(curr->data, target) == 0)
-			return (curr);
-		curr = curr->next;
+		size = read(file.fd, buffer, sizeof(buffer) / sizeof(buffer[0]));
+		total += size;
 	}
-	return (0);
+	file_close(&file);
+	return (total);
 }

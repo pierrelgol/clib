@@ -52,8 +52,8 @@ static bool	dbg_allocator_add_to_freelist(struct s_allocator *s, intptr_t *p)
 	else
 	{
 		entry = *(struct s_track_entry *)node->data;
-		dprintf(s->fd, "[deallocation][ptr: @%p]\n", (void *)entry.ptr);
-		dprintf(s->fd, "[size: %llu][OK  ]\n", entry.bytes);
+		dprintf(s->fd, "[deallocation][ptr: @%p]", (void *)entry.ptr);
+		dprintf(s->fd, "[size: %8llu][OK  ]\n", entry.bytes);
 		list_push_at(&s->freelist, node, 0);
 		s->deallocated += entry.bytes;
 	}
@@ -71,8 +71,8 @@ void	*dbg_allocator_dealloc(struct s_allocator *self, void *ptr)
 	if (node != 0)
 	{
 		entry = (struct s_track_entry *)node->data;
-		dprintf(self->fd, "[double free ][ptr: @%p]\n", (void *)entry->ptr);
-		dprintf(self->fd, "[size: %llu][Err ]\n", entry->bytes);
+		dprintf(self->fd, "[double free ][ptr: @%p]", (void *)entry->ptr);
+		dprintf(self->fd, "[size: %8llu][Err ]\n", entry->bytes);
 		return (0);
 	}
 	else

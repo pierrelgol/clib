@@ -1,34 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_pop_at.c                                      :+:      :+:    :+:   */
+/*   list_set_at.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:53:29 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:53:40 by plgol.perso      ###   ########.fr       */
+/*   Created: 2023/12/05 11:40:06 by plgol.perso       #+#    #+#             */
+/*   Updated: 2023/12/05 11:40:07 by plgol.perso      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_list *list_pop_at(t_list **list, uint64_t index)
+t_list *list_set_at(t_list **self, uintptr_t data, uint64_t index)
 {
-	t_list *temp;
-	t_list *to_remove;
+	t_list *curr;
 
-	if (index >= list_length(*list))
-		return (0);
+	curr = *self;
 	if (index == 0)
 	{
-		temp = *list;
-		*list = (*list)->next;
-		return (temp);
+		curr->data = data;
 	}
-	temp = *list;
-	while (--index)
-		temp = temp->next;
-	to_remove = temp->next;
-	temp->next = to_remove->next;
-	return (to_remove);
+	else if (index >= list_length(*self))
+	{
+		while (curr->next)
+			curr = curr->next;
+		curr->data = data;
+	}
+	else
+	{
+		while (index--)
+			curr = curr->next;
+		curr->data = data;
+	}
+	return (*self);
 }

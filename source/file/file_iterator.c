@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_clear.c                                       :+:      :+:    :+:   */
+/*   file_iterator.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 21:07:21 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 21:07:21 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/19 13:34:51 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 13:34:51 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <stdint.h>
 
-void list_clear(t_list *list, uint64_t n)
+t_striter	*file_iterator(t_file *self, uint8_t *delim)
 {
-	t_list *temp;
-
-	temp = list;
-	while (temp && n--)
-	{
-		temp->data = 0;
-		temp = temp->next;
-	}
+	return (string_iter_create(self->allocator, self->buffer->data, delim));
 }

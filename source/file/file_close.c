@@ -1,25 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_clear.c                                       :+:      :+:    :+:   */
+/*   file_close.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 21:07:21 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 21:07:21 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/19 13:33:59 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 13:33:59 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void list_clear(t_list *list, uint64_t n)
+t_file	*file_close(t_file *self)
 {
-	t_list *temp;
-
-	temp = list;
-	while (temp && n--)
+	if (self->is_open == true)
 	{
-		temp->data = 0;
-		temp = temp->next;
+		self->fd = close(self->fd);
+		self->is_open = false;
 	}
+	return (self);
 }

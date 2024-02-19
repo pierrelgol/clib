@@ -1,25 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_clear.c                                       :+:      :+:    :+:   */
+/*   file_seek.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 21:07:21 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 21:07:21 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/19 13:34:18 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 13:34:19 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void list_clear(t_list *list, uint64_t n)
+uint64_t	file_seek(t_file *self, uint64_t offset)
 {
-	t_list *temp;
-
-	temp = list;
-	while (temp && n--)
-	{
-		temp->data = 0;
-		temp = temp->next;
-	}
+	self->offset = offset;
+	return (self->offset);
 }

@@ -1,25 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_clear.c                                       :+:      :+:    :+:   */
+/*   string_pbrk.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 21:07:21 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 21:07:21 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/03 12:27:45 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/03 12:27:47 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void list_clear(t_list *list, uint64_t n)
+uint8_t *string_pbrk(const uint8_t *s, const uint8_t *delim)
 {
-	t_list *temp;
+	uint8_t *set;
+	uint8_t *ptr;
 
-	temp = list;
-	while (temp && n--)
+	if (!*s)
+		return (0);
+	set = (uint8_t[256]){0};
+	while (*delim)
 	{
-		temp->data = 0;
-		temp = temp->next;
+		set[*delim] = 1;
+		delim++;
 	}
+	ptr = (uint8_t *)s;
+	while (*ptr)
+	{
+		if (set[*ptr])
+			return (ptr);
+		ptr++;
+	}
+	return (0);
 }

@@ -12,68 +12,47 @@
 
 #include "../../include/clib.h"
 
-static t_list	*list_insert_front(struct s_allocator *allocator, t_list **list,
-		uintptr_t data)
+static t_list *list_insert_front(t_list **list, t_list *new_head)
 {
-	t_list	*new_head;
-
-	new_head = list_create(allocator);
-	if (!new_head)
-		return (0);
-	new_head->data = data;
-	if (!*list)
-		(*list) = new_head;
-	else
-	{
-		new_head->next = (*list);
-		(*list) = new_head;
-	}
-	return (new_head);
+	new_head->next = *list;
+	*list = new_head;
+	return (*list);
 }
 
-static t_list	*list_insert_back(struct s_allocator *allocator, t_list **list,
-		uintptr_t data)
+static t_list *list_insert_back(t_list **list, t_list *new_tail)
 {
-	t_list	*new_tail;
-	t_list	*temp;
+	t_list *temp;
 
-	new_tail = list_create(allocator);
-	if (!new_tail)
-		return (0);
-	new_tail->data = data;
 	if (!*list)
-		(*list) = new_tail;
-	else
 	{
-		temp = (*list);
-		while (temp->next)
-			temp = temp->next;
-		temp->next = new_tail;
+		*list = new_tail;
+		return (new_tail);
 	}
-	return (new_tail);
+	temp = *list;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_tail;
+	return (*list);
 }
 
-t_list	*list_insert_at(struct s_allocator *allocator, t_list **list,
-		uintptr_t data, uint64_t index)
+t_list *list_insert_at(struct s_allocator *allocator, t_list **list, uintptr_t data, uint64_t index)
 {
-	t_list	*new_node;
-	t_list	*temp;
+	t_list *new_node;
+	t_list *temp;
 
+	new_node = list_create(allocator);
+	new_node->data = data;
 	if (index == 0)
-		return (list_insert_front(allocator, list, data));
+		return (list_insert_front(list, new_node));
 	else if (index >= list_length(*list))
-		return (list_insert_back(allocator, list, data));
+		return (list_insert_back(list, new_node));
 	else
 	{
-		new_node = list_create(allocator);
-		if (!new_node)
-			return (0);
-		new_node->data = data;
-		temp = (*list);
-		while (temp->next && --index)
+		temp = *list;
+		while (--index)
 			temp = temp->next;
 		new_node->next = temp->next;
 		temp->next = new_node;
 	}
-	return (new_node);
+	return (*list);
 }

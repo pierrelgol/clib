@@ -12,34 +12,12 @@
 
 #include "../../include/clib.h"
 
-static uintptr_t	list_peek_front(t_list **list)
+uintptr_t list_peek_at(t_list **list, uint64_t index)
 {
-	return ((*list)->data);
-}
+	t_list *result;
 
-static uintptr_t	list_peek_back(t_list **list)
-{
-	t_list	*curr;
-
-	curr = (*list);
-	while (curr->next)
-		curr = curr->next;
-	return (curr->data);
-}
-
-uintptr_t	list_peek_at(t_list **list, uint64_t index)
-{
-	t_list	*curr;
-
-	if (index == 0)
-		return (list_peek_front(list));
-	else if (index >= list_length(*list))
-		return (list_peek_back(list));
-	else
-	{
-		curr = (*list);
-		while (index--)
-			curr = curr->next;
-		return (curr->data);
-	}
+	result = list_get_at(list, index);
+	if (!result)
+		return (UINTPTR_MAX);
+	return (result->data);
 }

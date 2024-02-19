@@ -12,24 +12,24 @@
 
 #include "../../include/clib.h"
 
-t_list	*list_split_at(t_list **list, uint64_t index)
+t_list *list_split_at(t_list **list, uint64_t index)
 {
-	t_list	*prev;
-	t_list	*split;
+	t_list *temp;
+	t_list *to_return;
 
+	if (index >= list_length(*list))
+		return (0);
 	if (index == 0)
-		return (*list);
-	else if (index >= list_length(*list))
-		return (list_pop_at(list, list_length((*list))));
-	else
 	{
-		split = (*list);
-		while (index--)
-		{
-			prev = split;
-			split = split->next;
-		}
-		prev->next = 0;
-		return (split);
+		temp = *list;
+		*list = (*list)->next;
+		temp->next = 0;
+		return (temp);
 	}
+	temp = *list;
+	while (--index)
+		temp = temp->next;
+	to_return = temp->next;
+	temp->next = 0;
+	return (to_return);
 }
