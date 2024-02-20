@@ -18,6 +18,6 @@ t_scanner	scanner_create(const uint8_t *stream)
 
 	scanner.stream = stream;
 	scanner.index = -1;
-	scanner.size = string_length(stream);
+	scanner.size = (int32_t)string_length(stream);
 	return (scanner);
 }

@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_close.c                                       :+:      :+:    :+:   */
+/*   buffer_unwrite_count.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 13:33:59 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 13:33:59 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 09:02:46 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 09:02:47 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_file	*file_close(t_file *self)
+uint64_t	buffer_unwrite_count(t_buffer *self)
 {
-	if (self->is_open == true)
-	{
-		self->fd = close(self->fd);
-		self->is_open = false;
-	}
-	return (self);
+	return (self->bsize - self->w);
 }

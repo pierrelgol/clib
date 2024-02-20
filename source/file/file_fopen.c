@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_peek_at.c                                     :+:      :+:    :+:   */
+/*   file_fopen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:00:05 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:00:07 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/20 11:34:15 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 11:34:23 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uintptr_t	list_peek_at(t_list **list, uint64_t index)
+bool	file_fopen(t_file *self, char *path, char *mode)
 {
-	t_list	*result;
+	int32_t	flags;
 
-	result = list_get_at(list, index);
-	if (!result)
-		return (UINTPTR_MAX);
-	return (result->data);
+	flags = (int32_t)file_mode(mode);
+	self->fd = open(path, flags, 0644);
+	if (self->fd == -1)
+		return (false);
+	self->mode = flags;
+	return (true);
 }

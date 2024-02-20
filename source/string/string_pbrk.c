@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint8_t *string_pbrk(const uint8_t *s, const uint8_t *delim)
+uint8_t	*string_pbrk(const uint8_t *s, const uint8_t *delim)
 {
-	uint8_t *set;
-	uint8_t *ptr;
+	uint8_t	*set;
+	uint8_t	*ptr;
 
 	if (!*s)
 		return (0);

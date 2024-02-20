@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-t_list *list_set_at(t_list **self, uintptr_t data, uint64_t index)
+t_list	*list_set_at(t_list **self, uintptr_t data, uint64_t index)
 {
-	t_list *curr;
+	t_list	*curr;
 
 	curr = *self;
 	if (index == 0)

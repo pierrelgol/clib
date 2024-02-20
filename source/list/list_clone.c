@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-t_list *list_clone(struct s_allocator *allocator, t_list *head)
+t_list	*list_clone(struct s_allocator *allocator, t_list *head)
 {
-	t_list *temp_old;
-	t_list *new_head;
-	t_list *temp_new;
-	t_list *node;
+	t_list	*temp_old;
+	t_list	*new_head;
+	t_list	*temp_new;
+	t_list	*node;
 
 	if (!head)
 		return (0);
@@ -34,5 +34,5 @@ t_list *list_clone(struct s_allocator *allocator, t_list *head)
 		temp_new = temp_new->next;
 	}
 	temp_new->next = 0;
-	return new_head;
+	return (new_head);
 }

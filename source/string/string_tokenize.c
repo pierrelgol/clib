@@ -13,10 +13,10 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-uint8_t *string_tokenize(uint8_t **string, const uint8_t *delim)
+uint8_t	*string_tokenize(uint8_t **string, const uint8_t *delim)
 {
-	uint8_t *start;
-	uint8_t *end;
+	uint8_t	*start;
+	uint8_t	*end;
 
 	start = *string;
 	if (!*start)

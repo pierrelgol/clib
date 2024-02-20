@@ -5,15 +5,18 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 13:34:51 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 13:34:51 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 11:54:44 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 11:54:46 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
-#include <stdint.h>
 
-t_striter	*file_iterator(t_file *self, uint8_t *delim)
+t_striter	*file_iterator(struct s_allocator *allocator, t_file *self,
+		const uint8_t *delim)
 {
-	return (string_iter_create(self->allocator, self->buffer->data, delim));
+	t_striter	*iter;
+
+	iter = string_iter_create(allocator, self->buffer->buffer, delim);
+	return (iter);
 }

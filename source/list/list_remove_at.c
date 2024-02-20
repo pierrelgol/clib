@@ -12,11 +12,12 @@
 
 #include "../../include/clib.h"
 
-uintptr_t list_remove_at(struct s_allocator *allocator, t_list **list, uint64_t index)
+uintptr_t	list_remove_at(struct s_allocator *allocator, t_list **list,
+		uint64_t index)
 {
-	t_list   *temp;
-	t_list   *to_remove;
-	uintptr_t data;
+	t_list		*temp;
+	t_list		*to_remove;
+	uintptr_t	data;
 
 	if (index >= list_length(*list))
 		return (0);

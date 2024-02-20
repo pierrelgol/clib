@@ -1,23 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_peek_at.c                                     :+:      :+:    :+:   */
+/*   buffer_putch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:00:05 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:00:07 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/19 21:27:11 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 21:27:11 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uintptr_t	list_peek_at(t_list **list, uint64_t index)
+int32_t	buffer_putch(t_buffer *self, uint8_t ch)
 {
-	t_list	*result;
-
-	result = list_get_at(list, index);
-	if (!result)
-		return (UINTPTR_MAX);
-	return (result->data);
+	if (buffer_unwrite_count(self) == 0)
+	{
+		if (self->is_fixed)
+			return (EOBUFF);
+		else
+			buffer_grow(self);
+	}
+	self->buffer[self->w++] = ch;
+	return ((int32_t)ch);
 }

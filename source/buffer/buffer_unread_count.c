@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_peek_at.c                                     :+:      :+:    :+:   */
+/*   buffer_unread_count.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:00:05 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:00:07 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/20 08:27:26 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 08:27:27 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uintptr_t	list_peek_at(t_list **list, uint64_t index)
+uint64_t	buffer_unread_count(t_buffer *self)
 {
-	t_list	*result;
-
-	result = list_get_at(list, index);
-	if (!result)
-		return (UINTPTR_MAX);
-	return (result->data);
+	if (self->r > self->w)
+		return (0);
+	return (self->w - self->r);
 }

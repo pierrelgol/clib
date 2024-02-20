@@ -12,6 +12,13 @@
 
 #include "../../include/clib.h"
 
+static unsigned int	_shift_abs(int v)
+{
+	if (v < 0)
+		return ((unsigned int)-v);
+	return ((unsigned int)v);
+}
+
 static t_list	*list_rotate_left(t_list **list, unsigned int shift)
 {
 	uint64_t	length;
@@ -48,10 +55,13 @@ static t_list	*list_rotate_right(t_list **list, unsigned int shift)
 
 t_list	*list_rotate(t_list **list, int shift)
 {
+	unsigned int	r;
+
+	r = _shift_abs(shift);
 	if (shift == 0)
 		return (*list);
 	else if (shift < 0)
-		return (list_rotate_left(list, -shift));
+		return (list_rotate_left(list, r));
 	else
-		return (list_rotate_right(list, shift));
+		return (list_rotate_right(list, r));
 }

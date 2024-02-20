@@ -1,21 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_read.c                                        :+:      :+:    :+:   */
+/*   buffer_compact.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 11:54:19 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/20 11:54:20 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 08:19:13 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 08:19:27 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-int32_t	file_read(t_file *self, uint8_t *buffer, uint32_t size)
+void	buffer_compact(t_buffer *self)
 {
-	int32_t	rsize;
+	uint64_t	bytes_remaining;
 
-	rsize = read(self->fd, buffer, size);
-	return (rsize);
+	if (self->r > self->w)
+		bytes_remaining = 0;
+	else
+		bytes_remaining = self->w - self->r;
+	if (bytes_remaining > 0)
+	{
+		memory_move(self->buffer, self->buffer + self->r, bytes_remaining);
+		self->r = 0;
+		self->w = bytes_remaining;
+	}
+	else
+	{
+		self->r = 0;
+		self->w = 0;
+	}
 }

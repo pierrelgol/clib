@@ -1,34 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_size.c                                        :+:      :+:    :+:   */
+/*   buffer_reserve.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 13:34:05 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 13:34:05 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/19 21:27:25 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 21:27:26 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 #include <stdint.h>
 
-uint64_t	file_size(uint8_t *path, uint8_t *mode)
+uint64_t	buffer_reserve(t_buffer *self, uint64_t size)
 {
-	t_file		file;
-	uint64_t	size;
-	uint64_t	total;
-	uint8_t		buffer[512];
+	struct s_allocator	*allocator;
+	uint8_t				*new_buffer;
+	uint64_t			new_size;
 
-	if (file_open(&file, path, mode) == 0)
-		return (0);
-	size = sizeof(buffer) / sizeof(buffer[0]);
-	total = 0;
-	while (size == (sizeof(buffer) / sizeof(buffer[0])))
-	{
-		size = read(file.fd, buffer, sizeof(buffer) / sizeof(buffer[0]));
-		total += size;
-	}
-	file_close(&file);
-	return (total);
+	allocator = self->allocator;
+	new_size = self->bsize + size;
+	new_buffer = allocator->alloc(allocator, new_size + 1);
+	memory_copy(new_buffer, self->buffer, self->bsize);
+	allocator->dealloc(allocator, self->buffer);
+	self->buffer = new_buffer;
+	self->bsize = new_size;
+	return (new_size);
 }

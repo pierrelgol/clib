@@ -1,21 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_read.c                                        :+:      :+:    :+:   */
+/*   buffer_gets.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 11:54:19 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/20 11:54:20 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/19 21:27:31 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 21:27:32 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <stdio.h>
 
-int32_t	file_read(t_file *self, uint8_t *buffer, uint32_t size)
+uint8_t	*buffer_gets(t_buffer *self, uint8_t *dest, uint32_t dsize)
 {
-	int32_t	rsize;
+	uint64_t	unread_count;
+	uint64_t	written;
 
-	rsize = read(self->fd, buffer, size);
-	return (rsize);
+	unread_count = buffer_unread_count(self);
+	if (unread_count < dsize)
+		dsize = unread_count;
+	written = string_slcopy(dest, self->buffer, '\n', dsize);
+	self->r += written + 1;
+	buffer_compact(self);
+	return (dest);
 }

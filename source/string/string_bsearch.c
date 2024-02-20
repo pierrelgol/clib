@@ -17,5 +17,5 @@ uint8_t	*string_bsearch(const uint8_t *s, int32_t c)
 	if (c == 0x00)
 		return ((uint8_t *)&s[string_length(s)]);
 	else
-		return (memory_search(s, c, string_length(s)));
+		return ((uint8_t *)memory_search(s, c, string_length(s)));
 }

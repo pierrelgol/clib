@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void list_clear(t_list *list, uint64_t n)
+void	list_clear(t_list *list, uint64_t n)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	temp = list;
 	while (temp && n--)

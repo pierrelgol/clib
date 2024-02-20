@@ -12,9 +12,10 @@
 
 #include "../../include/clib.h"
 
-t_list *list_search(struct s_list *head, uintptr_t target, int64_t (*f)(uintptr_t a, uintptr_t b))
+t_list	*list_search(struct s_list *head, uintptr_t target,
+		int64_t (*f)(uintptr_t a, uintptr_t b))
 {
-	t_list *curr;
+	t_list	*curr;
 
 	curr = head;
 	while (curr)

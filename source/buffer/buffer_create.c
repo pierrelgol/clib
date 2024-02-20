@@ -5,22 +5,27 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 08:20:57 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/14 08:20:58 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/19 21:23:16 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 21:23:16 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_buffer	*buffer_create(struct s_allocator *allocator, uint64_t size)
+t_buffer	*buffer_create(struct s_allocator *allocator, uint32_t size,
+		bool is_fixed)
 {
-	t_buffer	*buffer;
+	t_buffer	*self;
 
-	buffer = allocator->alloc(allocator, sizeof(t_buffer));
-	buffer->allocator = allocator;
-	buffer->rindex = 0;
-	buffer->windex = 0;
-	buffer->size = size - 1;
-	buffer->data = allocator->alloc(allocator, size);
-	return (buffer);
+	self = allocator->alloc(allocator, 1 * sizeof(t_buffer));
+	self->allocator = allocator;
+	if (size < PAGE_SIZE)
+		size = PAGE_SIZE;
+	self->buffer = allocator->alloc(allocator, size);
+	self->is_fixed = is_fixed;
+	self->ch = 0;
+	self->bsize = size;
+	self->r = 0;
+	self->w = 0;
+	return (self);
 }

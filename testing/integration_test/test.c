@@ -1,4 +1,4 @@
-#include "include/clib.h"
+#include "../../include/clib.h"
 
 int	main(int argc, char **argv)
 {

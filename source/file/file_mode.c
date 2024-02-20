@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_open.c                                        :+:      :+:    :+:   */
+/*   file_mode.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 13:33:53 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 13:33:53 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 11:52:27 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 11:52:28 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-static int32_t	file_mode(uint8_t *mode)
+int32_t	file_mode(char *mode)
 {
 	if (mode[0] == 'r')
 		return (O_RDONLY);
@@ -27,17 +27,4 @@ static int32_t	file_mode(uint8_t *mode)
 	if (mode[0] == 'a' && mode[1] == '+')
 		return (O_RDWR | O_CREAT | O_APPEND);
 	return (0);
-}
-
-t_file	*file_open(t_file *self, uint8_t *path, uint8_t *mode)
-{
-	self->mode = file_mode(mode);
-	self->fd = open((char *)path, (int)self->mode);
-	if (self->fd == -1)
-	{
-		self->is_open = false;
-		return (0);
-	}
-	self->is_open = true;
-	return (self);
 }

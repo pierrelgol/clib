@@ -12,16 +12,16 @@
 
 #include "../../include/clib.h"
 
-static t_list *list_push_front(t_list **list, t_list *new_head)
+static t_list	*list_push_front(t_list **list, t_list *new_head)
 {
 	new_head->next = *list;
 	*list = new_head;
 	return (*list);
 }
 
-static t_list *list_push_back(t_list **list, t_list *new_tail)
+static t_list	*list_push_back(t_list **list, t_list *new_tail)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (!*list)
 	{
@@ -35,9 +35,9 @@ static t_list *list_push_back(t_list **list, t_list *new_tail)
 	return (*list);
 }
 
-t_list *list_push_at(t_list **list, t_list *node, uint64_t index)
+t_list	*list_push_at(t_list **list, t_list *node, uint64_t index)
 {
-	t_list *temp;
+	t_list	*temp;
 
 	if (index == 0)
 		return (list_push_front(list, node));

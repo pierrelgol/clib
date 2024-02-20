@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffer_growth.c                                    :+:      :+:    :+:   */
+/*   file_putch.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 14:25:45 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/14 14:25:45 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 11:53:51 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 11:53:52 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <stdint.h>
 
-t_buffer	*buffer_growth(t_buffer *self)
+int32_t	file_putch(t_file *self, uint8_t ch)
 {
-	struct s_allocator	*allocator;
-	size_t				new_size;
-	void				*new_data;
+	int32_t	ret;
 
-	allocator = self->allocator;
-	new_size = self->size * 2;
-	new_data = allocator->alloc(allocator, new_size);
-	memory_copy(new_data, self->data, self->size);
-	allocator->dealloc(allocator, self->data);
-	self->data = new_data;
-	self->size = new_size;
-	return (self);
+	if (self->buffered_io == true)
+	{
+		ch = (uint8_t)buffer_putch(self->buffer, ch);
+		self->w = self->buffer->w;
+		self->r = self->buffer->r;
+	}
+	else
+	{
+		ret = write(self->fd, &ch, 1);
+		if (ret == -1)
+			return (-1);
+	}
+	return (ch);
 }

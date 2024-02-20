@@ -51,9 +51,9 @@ CFLAGS =  -Wall 										\
 		  -fno-optimize-sibling-calls					\
 
 
-# CFLAGS =  -Wall 								\
-# 		  -Wextra 								\
-# 		  -glldb								\
+ # CFLAGS =  -Wall 								\
+ # 		  -Wextra 								\
+ # 		  -glldb								\
 
 NAME := libplib.a
 SRC_DIRS := source/memory 		\
@@ -88,5 +88,5 @@ fclean: clean
 re: fclean all
 
 run : $(NAME)
-	$(CC) main.c libplib.a $(CFLAGS) -o test
+	$(CC) test.c libplib.a $(CFLAGS) -o test
 	./test

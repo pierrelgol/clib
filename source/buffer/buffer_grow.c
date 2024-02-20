@@ -1,18 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_scanner.c                                     :+:      :+:    :+:   */
+/*   buffer_grow.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 13:34:56 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 13:34:57 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 10:11:18 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 10:11:18 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_scanner	file_scanner(t_file *self)
+bool	buffer_grow(t_buffer *self)
 {
-	return (scanner_create(self->buffer->data));
+	struct s_allocator	*allocator;
+	uint8_t				*new_buffer;
+	uint64_t			new_size;
+
+	allocator = self->allocator;
+	new_size = self->bsize * 2;
+	new_buffer = allocator->alloc(allocator, new_size + 1);
+	memory_copy(new_buffer, self->buffer, self->bsize);
+	allocator->dealloc(allocator, self->buffer);
+	self->buffer = new_buffer;
+	self->bsize = (uint64_t)new_size;
+	return (true);
 }

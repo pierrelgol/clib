@@ -1,21 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_read.c                                        :+:      :+:    :+:   */
+/*   file_open_cache_all.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/20 11:54:19 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/20 11:54:20 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/20 13:16:25 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 13:16:27 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-int32_t	file_read(t_file *self, uint8_t *buffer, uint32_t size)
+t_file	*file_open_cache_all(struct s_allocator *allocator, char *path,
+		char *mode)
 {
-	int32_t	rsize;
+	t_file		temp;
+	t_file		*file;
+	uint64_t	size;
+	uint64_t	ret;
 
-	rsize = read(self->fd, buffer, size);
-	return (rsize);
+	size = file_fsize(path, mode);
+	file = file_create(allocator, true);
+	file_fopen(file, path, mode);
+	buffer_reserve(file->buffer, size);
+	ret = (uint64_t)file_read(file, file->buffer->buffer, size);
+	file->buffer->w = ret;
+	file->buffer->r = 0;
+	return (file);
 }

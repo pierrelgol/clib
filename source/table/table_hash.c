@@ -21,7 +21,7 @@ uint64_t	table_hash(uint8_t *str)
 	while (*str)
 	{
 		val = *str++;
-		seed = ((seed << 5) + seed) + val;
+		seed = ((seed << 5) + seed) + (unsigned long)val;
 	}
 	return (seed);
 }

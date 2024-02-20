@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t list_length(t_list *list)
+uint64_t	list_length(t_list *list)
 {
-	uint64_t length;
+	uint64_t	length;
 
 	length = 0;
 	while (list)

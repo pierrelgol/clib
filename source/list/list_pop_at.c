@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-t_list *list_pop_at(t_list **list, uint64_t index)
+t_list	*list_pop_at(t_list **list, uint64_t index)
 {
-	t_list *temp;
-	t_list *to_remove;
+	t_list	*temp;
+	t_list	*to_remove;
 
 	if (index >= list_length(*list))
 		return (0);

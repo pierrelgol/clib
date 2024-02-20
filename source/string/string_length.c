@@ -11,8 +11,16 @@
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
+#include <stddef.h>
 
 uint64_t	string_length(const uint8_t *str)
 {
-	return ((const uint8_t *)memory_search(str, 0x00, UINT64_MAX) - str);
+	const uint8_t	*ptr;
+
+	if (!str)
+		return (0);
+	ptr = str;
+	while (*ptr)
+		++ptr;
+	return (ptr - str);
 }

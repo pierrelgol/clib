@@ -1,18 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffer_is_empty.c                                  :+:      :+:    :+:   */
+/*   buffer_getch.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 08:21:52 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/14 08:21:53 by pollivie         ###   ########.fr       */
+/*   Created: 2024/02/19 21:27:04 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/19 21:27:05 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-bool	buffer_is_empty(t_buffer *self)
+int32_t	buffer_getch(t_buffer *self)
 {
-	return (self->rindex == self->windex);
+	uint8_t	ch;
+
+	if (self->r == self->w)
+		return (0);
+	ch = self->buffer[self->r++];
+	self->ch = ch;
+	buffer_compact(self);
+	return ((int32_t)ch);
 }

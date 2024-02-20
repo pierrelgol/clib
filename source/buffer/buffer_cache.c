@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   list_peek_at.c                                     :+:      :+:    :+:   */
+/*   buffer_cache.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:00:05 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:00:07 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/02/20 11:53:22 by pollivie          #+#    #+#             */
+/*   Updated: 2024/02/20 11:53:23 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uintptr_t	list_peek_at(t_list **list, uint64_t index)
+uint64_t	buffer_cache(t_buffer *self, int32_t fd)
 {
-	t_list	*result;
+	uint8_t		*buffer;
+	uint64_t	rsize;
 
-	result = list_get_at(list, index);
-	if (!result)
-		return (UINTPTR_MAX);
-	return (result->data);
+	buffer = (uint8_t[PAGE_SIZE]){0};
+	buffer_reserve(self, PAGE_SIZE);
+	rsize = (uint64_t)read(fd, &buffer[self->w], PAGE_SIZE - 1);
+	self->w += rsize;
+	return (rsize);
 }
