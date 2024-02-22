@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint64_t bit_reverse_bits(uint64_t num)
+uint64_t	bit_reverse_bits(uint64_t num)
 {
-	uint64_t rev;
-	uint64_t bsize;
+	uint64_t	rev;
+	uint64_t	bsize;
 
 	bsize = (sizeof(num) << 3) - 1;
 	rev = num;

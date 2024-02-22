@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-int32_t buffer_putch(t_buffer *self, char ch)
+int32_t	buffer_putch(t_buffer *self, char ch)
 {
 	if (buffer_unwrite_count(self) == 0)
 	{
@@ -22,5 +22,5 @@ int32_t buffer_putch(t_buffer *self, char ch)
 			buffer_grow(self);
 	}
 	self->buffer[self->w++] = ch;
-	return ((int32_t) ch);
+	return ((int32_t)ch);
 }

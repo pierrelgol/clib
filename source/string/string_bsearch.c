@@ -12,12 +12,13 @@
 
 #include "../../include/clib.h"
 
-char *string_bsearch(const char *s, int32_t c)
+char	*string_bsearch(const char *s, int32_t c)
 {
-	char *ret;
+	char	*ret;
+
 	if (c == 0x00)
 	{
-		ret = (char *) &s[string_length(s)];
+		ret = (char *)&s[string_length(s)];
 		return (ret);
 	}
 	else

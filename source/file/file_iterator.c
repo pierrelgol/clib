@@ -12,9 +12,10 @@
 
 #include "../../include/clib.h"
 
-t_striter *file_iterator(struct s_allocator *allocator, t_file *self, const char *delim)
+t_striter	*file_iterator(struct s_allocator *allocator, t_file *self,
+		const char *delim)
 {
-	t_striter *iter;
+	t_striter	*iter;
 
 	iter = string_iter_create(allocator, self->buffer->buffer, delim);
 	return (iter);

@@ -12,14 +12,14 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_count_trailing(const char *string, int32_t c)
+uint64_t	string_count_trailing(const char *string, int32_t c)
 {
-	uint64_t count;
-	uint64_t len;
+	uint64_t	count;
+	uint64_t	len;
 
 	count = 0;
 	len = string_length(string);
-	while (len >= 1 && string[len - 1] == (char) c)
+	while (len >= 1 && string[len - 1] == (char)c)
 	{
 		++count;
 		--len;

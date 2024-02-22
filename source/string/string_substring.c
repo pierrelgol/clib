@@ -12,16 +12,17 @@
 
 #include "../../include/clib.h"
 
-char *string_substring(struct s_allocator *allocator, char const *s, uint64_t start, uint64_t len)
+char	*string_substring(struct s_allocator *allocator, char const *s,
+		uint64_t start, uint64_t len)
 {
-	char    *result;
-	uint64_t slen;
-	uint64_t i;
+	char		*result;
+	uint64_t	slen;
+	uint64_t	i;
 
 	i = 0;
 	slen = string_length(s);
 	if (start > slen)
-		return (string_clone(allocator, (const char *) ""));
+		return (string_clone(allocator, (const char *)""));
 	if (len > (slen - start))
 		len = slen - start;
 	result = allocator->alloc(allocator, (len + 1) * sizeof(char));

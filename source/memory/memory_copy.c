@@ -12,15 +12,15 @@
 
 #include "../../include/clib.h"
 
-void *memory_copy(void *dst, const void *src, uint64_t n)
+void	*memory_copy(void *dst, const void *src, uint64_t n)
 {
-	uint64_t       i;
-	unsigned char *s;
-	unsigned char *d;
+	uint64_t		i;
+	unsigned char	*s;
+	unsigned char	*d;
 
 	i = 0;
-	d = (unsigned char *) dst;
-	s = (unsigned char *) src;
+	d = (unsigned char *)dst;
+	s = (unsigned char *)src;
 	while (i < n)
 	{
 		*(d + i) = *(s + i);

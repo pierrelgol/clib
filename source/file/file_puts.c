@@ -13,9 +13,9 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-uint64_t file_puts(t_file *self, char *str)
+uint64_t	file_puts(t_file *self, char *str)
 {
-	uint64_t ret;
+	uint64_t	ret;
 
 	if (self->buffered_io == true)
 	{

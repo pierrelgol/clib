@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t bit_count_unset_bits(uint64_t num)
+uint64_t	bit_count_unset_bits(uint64_t num)
 {
-	uint64_t count;
+	uint64_t	count;
 
 	count = 0;
 	while (num)

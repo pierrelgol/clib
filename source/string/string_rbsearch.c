@@ -12,17 +12,17 @@
 
 #include "../../include/clib.h"
 
-char *string_rbsearch(const char *s, int32_t c)
+char	*string_rbsearch(const char *s, int32_t c)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (c == 0x00)
-		return ((char *) &s[string_length(s)]);
+		return ((char *)&s[string_length(s)]);
 	i = string_length(s);
 	while (i >= 1)
 	{
-		if (s[i - 1] == (int8_t) c)
-			return ((char *) &s[i - 1]);
+		if (s[i - 1] == (int8_t)c)
+			return ((char *)&s[i - 1]);
 		--i;
 	}
 	return (0);

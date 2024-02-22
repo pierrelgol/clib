@@ -12,21 +12,21 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_span(const char *s, const char *charset)
+uint64_t	string_span(const char *s, const char *charset)
 {
-	char    *set;
-	uint64_t span;
+	char		*set;
+	uint64_t	span;
 
 	if (!*s)
 		return (0);
-	set = (char[256]){0};
+	set = (char [256]){0};
 	while (*charset)
 	{
-		set[(uint32_t) *charset] = 1;
+		set[(uint32_t)(*charset)] = 1;
 		++charset;
 	}
 	span = 0;
-	while (*s && set[(uint32_t) *s] == 1)
+	while (*s && set[(uint32_t)(*s)] == 1)
 	{
 		++span;
 		++s;

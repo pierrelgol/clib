@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void table_body_remove(t_table *table, char *key)
+void	table_body_remove(t_table *table, char *key)
 {
-	uint64_t index;
+	uint64_t	index;
 
 	index = table_body_find_empty(table, key);
 	if (table->body[index].key != 0)

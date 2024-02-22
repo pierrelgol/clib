@@ -12,23 +12,23 @@
 
 #include "../../include/clib.h"
 
-char *string_pbrk(const char *s, const char *delim)
+char	*string_pbrk(const char *s, const char *delim)
 {
-	char *set;
-	char *ptr;
+	char	*set;
+	char	*ptr;
 
 	if (!*s)
 		return (0);
-	set = (char[256]){0};
+	set = (char [256]){0};
 	while (*delim)
 	{
-		set[(uint32_t) *delim] = 1;
+		set[(uint32_t)(*delim)] = 1;
 		delim++;
 	}
-	ptr = (char *) s;
+	ptr = (char *)s;
 	while (*ptr)
 	{
-		if (set[(uint32_t) *ptr])
+		if (set[(uint32_t)(*ptr)])
 			return (ptr);
 		ptr++;
 	}

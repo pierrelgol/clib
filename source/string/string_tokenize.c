@@ -13,10 +13,10 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-char *string_tokenize(char **string, const char *delim)
+char	*string_tokenize(char **string, const char *delim)
 {
-	char *start;
-	char *end;
+	char	*start;
+	char	*end;
 
 	start = *string;
 	if (!*start)

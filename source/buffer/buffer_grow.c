@@ -12,11 +12,11 @@
 
 #include "../../include/clib.h"
 
-bool buffer_grow(t_buffer *self)
+bool	buffer_grow(t_buffer *self)
 {
-	struct s_allocator *allocator;
-	char               *new_buffer;
-	uint64_t            new_size;
+	struct s_allocator	*allocator;
+	char				*new_buffer;
+	uint64_t			new_size;
 
 	allocator = self->allocator;
 	new_size = self->bsize * 2;
@@ -24,6 +24,6 @@ bool buffer_grow(t_buffer *self)
 	memory_copy(new_buffer, self->buffer, self->bsize);
 	allocator->dealloc(allocator, self->buffer);
 	self->buffer = new_buffer;
-	self->bsize = (uint64_t) new_size;
+	self->bsize = (uint64_t)new_size;
 	return (true);
 }

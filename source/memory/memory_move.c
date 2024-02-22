@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-void *memory_move(void *dst, const void *src, uint64_t len)
+void	*memory_move(void *dst, const void *src, uint64_t len)
 {
-	const unsigned char *s;
-	unsigned char       *d;
+	const unsigned char	*s;
+	unsigned char		*d;
 
 	if (dst == src || len == 0)
 		return (dst);

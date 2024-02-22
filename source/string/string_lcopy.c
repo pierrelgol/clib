@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_lcopy(char *dst, const char *src, uint64_t dsize)
+uint64_t	string_lcopy(char *dst, const char *src, uint64_t dsize)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	i = 0;
 	if (dsize == 0)

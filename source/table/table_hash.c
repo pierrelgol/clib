@@ -12,16 +12,16 @@
 
 #include "../../include/clib.h"
 
-uint64_t table_hash(char *str)
+uint64_t	table_hash(char *str)
 {
-	unsigned long seed;
-	int           val;
+	unsigned long	seed;
+	int				val;
 
 	seed = 5381;
 	while (*str)
 	{
 		val = *str++;
-		seed = ((seed << 5) + seed) + (unsigned long) val;
+		seed = ((seed << 5) + seed) + (unsigned long)val;
 	}
 	return (seed);
 }

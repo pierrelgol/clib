@@ -12,14 +12,14 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_count_until(const char *string, int32_t c)
+uint64_t	string_count_until(const char *string, int32_t c)
 {
-	uint64_t count;
+	uint64_t	count;
 
 	count = 0;
 	while (*string != 0)
 	{
-		if (*string == (char) c)
+		if (*string == (char)c)
 			return (count);
 		++count;
 		++string;

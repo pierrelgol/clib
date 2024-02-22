@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-t_table *table_create(struct s_allocator *allocator)
+t_table	*table_create(struct s_allocator *allocator)
 {
-	t_table *table;
+	t_table	*table;
 
 	table = allocator->alloc(allocator, sizeof(t_table));
 	if (!table)

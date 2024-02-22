@@ -13,9 +13,9 @@
 #include "../../include/clib.h"
 #include <stddef.h>
 
-uint64_t string_length(const char *str)
+uint64_t	string_length(const char *str)
 {
-	const char *ptr;
+	const char	*ptr;
 
 	if (!str)
 		return (0);

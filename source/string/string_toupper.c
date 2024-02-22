@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-char *string_toupper(char *string)
+char	*string_toupper(char *string)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	i = 0;
 	while (string[i])

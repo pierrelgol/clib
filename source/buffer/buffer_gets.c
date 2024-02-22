@@ -13,10 +13,10 @@
 #include "../../include/clib.h"
 #include <stdio.h>
 
-char *buffer_gets(t_buffer *self, char *dest, uint32_t dsize)
+char	*buffer_gets(t_buffer *self, char *dest, uint32_t dsize)
 {
-	uint64_t unread_count;
-	uint64_t written;
+	uint64_t	unread_count;
+	uint64_t	written;
 
 	unread_count = buffer_unread_count(self);
 	if (unread_count < dsize)

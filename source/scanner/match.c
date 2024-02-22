@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-bool match(t_scanner *scanner, bool (*f)(int32_t))
+bool	match(t_scanner *scanner, bool (*f)(int32_t))
 {
 	if (scanner->index + 1 >= scanner->size)
 		return (0);
-	return (f((int32_t) scanner->stream[scanner->index + 1]));
+	return (f((int32_t)scanner->stream[scanner->index + 1]));
 }

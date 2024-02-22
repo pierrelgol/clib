@@ -13,9 +13,9 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-char *string_iter_next(struct s_striter *self)
+char	*string_iter_next(struct s_striter *self)
 {
-	char *token;
+	char	*token;
 
 	if (self->token == 0 || self->token >= self->end)
 		return (0);
@@ -29,9 +29,10 @@ char *string_iter_next(struct s_striter *self)
 	return (token);
 }
 
-t_striter *string_iter_create(struct s_allocator *allocator, const char *string, const char *delim)
+t_striter	*string_iter_create(struct s_allocator *allocator,
+		const char *string, const char *delim)
 {
-	t_striter *iter;
+	t_striter	*iter;
 
 	iter = allocator->alloc(allocator, sizeof(t_striter));
 	iter->allocator = allocator;
@@ -43,7 +44,7 @@ t_striter *string_iter_create(struct s_allocator *allocator, const char *string,
 	return (iter);
 }
 
-t_striter *string_iter_destroy(struct s_striter *self)
+t_striter	*string_iter_destroy(struct s_striter *self)
 {
 	self->allocator->dealloc(self->allocator, self->string);
 	self->allocator->dealloc(self->allocator, self->delim);

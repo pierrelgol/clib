@@ -12,11 +12,11 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_lconcat(char *dst, const char *src, uint64_t size)
+uint64_t	string_lconcat(char *dst, const char *src, uint64_t size)
 {
-	uint64_t total;
-	uint64_t dlen;
-	uint64_t slen;
+	uint64_t	total;
+	uint64_t	dlen;
+	uint64_t	slen;
 
 	if ((!dst || !src) && !size)
 		return (0);

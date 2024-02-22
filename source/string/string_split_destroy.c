@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void **string_split_destroy(struct s_allocator *allocator, char **split)
+void	**string_split_destroy(struct s_allocator *allocator, char **split)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	i = 0;
 	while (split[i])

@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-int32_t file_read(t_file *self, char *buffer, uint32_t size)
+int32_t	file_read(t_file *self, char *buffer, uint32_t size)
 {
-	int32_t rsize;
+	int32_t	rsize;
 
 	rsize = read(self->fd, buffer, size);
 	return (rsize);

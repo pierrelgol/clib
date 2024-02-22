@@ -14,22 +14,24 @@
 
 t_list	*list_split_at(t_list **list, uint64_t index)
 {
-	t_list	*temp;
-	t_list	*to_return;
+	t_list	*ret;
+	t_list	*tmp;
 
 	if (index >= list_length(*list))
 		return (0);
 	if (index == 0)
 	{
-		temp = *list;
+		tmp = *list;
 		*list = (*list)->next;
-		temp->next = 0;
-		return (temp);
+		tmp->next = 0;
+		return (tmp);
 	}
-	temp = *list;
+	tmp = *list;
 	while (--index)
-		temp = temp->next;
-	to_return = temp->next;
-	temp->next = 0;
-	return (to_return);
+	{
+		tmp = tmp->next;
+	}
+	ret = tmp->next;
+	tmp->next = 0;
+	return (ret);
 }
