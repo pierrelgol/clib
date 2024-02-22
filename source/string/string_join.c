@@ -12,12 +12,11 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_join(struct s_allocator *allocator, const uint8_t *s1,
-		const uint8_t *s2)
+char *string_join(struct s_allocator *allocator, const char *s1, const char *s2)
 {
-	uint8_t		*result;
-	uint64_t	len1;
-	uint64_t	len2;
+	char    *result;
+	uint64_t len1;
+	uint64_t len2;
 
 	len1 = string_length(s1);
 	len2 = string_length(s2);

@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void	table_entry_set(t_table *table, uint8_t *key, uintptr_t value)
+void table_entry_set(t_table *table, char *key, uintptr_t value)
 {
-	uint64_t	index;
+	uint64_t index;
 
 	index = table_body_find_empty(table, key);
 	if (table->body[index].key != 0)
@@ -22,7 +22,7 @@ void	table_entry_set(t_table *table, uint8_t *key, uintptr_t value)
 	else
 	{
 		table->size++;
-		if ((float)table->size / (float) table->capacity > 0.8)
+		if ((float) table->size / (float) table->capacity > 0.8)
 		{
 			table_body_resize(table, table->capacity * 2);
 			index = table_body_find_empty(table, key);

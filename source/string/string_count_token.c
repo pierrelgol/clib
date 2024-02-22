@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t	string_count_token(const uint8_t *string, const uint8_t *delim)
+uint64_t string_count_token(const char *string, const char *delim)
 {
-	uint64_t	count;
+	uint64_t count;
 
 	count = 0;
 	while (*string)

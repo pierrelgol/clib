@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-bool	buffer_clear(t_buffer *self)
+bool buffer_clear(t_buffer *self)
 {
 	memory_set(self->buffer, 0x00, self->bsize);
 	self->r = 0;

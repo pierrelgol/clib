@@ -12,14 +12,14 @@
 
 #include "../../include/clib.h"
 
-int32_t	buffer_getch(t_buffer *self)
+int32_t buffer_getch(t_buffer *self)
 {
-	uint8_t	ch;
+	char ch;
 
 	if (self->r == self->w)
 		return (0);
 	ch = self->buffer[self->r++];
 	self->ch = ch;
 	buffer_compact(self);
-	return ((int32_t)ch);
+	return ((int32_t) ch);
 }

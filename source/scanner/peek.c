@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-uint8_t	peek(t_scanner *scanner)
+char peek(t_scanner *scanner)
 {
 	if (is_eof(scanner))
 		return ('\0');

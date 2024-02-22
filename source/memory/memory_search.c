@@ -12,17 +12,20 @@
 
 #include "../../include/clib.h"
 
-void	*memory_search(const void *s, int32_t c, uint64_t n)
+void *memory_search(const void *src, int32_t c, uint64_t n)
 {
-	uint64_t	i;
+	uint64_t       i;
+	unsigned char *s;
 
+	i = 0;
+	s = (unsigned char *) src;
 	if (n == 0)
-		return ((void *)s);
+		return ((void *) s);
 	i = 0;
 	while (i < n)
 	{
-		if (*((const uint8_t *)s + i) == (const uint8_t)c)
-			return ((uint8_t *)s + i);
+		if (*(s + i) == c)
+			return (s + i);
 		++i;
 	}
 	return (0);

@@ -12,11 +12,11 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_reverse(uint8_t *str)
+char *string_reverse(char *str)
 {
-	uint64_t	len;
-	uint64_t	i;
-	uint8_t		temp;
+	uint64_t len;
+	uint64_t i;
+	char     temp;
 
 	i = 0;
 	len = string_length(str);

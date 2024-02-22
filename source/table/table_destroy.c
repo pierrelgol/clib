@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-void	table_destroy(t_table *table)
+void table_destroy(t_table *table)
 {
-	struct s_allocator	*allocator;
+	struct s_allocator *allocator;
 
 	if (!table)
-		return ;
+		return;
 	allocator = table->allocator;
 	if (table->body != 0)
 		allocator->dealloc(allocator, table->body);

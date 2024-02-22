@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_ncopy(uint8_t *dst, const uint8_t *src, uint64_t n)
+char *string_ncopy(char *dst, const char *src, uint64_t n)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	i = 0;
 	while (src[i] && n > 0)

@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_copy(uint8_t *dst, const uint8_t *src)
+char *string_copy(char *dst, const char *src)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	i = string_length(src);
 	memory_copy(dst, src, i);

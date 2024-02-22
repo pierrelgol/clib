@@ -13,10 +13,10 @@
 #include "../../include/clib.h"
 #include <assert.h>
 
-uint8_t	*string_clone(struct s_allocator *allocator, const uint8_t *string)
+char *string_clone(struct s_allocator *allocator, const char *string)
 {
-	uint8_t		*clone;
-	uint64_t	len;
+	char    *clone;
+	uint64_t len;
 
 	assert(string != 0);
 	assert(allocator != 0);

@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-static void	pretty_print_region_cell(uint8_t ch)
+static void pretty_print_region_cell(char ch)
 {
 	if (ch == 0x2e)
 	{
@@ -22,10 +22,10 @@ static void	pretty_print_region_cell(uint8_t ch)
 		printf("%s%c%s", RED, "0123456789ABCDEF"[ch % 16], RESET);
 }
 
-static void	pretty_print_region(uint8_t *region, uint64_t size)
+static void pretty_print_region(char *region, uint64_t size)
 {
-	uint64_t		i;
-	static uint64_t	count;
+	uint64_t        i;
+	static uint64_t count;
 
 	i = 0;
 	printf("region :\n");
@@ -48,8 +48,7 @@ static void	pretty_print_region(uint8_t *region, uint64_t size)
 	}
 }
 
-static void	*arena_deinit_child(struct s_allocator *parent,
-		struct s_allocator *child)
+static void *arena_deinit_child(struct s_allocator *parent, struct s_allocator *child)
 {
 	if (child != 0)
 	{
@@ -60,12 +59,12 @@ static void	*arena_deinit_child(struct s_allocator *parent,
 	return (0);
 }
 
-struct s_allocator	*arena_allocator_deinit(struct s_allocator *self)
+struct s_allocator *arena_allocator_deinit(struct s_allocator *self)
 {
-	struct s_allocator	*parent;
-	struct s_allocator	*child;
-	struct s_list		*list;
-	struct s_list		*temp;
+	struct s_allocator *parent;
+	struct s_allocator *child;
+	struct s_list      *list;
+	struct s_list      *temp;
 
 	if (!self)
 		return (0);
@@ -77,7 +76,7 @@ struct s_allocator	*arena_allocator_deinit(struct s_allocator *self)
 		temp = list_pop_at(&list, 0);
 		if (temp != 0)
 		{
-			child = (struct s_allocator *)temp->data;
+			child = (struct s_allocator *) temp->data;
 			parent->dealloc(parent, temp);
 			arena_deinit_child(parent, child);
 		}

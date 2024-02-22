@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-uint8_t	skip(t_scanner *scanner, bool (*f)(int32_t))
+char skip(t_scanner *scanner, bool (*f)(int32_t))
 {
 	if (f(scanner->stream[scanner->index]))
 		return (advance(scanner));

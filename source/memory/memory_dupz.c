@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-void	*memory_dupz(void *ptr, uint64_t size)
+void *memory_dupz(void *ptr, uint64_t size)
 {
-	void	*dup;
+	void *dup;
 
 	dup = memory_alloc(size + 1);
 	memory_copy(dup, ptr, size);
-	*((uint8_t *)dup + size) = 0x00;
+	*((unsigned char *) dup + size) = 0x00;
 	return (dup);
 }

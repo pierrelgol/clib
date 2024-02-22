@@ -12,14 +12,14 @@
 
 #include "../../include/clib.h"
 
-uint64_t	buffer_cache(t_buffer *self, int32_t fd)
+uint64_t buffer_cache(t_buffer *self, int32_t fd)
 {
-	uint8_t		*buffer;
-	uint64_t	rsize;
+	char    *buffer;
+	uint64_t rsize;
 
-	buffer = (uint8_t[PAGE_SIZE]){0};
+	buffer = (char[PAGE_SIZE]){0};
 	buffer_reserve(self, PAGE_SIZE);
-	rsize = (uint64_t)read(fd, &buffer[self->w], PAGE_SIZE - 1);
+	rsize = (uint64_t) read(fd, &buffer[self->w], PAGE_SIZE - 1);
 	self->w += rsize;
 	return (rsize);
 }

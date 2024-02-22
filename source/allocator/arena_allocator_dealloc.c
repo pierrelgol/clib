@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-void	*arena_allocator_dealloc(struct s_allocator *self, void *ptr)
+void *arena_allocator_dealloc(struct s_allocator *self, void *ptr)
 {
-	(void)self;
-	(void)ptr;
+	(void) self;
+	(void) ptr;
 	return (0);
 }

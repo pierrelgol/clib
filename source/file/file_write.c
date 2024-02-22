@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-int32_t	file_write(t_file *self, uint8_t *buffer, uint32_t size)
+int32_t file_write(t_file *self, char *buffer, uint32_t size)
 {
-	int32_t	wsize;
+	int32_t wsize;
 
 	wsize = write(self->fd, buffer, size);
 	return (wsize);

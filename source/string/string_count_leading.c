@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-uint64_t	string_count_leading(const uint8_t *string, int32_t c)
+uint64_t string_count_leading(const char *string, int32_t c)
 {
-	uint64_t	count;
+	uint64_t count;
 
 	count = 0;
-	while (*string && *string == (uint8_t)c)
+	while (*string && *string == (char) c)
 	{
 		++count;
 		++string;

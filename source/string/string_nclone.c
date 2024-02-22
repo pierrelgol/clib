@@ -12,10 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_nclone(struct s_allocator *allocator, const uint8_t *string,
-		uint64_t n)
+char *string_nclone(struct s_allocator *allocator, const char *string, uint64_t n)
 {
-	uint8_t	*clone;
+	char *clone;
 
 	clone = allocator->alloc(allocator, n + 1);
 	clone = memory_copy(clone, string, n);

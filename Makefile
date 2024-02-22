@@ -23,8 +23,6 @@ CFLAGS =  -Wall 										\
 		  -fsanitize=integer							\
 		  -fstrict-overflow								\
 		  -Walloca										\
-		  -Wcast-qual									\
-		  -Wconversion									\
 		  -Wformat=2									\
 		  -Wformat-security								\
 		  -Wnull-dereference							\

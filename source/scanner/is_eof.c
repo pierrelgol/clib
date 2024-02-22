@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-bool	is_eof(t_scanner *scanner)
+bool is_eof(t_scanner *scanner)
 {
 	return (scanner->index == scanner->size);
 }

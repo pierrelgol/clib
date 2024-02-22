@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-uint8_t	prev(t_scanner *scanner)
+char prev(t_scanner *scanner)
 {
 	if (scanner->index - 1 < 0)
 		return (0);

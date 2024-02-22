@@ -12,16 +12,15 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_search(const uint8_t *haystack, const uint8_t *needle,
-		uint64_t len)
+char *string_search(const char *haystack, const char *needle, uint64_t len)
 {
-	uint64_t	u1;
-	uint64_t	u2;
+	uint64_t u1;
+	uint64_t u2;
 
 	if (!haystack && len == 0)
 		return (0);
 	if (needle[0] == '\0')
-		return ((uint8_t *)haystack);
+		return ((char *) haystack);
 	u1 = 0;
 	while (haystack[u1])
 	{
@@ -32,7 +31,7 @@ uint8_t	*string_search(const uint8_t *haystack, const uint8_t *needle,
 			u1++;
 		}
 		if (!needle[u2])
-			return ((uint8_t *)&haystack[(uint64_t)u1 - u2]);
+			return ((char *) &haystack[(uint64_t) u1 - u2]);
 		u1 = (u1 - u2) + 1;
 	}
 	return (0);

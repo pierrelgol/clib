@@ -12,13 +12,12 @@
 
 #include "../../include/clib.h"
 
-uint8_t	**string_split(struct s_allocator *allocator, const uint8_t *string,
-		const uint8_t *delim)
+char **string_split(struct s_allocator *allocator, const char *string, const char *delim)
 {
-	uint8_t		**result;
-	uint64_t	size;
-	uint64_t	i;
-	uint64_t	j;
+	char   **result;
+	uint64_t size;
+	uint64_t i;
+	uint64_t j;
 
 	size = string_count_token(string, delim);
 	result = allocator->alloc(allocator, size * 8 + 8);

@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-t_scanner	scanner_create(const uint8_t *stream)
+t_scanner scanner_create(const char *stream)
 {
-	t_scanner	scanner;
+	t_scanner scanner;
 
 	scanner.stream = stream;
 	scanner.index = -1;
-	scanner.size = (int32_t)string_length(stream);
+	scanner.size = (int32_t) string_length(stream);
 	return (scanner);
 }

@@ -12,12 +12,12 @@
 
 #include "../../include/clib.h"
 
-void	*memory_set(void *b, int32_t c, uint64_t len)
+void *memory_set(void *b, int32_t c, uint64_t len)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	i = 0;
 	while (i < len)
-		*((uint8_t *)b + i++) = (uint8_t)c;
+		*((unsigned char *) b + i++) = (unsigned char) c;
 	return (b);
 }

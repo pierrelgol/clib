@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_tolower(uint8_t *string)
+char *string_tolower(char *string)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	i = 0;
 	while (string[i])

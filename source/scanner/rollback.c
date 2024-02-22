@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-uint8_t	rollback(t_scanner *scanner)
+char rollback(t_scanner *scanner)
 {
 	if ((scanner->index - 1) < 0)
 		return (0);

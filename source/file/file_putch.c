@@ -13,13 +13,13 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-int32_t	file_putch(t_file *self, uint8_t ch)
+int32_t file_putch(t_file *self, char ch)
 {
-	int32_t	ret;
+	int32_t ret;
 
 	if (self->buffered_io == true)
 	{
-		ch = (uint8_t)buffer_putch(self->buffer, ch);
+		ch = (char) buffer_putch(self->buffer, ch);
 		self->w = self->buffer->w;
 		self->r = self->buffer->r;
 	}

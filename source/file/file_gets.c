@@ -12,13 +12,13 @@
 
 #include "../../include/clib.h"
 
-static uint8_t	*file_get_next_line(t_file *self)
+static char *file_get_next_line(t_file *self)
 {
-	struct s_allocator	*allocator;
-	uint8_t				*line;
-	uint64_t			ret;
-	uint64_t			len;
-	uint8_t				ch[2];
+	struct s_allocator *allocator;
+	char               *line;
+	uint64_t            ret;
+	uint64_t            len;
+	char                ch[2];
 
 	ch[1] = 0;
 	len = LINE_SIZE;
@@ -26,7 +26,7 @@ static uint8_t	*file_get_next_line(t_file *self)
 	line = allocator->alloc(allocator, len);
 	while (1)
 	{
-		ret = (uint64_t)read(self->fd, ch, 1);
+		ret = (uint64_t) read(self->fd, ch, 1);
 		self->pos++;
 		if (string_lconcat(line, ch, len) == len + 1)
 		{
@@ -38,20 +38,19 @@ static uint8_t	*file_get_next_line(t_file *self)
 	}
 }
 
-uint8_t	*file_gets(t_file *self)
+char *file_gets(t_file *self)
 {
-	uint8_t				*line;
-	uint8_t				*buffer;
-	struct s_allocator	*allocator;
+	char               *line;
+	char               *buffer;
+	struct s_allocator *allocator;
 
 	allocator = self->allocator;
-	buffer = (uint8_t[PAGE_SIZE]){0};
+	buffer = (char[PAGE_SIZE]){0};
 	if (self->buffered_io == true)
 	{
 		if (self->r == self->w)
 			buffer_cache(self->buffer, self->fd);
-		line = string_clone(allocator, (buffer_gets(self->buffer, buffer,
-						PAGE_SIZE)));
+		line = string_clone(allocator, (buffer_gets(self->buffer, buffer, PAGE_SIZE)));
 		self->r = self->buffer->r;
 		self->w = self->buffer->w;
 		if (*line == 0)

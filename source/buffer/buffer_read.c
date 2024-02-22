@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint64_t	buffer_read(t_buffer *self, uint8_t *buf, uint32_t size)
+uint64_t buffer_read(t_buffer *self, char *buf, uint32_t size)
 {
-	uint64_t	unread_left;
-	uint64_t	read_count;
+	uint64_t unread_left;
+	uint64_t read_count;
 
 	unread_left = buffer_unread_count(self);
 	if (size >= unread_left)

@@ -12,14 +12,13 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*buffer_puts(t_buffer *self, uint8_t *str)
+char *buffer_puts(t_buffer *self, char *str)
 {
-	uint64_t	written;
-	uint8_t		*ptr;
+	uint64_t written;
+	char    *ptr;
 
 	ptr = &self->buffer[self->w];
-	written = string_slcopy(&self->buffer[self->w], str, '\n',
-			buffer_unwrite_count(self));
+	written = string_slcopy(&self->buffer[self->w], str, '\n', buffer_unwrite_count(self));
 	self->w += written + 1;
 	return (ptr);
 }

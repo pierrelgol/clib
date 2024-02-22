@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-uint8_t	next(t_scanner *scanner)
+char next(t_scanner *scanner)
 {
 	if (scanner->index + 1 >= scanner->size)
 		return (0);

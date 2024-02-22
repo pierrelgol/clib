@@ -12,10 +12,14 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_bsearch(const uint8_t *s, int32_t c)
+char *string_bsearch(const char *s, int32_t c)
 {
+	char *ret;
 	if (c == 0x00)
-		return ((uint8_t *)&s[string_length(s)]);
+	{
+		ret = (char *) &s[string_length(s)];
+		return (ret);
+	}
 	else
-		return ((uint8_t *)memory_search(s, c, string_length(s)));
+		return (memory_search(s, c, string_length(s)));
 }

@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint64_t	buffer_write(t_buffer *self, uint8_t *buf, uint32_t size)
+uint64_t buffer_write(t_buffer *self, char *buf, uint32_t size)
 {
-	uint64_t	write_space;
-	uint64_t	written;
+	uint64_t write_space;
+	uint64_t written;
 
 	write_space = buffer_unwrite_count(self);
 	if (write_space < size)

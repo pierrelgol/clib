@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint8_t	*string_nconcat(uint8_t *s1, const uint8_t *s2, uint64_t n)
+char *string_nconcat(char *s1, const char *s2, uint64_t n)
 {
-	uint8_t		*dest;
-	uint64_t	i;
+	char    *dest;
+	uint64_t i;
 
 	i = string_length(s2);
 	dest = memory_search(s1, 0x00, UINT64_MAX);

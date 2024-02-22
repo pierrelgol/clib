@@ -13,11 +13,11 @@
 #include "../../include/clib.h"
 #include <stdint.h>
 
-uint64_t	buffer_reserve(t_buffer *self, uint64_t size)
+uint64_t buffer_reserve(t_buffer *self, uint64_t size)
 {
-	struct s_allocator	*allocator;
-	uint8_t				*new_buffer;
-	uint64_t			new_size;
+	struct s_allocator *allocator;
+	char               *new_buffer;
+	uint64_t            new_size;
 
 	allocator = self->allocator;
 	new_size = self->bsize + size;

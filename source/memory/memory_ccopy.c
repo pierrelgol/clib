@@ -12,16 +12,20 @@
 
 #include "../../include/clib.h"
 
-void	*memory_ccopy(void *dst, const void *src, int32_t c, uint64_t n)
+void *memory_ccopy(void *dst, const void *src, int32_t c, uint64_t n)
 {
-	uint64_t	i;
+	uint64_t       i;
+	unsigned char *s;
+	unsigned char *d;
 
 	i = 0;
+	d = (unsigned char *) dst;
+	s = (unsigned char *) src;
 	while (i < n)
 	{
-		if (*((const uint8_t *)src + i) == (uint8_t)c)
-			return ((uint8_t *)src + i + 1);
-		*((uint8_t *)dst + i) = *((const uint8_t *)src + i);
+		if (*(s + i) == (uint8_t) c)
+			return (s + i + 1);
+		*(d + i) = *(s + i);
 		++i;
 	}
 	return (0);
