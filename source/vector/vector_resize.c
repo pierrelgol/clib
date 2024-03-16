@@ -20,9 +20,9 @@ void	vector_resize(t_vector *self, uint64_t new_size)
 	allocator = self->allocator;
 	if (new_size < self->size)
 		return ;
-	new_data = allocator->alloc(allocator, new_size * sizeof(uintptr_t) + 1);
+	new_data = allocator->create(allocator, new_size * sizeof(uintptr_t) + 1);
 	memory_copy(new_data, self->data, self->size * sizeof(uintptr_t));
-	allocator->dealloc(self->allocator, self->data);
+	allocator->destroy(self->allocator, self->data);
 	self->data = new_data;
 	self->size = new_size;
 }

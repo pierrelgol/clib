@@ -18,7 +18,7 @@ void	**string_split_destroy(struct s_allocator *allocator, char **split)
 
 	i = 0;
 	while (split[i])
-		allocator->dealloc(allocator, split[i++]);
-	allocator->dealloc(allocator, split);
+		allocator->destroy(allocator, split[i++]);
+	allocator->destroy(allocator, split);
 	return (0);
 }

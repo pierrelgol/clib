@@ -3,57 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   list_insert_at.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 20:50:39 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/04 20:50:40 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/03/14 14:29:29 by pollivie          #+#    #+#             */
+/*   Updated: 2024/03/14 14:29:29 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-static t_list	*list_insert_front(t_list **list, t_list *new_head)
+void	list_insert_at(t_list *self, t_node *node, uint64_t index)
 {
-	new_head->next = *list;
-	*list = new_head;
-	return (*list);
-}
+	t_node	*temp;
 
-static t_list	*list_insert_back(t_list **list, t_list *new_tail)
-{
-	t_list	*temp;
-
-	if (!*list)
-	{
-		*list = new_tail;
-		return (new_tail);
-	}
-	temp = *list;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_tail;
-	return (*list);
-}
-
-t_list	*list_insert_at(struct s_allocator *allocator, t_list **list,
-		uintptr_t data, uint64_t index)
-{
-	t_list	*new_node;
-	t_list	*temp;
-
-	new_node = list_create(allocator);
-	new_node->data = data;
-	if (index == 0)
-		return (list_insert_front(list, new_node));
-	else if (index >= list_length(*list))
-		return (list_insert_back(list, new_node));
+	if (index == 0 || list_is_empty(self))
+		list_insert_front(self, node);
+	else if (index >= self->size)
+		list_insert_back(self, node);
 	else
 	{
-		temp = *list;
-		while (--index)
-			temp = temp->next;
-		new_node->next = temp->next;
-		temp->next = new_node;
+		temp = node_get_nchild(self->head, index - 1);
+		node_insert_child(temp, node);
+		self->size += 1;
 	}
-	return (*list);
 }

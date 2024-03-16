@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   list_destroy.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 20:06:52 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/04 20:06:53 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/03/14 15:25:40 by pollivie          #+#    #+#             */
+/*   Updated: 2024/03/14 15:25:41 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_list	*list_destroy(struct s_allocator *allocator, t_list *list)
+t_list	*list_destroy(t_list *self)
 {
-	t_list	*temp;
+	t_allocator	*allocator;
+	t_node		*node;
 
-	while (list)
+	if (!self)
+		return (0);
+	allocator = self->allocator;
+	while (!list_is_empty(self))
 	{
-		temp = list;
-		list = list->next;
-		temp = allocator->dealloc(allocator, temp);
+		node = list_remove_front(self);
+		node_destroy(node, allocator);
 	}
+	allocator->destroy(allocator, self);
 	return (0);
 }

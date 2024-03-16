@@ -21,7 +21,7 @@ char	*string_clone(struct s_allocator *allocator, const char *string)
 	assert(string != 0);
 	assert(allocator != 0);
 	len = string_length(string);
-	clone = allocator->alloc(allocator, len + 1);
+	clone = allocator->create(allocator, len + 1);
 	clone = memory_copy(clone, string, len);
 	clone[len] = 0x00;
 	return (clone);

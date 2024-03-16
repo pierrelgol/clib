@@ -17,8 +17,8 @@ t_stack	*stack_destroy(t_stack *self)
 	struct s_allocator	*allocator;
 
 	allocator = self->allocator;
-	list_destroy(allocator, self->top);
-	list_destroy(allocator, self->freelist);
-	allocator->dealloc(allocator, self);
+	list_destroy(self->top);
+	list_destroy(self->freelist);
+	allocator->destroy(allocator, self);
 	return (0);
 }

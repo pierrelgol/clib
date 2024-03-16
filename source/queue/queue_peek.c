@@ -16,5 +16,5 @@ uintptr_t	queue_peek(t_queue *self)
 {
 	if (queue_is_empty(self))
 		return (0);
-	return (self->head->data);
+	return (self->head->head->data);
 }

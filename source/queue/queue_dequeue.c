@@ -15,15 +15,15 @@
 uintptr_t	queue_dequeue(t_queue *self)
 {
 	uintptr_t	data;
-	t_list		*temp;
+	t_node		*temp;
 
 	if (queue_is_empty(self))
 		return (0);
-	data = self->head->data;
-	temp = list_pop_at(&self->head, 0);
+	data = self->head->head->data;
+	temp = list_remove_front(self->head);
 	temp->next = NULL;
 	temp->data = 0;
-	list_push_at(&self->freelist, temp, 0);
+	list_insert_front(self->freelist, temp);
 	self->count--;
 	return (data);
 }

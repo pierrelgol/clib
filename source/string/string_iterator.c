@@ -34,7 +34,7 @@ t_striter	*string_iter_create(struct s_allocator *allocator,
 {
 	t_striter	*iter;
 
-	iter = allocator->alloc(allocator, sizeof(t_striter));
+	iter = allocator->create(allocator, sizeof(t_striter));
 	iter->allocator = allocator;
 	iter->string = string_clone(allocator, string);
 	iter->delim = string_clone(allocator, delim);
@@ -46,8 +46,8 @@ t_striter	*string_iter_create(struct s_allocator *allocator,
 
 t_striter	*string_iter_destroy(struct s_striter *self)
 {
-	self->allocator->dealloc(self->allocator, self->string);
-	self->allocator->dealloc(self->allocator, self->delim);
-	self->allocator->dealloc(self->allocator, self);
+	self->allocator->destroy(self->allocator, self->string);
+	self->allocator->destroy(self->allocator, self->delim);
+	self->allocator->destroy(self->allocator, self);
 	return (0);
 }

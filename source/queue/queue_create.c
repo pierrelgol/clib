@@ -16,7 +16,7 @@ t_queue	*queue_create(struct s_allocator *allocator)
 {
 	t_queue	*queue;
 
-	queue = (t_queue *)allocator->alloc(allocator, sizeof(t_queue));
+	queue = (t_queue *)allocator->create(allocator, sizeof(t_queue));
 	queue->allocator = allocator;
 	queue->size = 1;
 	queue->count = 0;

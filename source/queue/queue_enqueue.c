@@ -14,22 +14,13 @@
 
 void	queue_enqueue(t_queue *self, uintptr_t data)
 {
-	t_list	*node;
+	t_node	*node;
 
 	if (queue_is_full(self))
 		queue_growth(self);
-	node = list_pop_at(&self->freelist, 0);
+	node = list_remove_front(self->freelist);
 	node->data = data;
 	node->next = NULL;
-	if (queue_is_empty(self))
-	{
-		self->head = node;
-		self->tail = node;
-	}
-	else
-	{
-		self->tail->next = node;
-		self->tail = node;
-	}
+	list_insert_back(self->head, node);
 	self->count++;
 }

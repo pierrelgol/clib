@@ -25,7 +25,7 @@ char	*string_substring(struct s_allocator *allocator, char const *s,
 		return (string_clone(allocator, (const char *)""));
 	if (len > (slen - start))
 		len = slen - start;
-	result = allocator->alloc(allocator, (len + 1) * sizeof(char));
+	result = allocator->create(allocator, (len + 1) * sizeof(char));
 	while (i < len && s[start + i])
 	{
 		result[i] = s[start + i];

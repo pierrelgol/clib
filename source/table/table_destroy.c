@@ -20,6 +20,6 @@ void	table_destroy(t_table *table)
 		return ;
 	allocator = table->allocator;
 	if (table->body != 0)
-		allocator->dealloc(allocator, table->body);
-	allocator->dealloc(allocator, table);
+		allocator->destroy(allocator, table->body);
+	allocator->destroy(allocator, table);
 }

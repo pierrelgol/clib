@@ -21,9 +21,9 @@ uint64_t	buffer_reserve(t_buffer *self, uint64_t size)
 
 	allocator = self->allocator;
 	new_size = self->bsize + size;
-	new_buffer = allocator->alloc(allocator, new_size + 1);
+	new_buffer = allocator->create(allocator, new_size + 1);
 	memory_copy(new_buffer, self->buffer, self->bsize);
-	allocator->dealloc(allocator, self->buffer);
+	allocator->destroy(allocator, self->buffer);
 	self->buffer = new_buffer;
 	self->bsize = new_size;
 	return (new_size);

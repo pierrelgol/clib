@@ -5,15 +5,16 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/08 11:04:00 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/08 11:04:01 by pollivie         ###   ########.fr       */
+/*   Created: 2024/03/15 12:02:04 by pollivie          #+#    #+#             */
+/*   Updated: 2024/03/15 12:02:04 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void	heap_reserve(struct s_allocator *self, uint64_t size)
+void	heap_reserve(t_allocator *self, uint64_t size, uint64_t count)
 {
 	(void)self;
 	(void)size;
+	(void)count;
 }

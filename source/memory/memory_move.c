@@ -14,25 +14,23 @@
 
 void	*memory_move(void *dst, const void *src, uint64_t len)
 {
-	const unsigned char	*s;
-	unsigned char		*d;
+	const char	*ptr_src;
+	char		*ptr_dst;
 
-	if (dst == src || len == 0)
-		return (dst);
-	d = dst;
-	s = src;
+	ptr_src = (const char *)src;
+	ptr_dst = (char *)dst;
+	if (!dst && !src)
+		return (NULL);
 	if (dst > src)
 	{
-		while (len > 0)
+		while (len)
 		{
-			*(d + len - 1) = *(s + len - 1);
-			--len;
+			*(ptr_dst + len - 1) = *(ptr_src + len - 1);
+			len--;
 		}
+		return (dst);
 	}
-	while (len > 0)
-	{
-		*d++ = *s++;
-		--len;
-	}
+	while (len--)
+		*ptr_dst++ = *ptr_src++;
 	return (dst);
 }

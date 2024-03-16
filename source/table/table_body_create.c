@@ -14,5 +14,6 @@
 
 t_entry	*table_body_create(struct s_allocator *allocator, uint64_t capacity)
 {
-	return ((t_entry *)allocator->alloc(allocator, capacity * sizeof(t_entry)));
+	return ((t_entry *)allocator->create(allocator, capacity
+			* sizeof(t_entry)));
 }

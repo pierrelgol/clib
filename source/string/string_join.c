@@ -21,7 +21,7 @@ char	*string_join(struct s_allocator *allocator, const char *s1,
 
 	len1 = string_length(s1);
 	len2 = string_length(s2);
-	result = allocator->alloc(allocator, len1 + len2 + 1);
+	result = allocator->create(allocator, len1 + len2 + 1);
 	memory_copy(result, s1, len1);
 	memory_copy(&result[len1], s2, len2);
 	result[len1 + len2] = 0x00;

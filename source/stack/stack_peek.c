@@ -16,5 +16,5 @@ uintptr_t	stack_peek(t_stack *self)
 {
 	if (stack_is_empty(self))
 		return (0);
-	return (self->top->data);
+	return (self->top->head->data);
 }

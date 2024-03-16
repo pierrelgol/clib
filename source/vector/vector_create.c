@@ -16,10 +16,10 @@ t_vector	*vector_create(struct s_allocator *allocator, uint64_t size)
 {
 	t_vector	*vector;
 
-	vector = allocator->alloc(allocator, sizeof(t_vector));
+	vector = allocator->create(allocator, sizeof(t_vector));
 	vector->allocator = allocator;
 	vector->size = size;
 	vector->count = 0;
-	vector->data = allocator->alloc(allocator, sizeof(uintptr_t) * size + 1);
+	vector->data = allocator->create(allocator, sizeof(uintptr_t) * size + 1);
 	return (vector);
 }

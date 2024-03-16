@@ -15,7 +15,7 @@
 void	queue_growth(t_queue *self)
 {
 	struct s_allocator	*allocator;
-	t_list				*new_node;
+	t_node				*new_node;
 	uint64_t			new_size;
 	uint64_t			i;
 
@@ -24,8 +24,8 @@ void	queue_growth(t_queue *self)
 	i = self->size;
 	while (i < new_size)
 	{
-		new_node = list_create(allocator);
-		list_push_at(&self->freelist, new_node, 0);
+		new_node = node_create(allocator, 0);
+		list_insert_front(self->freelist, new_node);
 		++i;
 	}
 	self->size = new_size;

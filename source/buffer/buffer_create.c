@@ -17,11 +17,11 @@ t_buffer	*buffer_create(struct s_allocator *allocator, uint32_t size,
 {
 	t_buffer	*self;
 
-	self = allocator->alloc(allocator, 1 * sizeof(t_buffer));
+	self = allocator->create(allocator, 1 * sizeof(t_buffer));
 	self->allocator = allocator;
 	if (size < PAGE_SIZE)
 		size = PAGE_SIZE;
-	self->buffer = allocator->alloc(allocator, size);
+	self->buffer = allocator->create(allocator, size);
 	self->is_fixed = is_fixed;
 	self->ch = 0;
 	self->bsize = size;

@@ -16,7 +16,7 @@ t_table	*table_create(struct s_allocator *allocator)
 {
 	t_table	*table;
 
-	table = allocator->alloc(allocator, sizeof(t_table));
+	table = allocator->create(allocator, sizeof(t_table));
 	if (!table)
 		return (NULL);
 	table->allocator = allocator;

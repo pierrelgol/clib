@@ -17,8 +17,8 @@ t_queue	*queue_destroy(t_queue *self)
 	struct s_allocator	*allocator;
 
 	allocator = self->allocator;
-	list_destroy(allocator, self->head);
-	list_destroy(allocator, self->freelist);
-	allocator->dealloc(allocator, self);
+	list_destroy(self->head);
+	list_destroy(self->freelist);
+	allocator->destroy(allocator, self);
 	return (0);
 }

@@ -16,7 +16,7 @@ t_stack	*stack_create(struct s_allocator *allocator)
 {
 	t_stack	*stack;
 
-	stack = allocator->alloc(allocator, sizeof(t_stack));
+	stack = allocator->create(allocator, sizeof(t_stack));
 	stack->allocator = allocator;
 	stack->count = 0;
 	stack->size = 1;

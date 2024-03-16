@@ -17,7 +17,7 @@ t_buffer	*buffer_destroy(t_buffer *self)
 	struct s_allocator	*allocator;
 
 	allocator = self->allocator;
-	allocator->dealloc(allocator, self->buffer);
-	allocator->dealloc(allocator, self);
+	allocator->destroy(allocator, self->buffer);
+	allocator->destroy(allocator, self);
 	return (0);
 }

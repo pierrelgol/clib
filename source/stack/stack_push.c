@@ -14,12 +14,12 @@
 
 void	stack_push(t_stack *self, uintptr_t data)
 {
-	t_list	*node;
+	t_node	*node;
 
 	if (stack_is_full(self))
 		stack_growth(self);
-	node = list_pop_at(&self->freelist, 0);
+	node = list_remove_front(self->freelist);
 	node->data = data;
 	self->count++;
-	list_push_at(&self->top, node, 0);
+	list_insert_front(self->top, node);
 }

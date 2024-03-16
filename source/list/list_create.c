@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   list_create.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/04 19:59:26 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/04 19:59:29 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/03/14 14:21:56 by pollivie          #+#    #+#             */
+/*   Updated: 2024/03/14 14:21:56 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_list	*list_create(struct s_allocator *allocator)
+t_list	*list_create(t_allocator *allocator)
 {
 	t_list	*list;
 
-	list = allocator->alloc(allocator, sizeof(*list));
-	if (!list)
-		return (0);
-	list->next = 0;
-	list->data = 0;
+	list = allocator->create(allocator, sizeof(t_list));
+	list->allocator = allocator;
+	list->head = NULL;
+	list->tail = NULL;
+	list->size = 0;
 	return (list);
 }

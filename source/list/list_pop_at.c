@@ -3,32 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   list_pop_at.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
+/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/05 11:53:29 by plgol.perso       #+#    #+#             */
-/*   Updated: 2023/12/05 11:53:40 by plgol.perso      ###   ########.fr       */
+/*   Created: 2024/03/14 14:57:50 by pollivie          #+#    #+#             */
+/*   Updated: 2024/03/14 14:57:51 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-t_list	*list_pop_at(t_list **list, uint64_t index)
+uintptr_t	list_pop_at(t_list *self, uint64_t index)
 {
-	t_list	*temp;
-	t_list	*to_remove;
+	uintptr_t	data;
+	t_node		*node;
 
-	if (index >= list_length(*list))
+	node = list_remove_at(self, index);
+	if (!node)
 		return (0);
-	if (index == 0)
-	{
-		temp = *list;
-		*list = (*list)->next;
-		return (temp);
-	}
-	temp = *list;
-	while (--index)
-		temp = temp->next;
-	to_remove = temp->next;
-	temp->next = to_remove->next;
-	return (to_remove);
+	data = node->data;
+	node_destroy(node, self->allocator);
+	return (data);
 }

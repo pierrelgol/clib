@@ -17,7 +17,7 @@ t_vector	*vector_destroy(t_vector *self)
 	struct s_allocator	*allocator;
 
 	allocator = self->allocator;
-	allocator->dealloc(allocator, self->data);
-	allocator->dealloc(allocator, self);
+	allocator->destroy(allocator, self->data);
+	allocator->destroy(allocator, self);
 	return (0);
 }

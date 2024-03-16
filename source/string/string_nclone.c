@@ -17,7 +17,7 @@ char	*string_nclone(struct s_allocator *allocator, const char *string,
 {
 	char	*clone;
 
-	clone = allocator->alloc(allocator, n + 1);
+	clone = allocator->create(allocator, n + 1);
 	clone = memory_copy(clone, string, n);
 	clone[n] = 0x00;
 	return (clone);

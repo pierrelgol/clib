@@ -20,9 +20,9 @@ bool	buffer_grow(t_buffer *self)
 
 	allocator = self->allocator;
 	new_size = self->bsize * 2;
-	new_buffer = allocator->alloc(allocator, new_size + 1);
+	new_buffer = allocator->create(allocator, new_size + 1);
 	memory_copy(new_buffer, self->buffer, self->bsize);
-	allocator->dealloc(allocator, self->buffer);
+	allocator->destroy(allocator, self->buffer);
 	self->buffer = new_buffer;
 	self->bsize = (uint64_t)new_size;
 	return (true);
