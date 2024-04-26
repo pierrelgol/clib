@@ -14,7 +14,7 @@
 
 t_memory_node	*mem_node_destroy(t_memory_node *node)
 {
-	memory_dealloc( node->block);
-	memory_dealloc( node);
+	memory_dealloc(node->block);
+	memory_dealloc(node);
 	return (0);
 }

@@ -16,7 +16,7 @@ t_memory_node	*mem_node_create(uint64_t size, uint64_t count)
 {
 	t_memory_node	*node;
 
-	node = memory_zalloc( sizeof(t_memory_node));
+	node = memory_zalloc(sizeof(t_memory_node));
 	node->block = memory_zalloc(size * count);
 	node->size = size * count;
 	node->used = 0;
