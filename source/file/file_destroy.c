@@ -18,13 +18,13 @@ t_file	*file_destroy(t_file *self)
 
 	allocator = self->allocator;
 	if (self->basename)
-		allocator->dealloc(allocator, self->basename);
+		allocator->destroy(allocator, self->basename);
 	if (self->path)
-		allocator->dealloc(allocator, self->path);
+		allocator->destroy(allocator, self->path);
 	if (self->buffer)
 		buffer_destroy(self->buffer);
 	if (self->is_open)
 		file_fclose(self);
-	allocator->dealloc(allocator, self);
+	allocator->destroy(allocator, self);
 	return (0);
 }

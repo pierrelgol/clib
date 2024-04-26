@@ -19,11 +19,11 @@ void	*arena_create(t_allocator *self, uint64_t size)
 	if ((self->used + size) > self->size)
 	{
 		if (self->logging)
-			printf("error : arena is full\n");
+			print(STDOUT_FILENO,"error : arena is full\n");
 		return (0);
 	}
 	if (self->logging)
-		printf("arena_create(self, %llu)\n", size);
+		print(STDOUT_FILENO,"arena_create(self, %lu)\n", size);
 	ptr = &self->region[self->used];
 	self->used += size;
 	self->alloced += 1;

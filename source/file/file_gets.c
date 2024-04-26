@@ -23,7 +23,7 @@ static char	*file_get_next_line(t_file *self)
 	ch[1] = 0;
 	len = LINE_SIZE;
 	allocator = self->allocator;
-	line = allocator->alloc(allocator, len);
+	line = allocator->create(allocator, len);
 	while (1)
 	{
 		ret = (uint64_t)read(self->fd, ch, 1);
@@ -31,7 +31,7 @@ static char	*file_get_next_line(t_file *self)
 		if (string_lconcat(line, ch, len) == len + 1)
 		{
 			len = string_length(line);
-			line = allocator->realloc(allocator, line, len, len * 2);
+			line = allocator->realloc(allocator, line, len);
 		}
 		if (string_bsearch(line, '\n') != 0 || ret == 0)
 			return (line);

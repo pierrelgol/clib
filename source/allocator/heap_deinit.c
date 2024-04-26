@@ -16,9 +16,9 @@ void	*heap_deinit(t_allocator *self)
 {
 	if (self->logging)
 	{
-		printf("heap_create was called  : %llu times\n", self->alloced);
-		printf("heap_destroy was called : %llu times\n", self->dealloced);
-		printf("total allocation        : %llu bytes\n", self->size);
+		print(STDOUT_FILENO,"heap_create was called  : %lu times\n", self->alloced);
+		print(STDOUT_FILENO,"heap_destroy was called : %lu times\n", self->dealloced);
+		print(STDOUT_FILENO,"total allocation        : %lu bytes\n", self->size);
 	}
 	memory_dealloc(self);
 	return (0);

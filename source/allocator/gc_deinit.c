@@ -26,25 +26,22 @@ static t_memory_node	*gc_remove_front(t_memory_node **head)
 
 void	*gc_deinit(t_allocator *gc)
 {
-	t_allocator		*parent;
 	t_memory_node	*node;
 
-	parent = gc->parent;
 	node = NULL;
 	node = gc_remove_front(&gc->usedlist);
 	while (node)
 	{
-		mem_node_destroy(node, gc->parent);
+		mem_node_destroy(node);
 		node = gc_remove_front(&gc->usedlist);
 	}
 	node = NULL;
 	node = gc_remove_front(&gc->freelist);
 	while (node)
 	{
-		mem_node_destroy(node, gc->parent);
+		mem_node_destroy(node);
 		node = gc_remove_front(&gc->freelist);
 	}
-	parent->destroy(parent, gc);
-	memory_dealloc(parent);
+	memory_dealloc(gc);
 	return (0);
 }

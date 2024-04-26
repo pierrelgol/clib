@@ -30,6 +30,6 @@ void	gc_reserve(t_allocator *self, uint64_t size, uint64_t count)
 {
 	t_memory_node	*node;
 
-	node = mem_node_create(self->parent, size, count);
+	node = mem_node_create(size, count);
 	gc_insert_front(&self->freelist, node);
 }

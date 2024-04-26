@@ -66,6 +66,7 @@ DIRS   =    source/memory                           \
             source/vector                           \
             source/table                            \
             source/file                             \
+            source/print                            \
 
 SRCS := $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)

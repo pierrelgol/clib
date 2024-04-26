@@ -14,12 +14,9 @@
 
 t_allocator	*gc_init(void)
 {
-	t_allocator	*heap;
 	t_allocator	*gc;
 
-	heap = heap_init();
-	gc = heap->create(heap, sizeof(t_allocator));
-	gc->parent = heap;
+	gc = memory_alloc(sizeof(t_allocator));
 	gc->create = gc_create;
 	gc->destroy = gc_destroy;
 	gc->dup = gc_dup;
@@ -28,6 +25,5 @@ t_allocator	*gc_init(void)
 	gc->reserve = gc_reserve;
 	gc->usedlist = NULL;
 	gc->freelist = NULL;
-	gc->lastnode = NULL;
 	return (gc);
 }

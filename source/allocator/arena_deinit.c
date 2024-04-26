@@ -16,9 +16,9 @@ void	*arena_deinit(t_allocator *self)
 {
 	if (self->logging)
 	{
-		printf("arena_create was called  : %llu times\n", self->alloced);
-		printf("arena_destroy was called : %llu times\n", self->dealloced);
-		printf("total allocation         : %llu bytes\n", self->size);
+		print(STDOUT_FILENO,"arena_create was called  : %lu times\n", self->alloced);
+		print(STDOUT_FILENO,"arena_destroy was called : %lu times\n", self->dealloced);
+		print(STDOUT_FILENO,"total allocation         : %lu bytes\n", self->size);
 	}
 	free(self->region);
 	free(self);

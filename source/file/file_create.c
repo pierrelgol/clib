@@ -16,7 +16,7 @@ t_file	*file_create(struct s_allocator *allocator, bool is_cached)
 {
 	t_file	*self;
 
-	self = allocator->alloc(allocator, sizeof(t_file));
+	self = allocator->create(allocator, sizeof(t_file));
 	self->allocator = allocator;
 	self->buffered_io = is_cached;
 	self->basename = 0;

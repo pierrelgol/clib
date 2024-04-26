@@ -12,13 +12,12 @@
 
 #include "../../include/clib.h"
 
-t_memory_node	*mem_node_create(t_allocator *parent, uint64_t size,
-		uint64_t count)
+t_memory_node	*mem_node_create(uint64_t size, uint64_t count)
 {
 	t_memory_node	*node;
 
-	node = parent->create(parent, sizeof(t_memory_node));
-	node->block = parent->create(parent, size * count);
+	node = memory_zalloc( sizeof(t_memory_node));
+	node->block = memory_zalloc(size * count);
 	node->size = size * count;
 	node->used = 0;
 	node->next = 0;

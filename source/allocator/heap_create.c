@@ -18,7 +18,7 @@ void	*heap_create(t_allocator *self, uint64_t size)
 
 	if (self->logging)
 	{
-		printf("heap_create(self, %llu bytes)\n", size);
+		print(STDOUT_FILENO,"heap_create(self, %lu bytes)\n", size);
 		self->alloced += 1;
 		self->size += size;
 	}

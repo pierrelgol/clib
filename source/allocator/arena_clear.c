@@ -17,7 +17,7 @@ void	*arena_clear(t_allocator *self, void *ptr)
 	(void)ptr;
 	if (self->logging)
 	{
-		printf("arena_clear(self, (null))\n");
+		print(STDOUT_FILENO, "arena_clear(self, (null))\n");
 	}
 	memory_set(self->region, 0x00, self->used);
 	self->used = 0;

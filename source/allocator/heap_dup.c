@@ -18,7 +18,7 @@ void	*heap_dup(t_allocator *self, void *ptr, uint64_t bytes)
 	{
 		self->alloced += 1;
 		self->size += bytes;
-		printf("heap_dup(self, %p, %llu)\n", ptr, bytes);
+		print(STDOUT_FILENO,"heap_dup(self, %p, %lu)\n", ptr, bytes);
 	}
 	return (memory_dup(ptr, bytes));
 }

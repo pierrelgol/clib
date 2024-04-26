@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-t_memory_node	*mem_node_destroy(t_memory_node *node, t_allocator *parent)
+t_memory_node	*mem_node_destroy(t_memory_node *node)
 {
-	parent->destroy(parent, node->block);
-	parent->destroy(parent, node);
+	memory_dealloc( node->block);
+	memory_dealloc( node);
 	return (0);
 }

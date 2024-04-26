@@ -16,7 +16,7 @@ void	*arena_destroy(t_allocator *self, void *ptr)
 {
 	if (self->logging)
 	{
-		printf("arena_destroy(self, %p)\n", ptr);
+		print(STDOUT_FILENO, "arena_destroy(self, %p)\n", ptr);
 		self->dealloced += 1;
 	}
 	return (0);
