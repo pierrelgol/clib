@@ -17,7 +17,6 @@ RM     =  rm -f
 CFLAGS =   -Wall                                    \
            -Wextra                                  \
            -fsanitize=memory                        \
-           -Weverything                             \
            -g3                                      \
 
 NAME   =    libclib.a

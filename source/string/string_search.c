@@ -65,8 +65,8 @@ char	*string_search_none(const char *source, t_bitset const *delimiters,
 	return (NULL);
 }
 
-char	*string_search_predicate(const char *source, t_fn_predicate *predicate,
-		const uint64_t n)
+char	*string_search_predicate(const char *source,
+		bool(predicate)(int32_t ch), const uint64_t n)
 {
 	uint64_t	i;
 

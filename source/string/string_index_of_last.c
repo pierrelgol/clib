@@ -70,7 +70,7 @@ uint64_t	string_index_of_last_none(const char *source,
 }
 
 uint64_t	string_index_of_last_predicate(const char *source,
-		t_fn_predicate *predicate)
+		bool(predicate)(int32_t ch))
 {
 	uint64_t	last;
 	uint64_t	i;

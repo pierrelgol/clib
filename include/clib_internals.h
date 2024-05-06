@@ -25,6 +25,8 @@ typedef struct s_allocator	t_allocator;
 typedef struct s_logger		t_logger;
 typedef struct s_bitset		t_bitset;
 
+bool(predicate)(int32_t ch);
+
 typedef void				*(t_fn_alloc)(void *const handle,
 								const uint64_t size);
 typedef void				*(t_fn_dealloc)(void *const handle,
@@ -36,7 +38,6 @@ typedef void				*(t_fn_dup)(void *const handle, void *const ptr,
 typedef void				*(t_fn_dupz)(void *const handle, void *const ptr);
 typedef void				*(t_fn_deinit)(t_allocator *const allocator);
 typedef void				*(t_fn_clear)(void *const handle);
-typedef						bool(t_fn_predicate)(int32_t ch);
 
 struct						s_mem_node
 {
@@ -79,7 +80,7 @@ struct						s_arena_allocator
 	char					*block;
 };
 
-# define BITSET_SIZE (256)
+# define BITSET_SIZE 256
 
 struct						s_bitset
 {

@@ -70,7 +70,7 @@ uint64_t	string_count_none(const char *source, t_bitset const *delimiters,
 }
 
 uint64_t	string_count_predicate(const char *source,
-		t_fn_predicate *predicate, const uint64_t n)
+		bool(predicate)(int32_t ch), const uint64_t n)
 {
 	uint64_t	count;
 	uint64_t	i;

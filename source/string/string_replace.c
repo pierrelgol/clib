@@ -70,7 +70,7 @@ char	*string_replace_none(t_allocator *const allocator, const char *source,
 }
 
 char	*string_replace_predicate(t_allocator *const allocator,
-		const char *source, t_fn_predicate *predicate, const int32_t with)
+		const char *source, bool(predicate)(int32_t ch), const int32_t with)
 {
 	char		*result;
 	uint64_t	i;

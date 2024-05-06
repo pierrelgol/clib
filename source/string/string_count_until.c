@@ -63,7 +63,7 @@ uint64_t	string_count_until_none(const char *source,
 }
 
 uint64_t	string_count_until_predicate(const char *source,
-		t_fn_predicate *predicate)
+		bool(predicate)(int32_t ch))
 {
 	uint64_t	i;
 

@@ -82,7 +82,7 @@ char	*string_filter_none(t_allocator *const allocator, const char *source,
 }
 
 char	*string_filter_predicate(t_allocator *const allocator,
-		const char *source, t_fn_predicate *predicate)
+		const char *source, bool(predicate)(int32_t ch))
 {
 	char		*result;
 	uint64_t	len;

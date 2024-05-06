@@ -34,7 +34,7 @@ bool	string_starts_with_none(const char *source, t_bitset const *delimiters)
 }
 
 bool	string_starts_with_predicate(const char *source,
-		t_fn_predicate *predicate)
+		bool(predicate)(int32_t ch))
 {
 	if (!source)
 		return (false);

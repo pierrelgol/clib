@@ -30,8 +30,8 @@ bool	string_contains_none(const char *source, t_bitset const *delimiters,
 	return (string_search_any(source, delimiters, n) == NULL);
 }
 
-bool	string_contains_predicate(const char *source, t_fn_predicate *predicate,
-		const uint64_t n)
+bool	string_contains_predicate(const char *source,
+		bool(predicate)(int32_t ch), const uint64_t n)
 {
 	return (string_search_predicate(source, predicate, n) != NULL);
 }

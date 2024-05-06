@@ -98,7 +98,7 @@ void		*memdupz(t_allocator *const allocator, void *const ptr);
 /*                                   STRING                                   */
 /******************************************************************************/
 
-# define NOTFOUND (UINT64_MAX)
+# define NOTFOUND 18446744073709551614UL
 
 t_bitset	bitset_init_empty(void);
 t_bitset	bitset_init_from_str(const char *string);
@@ -132,7 +132,7 @@ char		*string_search_any(const char *source, t_bitset const *delimiters,
 char		*string_search_none(const char *source, t_bitset const *delimiters,
 				const uint64_t n);
 char		*string_search_predicate(const char *source,
-				t_fn_predicate *predicate, const uint64_t n);
+				bool(predicate)(int32_t ch), const uint64_t n);
 char		*string_search_sequence(const char *haystack, const char *needle,
 				const uint64_t n);
 
@@ -143,7 +143,7 @@ bool		string_contains_any(const char *source, t_bitset const *delimiters,
 bool		string_contains_none(const char *source, t_bitset const *delimiters,
 				const uint64_t n);
 bool		string_contains_predicate(const char *source,
-				t_fn_predicate *predicate, const uint64_t n);
+				bool(predicate)(int32_t ch), const uint64_t n);
 bool		string_contains_sequence(const char *needle, const char *haystack,
 				const uint64_t n);
 
@@ -153,7 +153,7 @@ bool		string_starts_with_any(const char *source,
 bool		string_starts_with_none(const char *source,
 				t_bitset const *delimiters);
 bool		string_starts_with_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 bool		string_starts_with_sequence(const char *haystack,
 				const char *needle);
 
@@ -163,7 +163,7 @@ bool		string_ends_with_any(const char *source,
 bool		string_ends_with_none(const char *source,
 				t_bitset const *delimiters);
 bool		string_ends_with_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 bool		string_ends_with_sequence(const char *haystack, const char *needle);
 
 uint64_t	string_index_of_first_scalar(const char *source,
@@ -173,7 +173,7 @@ uint64_t	string_index_of_first_any(const char *source,
 uint64_t	string_index_of_first_none(const char *source,
 				t_bitset const *delimiters);
 uint64_t	string_index_of_first_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 uint64_t	string_index_of_first_sequence(const char *haystack,
 				const char *needle);
 
@@ -184,7 +184,7 @@ uint64_t	string_index_of_last_any(const char *source,
 uint64_t	string_index_of_last_none(const char *source,
 				t_bitset const *delimiters);
 uint64_t	string_index_of_last_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 uint64_t	string_index_of_last_sequence(const char *haystack,
 				const char *needle);
 
@@ -195,7 +195,7 @@ uint64_t	string_count_any(const char *source, t_bitset const *delimiters,
 uint64_t	string_count_none(const char *source, t_bitset const *delimiters,
 				const uint64_t n);
 uint64_t	string_count_predicate(const char *source,
-				t_fn_predicate *predicate, const uint64_t n);
+				bool(predicate)(int32_t ch), const uint64_t n);
 uint64_t	string_count_sequence(const char *haystack, const char *needle,
 				const uint64_t n);
 
@@ -205,7 +205,7 @@ uint64_t	string_count_until_any(const char *source,
 uint64_t	string_count_until_none(const char *source,
 				t_bitset const *delimiters);
 uint64_t	string_count_until_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 uint64_t	string_count_until_sequence(const char *haystack,
 				const char *needle);
 
@@ -216,7 +216,7 @@ uint64_t	string_count_leading_any(const char *source,
 uint64_t	string_count_leading_none(const char *source,
 				t_bitset const *delimiters);
 uint64_t	string_count_leading_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 uint64_t	string_count_leading_sequence(const char *haystack,
 				const char *needle);
 
@@ -227,7 +227,7 @@ uint64_t	string_count_trailing_any(const char *source,
 uint64_t	string_count_trailing_none(const char *source,
 				t_bitset const *delimiters);
 uint64_t	string_count_trailing_predicate(const char *source,
-				t_fn_predicate *predicate);
+				bool(predicate)(int32_t ch));
 uint64_t	string_count_trailing_sequence(const char *haystack,
 				const char *needle);
 
@@ -245,7 +245,7 @@ char		*string_trim_leading_any(t_allocator *const allocator,
 char		*string_trim_leading_none(t_allocator *const allocator,
 				const char *source, t_bitset const *delimiters);
 char		*string_trim_leading_predicate(t_allocator *const allocator,
-				const char *source, t_fn_predicate *predicate);
+				const char *source, bool(predicate)(int32_t ch));
 char		*string_trim_leading_sequence(t_allocator *const allocator,
 				const char *haystack, const char *needle);
 
@@ -256,7 +256,7 @@ char		*string_trim_trailing_any(t_allocator *const allocator,
 char		*string_trim_trailing_none(t_allocator *const allocator,
 				const char *source, t_bitset const *delimiters);
 char		*string_trim_trailing_predicate(t_allocator *const allocator,
-				const char *source, t_fn_predicate *predicate);
+				const char *source, bool(predicate)(int32_t ch));
 char		*string_trim_trailing_sequence(t_allocator *const allocator,
 				const char *haystack, const char *needle);
 
@@ -267,7 +267,7 @@ char		*string_filter_any(t_allocator *const allocator, const char *source,
 char		*string_filter_none(t_allocator *const allocator,
 				const char *source, t_bitset const *delimiters);
 char		*string_filter_predicate(t_allocator *const allocator,
-				const char *source, t_fn_predicate *predicate);
+				const char *source, bool(predicate)(int32_t ch));
 char		*string_filter_sequence(t_allocator *const allocator,
 				const char *haystack, const char *needle);
 
@@ -280,7 +280,7 @@ char		*string_replace_none(t_allocator *const allocator,
 				const char *source, t_bitset const *delimiters,
 				const int32_t with);
 char		*string_replace_predicate(t_allocator *const allocator,
-				const char *source, t_fn_predicate *predicate,
+				const char *source, bool(predicate)(int32_t ch),
 				const int32_t with);
 char		*string_replace_sequence(t_allocator *const allocator,
 				const char *haystack, const char *needle, const char *with);

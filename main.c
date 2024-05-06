@@ -2,24 +2,21 @@
 #include <stddef.h>
 #include <string.h>
 
-int main(void)
+int	main(void)
 {
 	t_allocator	*allocator;
+	char		*source;
+	char		*result;
+	uint64_t	count;
 
 	allocator = arena_init(NULL, 65536);
-	char	*source;
-	char	*result;
-	uint64_t count;
-
 	source = " ";
 	count = 0;
 	do
 	{
 		result = memalloc(allocator, 32);
 		count += 1;
-		
-	}while (result != NULL);
-
+	} while (result != NULL);
 	printf("count : %lu\n", count);
 	allocator->deinit(allocator);
 }

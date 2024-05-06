@@ -49,7 +49,7 @@ char	*string_trim_trailing_none(t_allocator *const allocator,
 }
 
 char	*string_trim_trailing_predicate(t_allocator *const allocator,
-		const char *source, t_fn_predicate *predicate)
+		const char *source, bool(predicate)(int32_t ch))
 {
 	uint64_t	amount;
 
