@@ -189,4 +189,16 @@ char *string_trim_trailing_none(t_allocator *const allocator, const char *source
 char *string_trim_trailing_predicate(t_allocator *const allocator, const char *source, t_fn_predicate *predicate);
 char *string_trim_trailing_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
 
+char *string_filter_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char *string_filter_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_filter_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_filter_predicate(t_allocator *const allocator, const char *source, t_fn_predicate *predicate);
+char *string_filter_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
+
+char *string_replace_scalar(t_allocator *const allocator, const char *source, const int32_t scalar, const int32_t with);
+char *string_replace_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
+char *string_replace_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
+char *string_replace_predicate(t_allocator *const allocator, const char *source, t_fn_predicate *predicate, const int32_t with);
+char *string_replace_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const char *with);
+
 #endif
