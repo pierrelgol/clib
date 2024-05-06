@@ -12,14 +12,15 @@
 
 #include "../../include/clib.h"
 
-char *string_replace_scalar(t_allocator *const allocator, const char *source, const int32_t scalar, const int32_t with)
+char	*string_replace_scalar(t_allocator *const allocator, const char *source,
+		const int32_t scalar, const int32_t with)
 {
-	char    *result;
-	uint64_t i;
+	char		*result;
+	uint64_t	i;
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, (void*)source);
+	result = memdupz(allocator, (void *)source);
 	i = 0;
 	while (result[i])
 	{
@@ -30,14 +31,15 @@ char *string_replace_scalar(t_allocator *const allocator, const char *source, co
 	return (result);
 }
 
-char *string_replace_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with)
+char	*string_replace_any(t_allocator *const allocator, const char *source,
+		t_bitset const *delimiters, const int32_t with)
 {
-	char    *result;
-	uint64_t i;
+	char		*result;
+	uint64_t	i;
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, (void*)source);
+	result = memdupz(allocator, (void *)source);
 	i = 0;
 	while (result[i])
 	{
@@ -48,14 +50,15 @@ char *string_replace_any(t_allocator *const allocator, const char *source, t_bit
 	return (result);
 }
 
-char *string_replace_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with)
+char	*string_replace_none(t_allocator *const allocator, const char *source,
+		t_bitset const *delimiters, const int32_t with)
 {
-	char    *result;
-	uint64_t i;
+	char		*result;
+	uint64_t	i;
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, (void*)source);
+	result = memdupz(allocator, (void *)source);
 	i = 0;
 	while (result[i])
 	{
@@ -66,14 +69,15 @@ char *string_replace_none(t_allocator *const allocator, const char *source, t_bi
 	return (result);
 }
 
-char *string_replace_predicate(t_allocator *const allocator, const char *source, t_fn_predicate *predicate, const int32_t with)
+char	*string_replace_predicate(t_allocator *const allocator,
+		const char *source, t_fn_predicate *predicate, const int32_t with)
 {
-	char    *result;
-	uint64_t i;
+	char		*result;
+	uint64_t	i;
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, (void*)source);
+	result = memdupz(allocator, (void *)source);
 	i = 0;
 	while (result[i])
 	{
@@ -84,28 +88,27 @@ char *string_replace_predicate(t_allocator *const allocator, const char *source,
 	return (result);
 }
 
-char *string_replace_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const char *with)
+char	*string_replace_sequence(t_allocator *const allocator,
+		const char *haystack, const char *needle, const char *with)
 {
-	uint64_t needle_len;
-	uint64_t with_len;
-	uint64_t result_len;
-	char    *result_ptr;
-	char    *result;
+	uint64_t	result_len;
+	char		*result_ptr;
+	char		*result;
 
 	if (!haystack || !needle || !with)
 		return (NULL);
-	needle_len = string_length(needle);
-	with_len = string_length(with);
-	result_len = string_length(haystack) + (with_len - needle_len) * string_count_sequence(haystack, needle, string_length(haystack));
+	result_len = string_length(haystack) + (string_length(with)
+			- string_length(needle)) * string_count_sequence(haystack, needle,
+			string_length(haystack));
 	result = memalloc(allocator, result_len + 1);
 	result_ptr = result;
 	while (*haystack)
 	{
-		if (string_ncompare(haystack, needle, needle_len) == 0)
+		if (string_ncompare(haystack, needle, string_length(needle)) == 0)
 		{
-			string_copy(result_ptr, with, with_len);
-			result_ptr += with_len;
-			haystack += needle_len;
+			string_copy(result_ptr, with, string_length(with));
+			result_ptr += string_length(with);
+			haystack += string_length(needle);
 		}
 		else
 			*result_ptr++ = *haystack++;

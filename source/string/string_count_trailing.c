@@ -110,7 +110,7 @@ uint64_t	string_count_trailing_sequence(const char *haystack,
 	needle_len = string_length(needle);
 	haystack_len = string_length(haystack);
 	haystack_end = (char *)haystack;
-	haystack = (const char*)(haystack + haystack_len - needle_len);
+	haystack = (const char *)(haystack + haystack_len - needle_len);
 	while (haystack > haystack_end && string_ncompare(haystack, needle,
 			needle_len) == 0)
 	{

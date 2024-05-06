@@ -12,52 +12,62 @@
 
 #include "../../include/clib.h"
 
-char *string_trim_trailing_scalar(t_allocator *const allocator, const char *source, const int32_t scalar)
+char	*string_trim_trailing_scalar(t_allocator *const allocator,
+		const char *source, const int32_t scalar)
 {
-	uint64_t amount;
+	uint64_t	amount;
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_trailing_scalar(source, scalar);
+	amount = string_length(source) - string_count_trailing_scalar(source,
+			scalar);
 	return (string_trim_right(allocator, source, amount));
 }
 
-char *string_trim_trailing_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters)
+char	*string_trim_trailing_any(t_allocator *const allocator,
+		const char *source, t_bitset const *delimiters)
 {
-	uint64_t amount;
+	uint64_t	amount;
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_trailing_any(source, delimiters);
+	amount = string_length(source) - string_count_trailing_any(source,
+			delimiters);
 	return (string_trim_right(allocator, source, amount));
 }
 
-char *string_trim_trailing_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters)
+char	*string_trim_trailing_none(t_allocator *const allocator,
+		const char *source, t_bitset const *delimiters)
 {
-	uint64_t amount;
+	uint64_t	amount;
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_trailing_none(source, delimiters);
+	amount = string_length(source) - string_count_trailing_none(source,
+			delimiters);
 	return (string_trim_right(allocator, source, amount));
 }
 
-char *string_trim_trailing_predicate(t_allocator *const allocator, const char *source, t_fn_predicate *predicate)
+char	*string_trim_trailing_predicate(t_allocator *const allocator,
+		const char *source, t_fn_predicate *predicate)
 {
-	uint64_t amount;
+	uint64_t	amount;
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_trailing_predicate(source, predicate);
+	amount = string_length(source) - string_count_trailing_predicate(source,
+			predicate);
 	return (string_trim_right(allocator, source, amount));
 }
 
-char *string_trim_trailing_sequence(t_allocator *const allocator, const char *haystack, const char *needle)
+char	*string_trim_trailing_sequence(t_allocator *const allocator,
+		const char *haystack, const char *needle)
 {
-	uint64_t amount;
+	uint64_t	amount;
 
 	if (!haystack)
 		return (NULL);
-	amount = string_length(haystack) - string_count_trailing_sequence(haystack, needle);
+	amount = string_length(haystack) - string_count_trailing_sequence(haystack,
+			needle);
 	return (string_trim_right(allocator, haystack, amount));
 }

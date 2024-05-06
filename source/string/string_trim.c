@@ -12,22 +12,24 @@
 
 #include "../../include/clib.h"
 
-char *string_trim_left(t_allocator *const allocator, const char *source, const uint64_t amount)
+char	*string_trim_left(t_allocator *const allocator, const char *source,
+		const uint64_t amount)
 {
-	uint64_t slen;
+	uint64_t	slen;
 
 	if (!source)
 		return (NULL);
 	slen = string_length(source);
 	if (amount >= slen)
 		return (memdupz(allocator, ""));
-	return memdupz(allocator, (void *const)&source[amount]);
+	return (memdupz(allocator, (void *const) & source[amount]));
 }
 
-char *string_trim_right(t_allocator *const allocator, const char *source, const uint64_t amount)
+char	*string_trim_right(t_allocator *const allocator, const char *source,
+		const uint64_t amount)
 {
-	uint64_t slen;
-	char    *ret;
+	uint64_t	slen;
+	char		*ret;
 
 	if (!source)
 		return (NULL);
@@ -42,11 +44,12 @@ char *string_trim_right(t_allocator *const allocator, const char *source, const 
 	return (ret);
 }
 
-char *string_trim_both(t_allocator *const allocator, const char *source, const uint64_t amount)
+char	*string_trim_both(t_allocator *const allocator, const char *source,
+		const uint64_t amount)
 {
-	uint64_t trim_both_amount;
-	uint64_t slen;
-	char    *ret;
+	uint64_t	trim_both_amount;
+	uint64_t	slen;
+	char		*ret;
 
 	if (!source)
 		return (NULL);
