@@ -18,10 +18,12 @@ CFLAGS =   -Wall                                    \
            -Wextra                                  \
            -Werror                                  \
            -fsanitize=memory                        \
-           -g3                                      \
+           -O3                                      \
 
 NAME   =    libclib.a
-DIRS   =    source/\
+DIRS   =    source/memory                           \
+            source/allocator                        \
+            source/misc                             \
 
 SRCS := $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)
