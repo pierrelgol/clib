@@ -12,10 +12,10 @@
 
 #include "../../include/clib.h"
 
-t_mem_node *mem_node_remove_matching(t_mem_node **head, uintptr_t addr)
+t_mem_node	*mem_node_remove_matching(t_mem_node **head, uintptr_t addr)
 {
-	t_mem_node *prev;
-	t_mem_node *curr;
+	t_mem_node	*prev;
+	t_mem_node	*curr;
 
 	if (!head || !*head || !addr)
 		return (NULL);
@@ -38,9 +38,9 @@ t_mem_node *mem_node_remove_matching(t_mem_node **head, uintptr_t addr)
 	return (NULL);
 }
 
-uint64_t mem_node_find_ptr_size(t_mem_node *head, uintptr_t addr)
+uint64_t	mem_node_find_ptr_size(t_mem_node *head, uintptr_t addr)
 {
-	t_mem_node *curr;
+	t_mem_node	*curr;
 
 	if (!head || !addr)
 		return (0);
@@ -54,13 +54,13 @@ uint64_t mem_node_find_ptr_size(t_mem_node *head, uintptr_t addr)
 	return (0);
 }
 
-void mem_node_destroy_all(t_mem_node *head)
+void	mem_node_destroy_all(t_mem_node *head)
 {
-	t_mem_node *temp;
-	t_mem_node *curr;
+	t_mem_node	*temp;
+	t_mem_node	*curr;
 
 	if (!head)
-		return;
+		return ;
 	curr = head;
 	while (curr)
 	{
@@ -96,7 +96,7 @@ t_mem_node	*mem_node_allocate_or_reuse(t_mem_node **head, uint64_t size)
 	return (mem_node_create(size));
 }
 
-t_mem_node *node_clear(t_mem_node *node)
+t_mem_node	*node_clear(t_mem_node *node)
 {
 	if (!node)
 		return (NULL);

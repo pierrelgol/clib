@@ -18,7 +18,7 @@ CFLAGS =   -Wall                                    \
            -Wextra                                  \
            -Werror                                  \
            -fsanitize=memory                        \
-           -O3                                      \
+           -g3                                      \
 
 NAME   =    libclib.a
 DIRS   =    source/memory                           \

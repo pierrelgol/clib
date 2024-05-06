@@ -12,18 +12,18 @@
 
 #include "../../include/clib.h"
 
-void *gpa_dup(void *const handle, void *const ptr, const uint64_t size)
+void	*gpa_dup(void *const handle, void *const ptr, const uint64_t size)
 {
-	void                   *result;
+	void	*result;
 
 	result = gpa_alloc(handle, size);
 	return (raw_copy(result, ptr, size));
 }
 
-void *gpa_dupz(void *const handle, void *const ptr)
+void	*gpa_dupz(void *const handle, void *const ptr)
 {
-	void                   *result;
-	uint64_t                len;
+	void		*result;
+	uint64_t	len;
 
 	len = raw_search(ptr, 0x00, UINT64_MAX) - ptr;
 	result = gpa_alloc(handle, len + 1);

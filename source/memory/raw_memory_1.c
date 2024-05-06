@@ -12,23 +12,23 @@
 
 #include "../../include/clib.h"
 
-void *raw_alloc(const uint64_t size)
+void	*raw_alloc(const uint64_t size)
 {
-	char *ptr;
+	char	*ptr;
 
 	ptr = malloc(size + (1 * (size == 0)));
 	return (raw_zero(ptr, size + (1 * (size == 0))));
 }
 
-void *raw_dealloc(void *const ptr)
+void	*raw_dealloc(void *const ptr)
 {
 	free(ptr);
 	return (NULL);
 }
 
-void *raw_resize(void *const ptr, const uint64_t osize, const uint64_t nsize)
+void	*raw_resize(void *const ptr, const uint64_t osize, const uint64_t nsize)
 {
-	char *result;
+	char	*result;
 
 	if (osize == nsize)
 		return (ptr);
@@ -37,19 +37,19 @@ void *raw_resize(void *const ptr, const uint64_t osize, const uint64_t nsize)
 	return (result);
 }
 
-void *raw_dup(const void *ptr, const int64_t size)
+void	*raw_dup(const void *ptr, const int64_t size)
 {
-	char *result;
+	char	*result;
 
 	result = raw_alloc(size);
 	result = raw_copy(result, ptr, size);
 	return (result);
 }
 
-void *raw_dupz(const void *ptr)
+void	*raw_dupz(const void *ptr)
 {
-	char    *result;
-	uint64_t size;
+	char		*result;
+	uint64_t	size;
 
 	size = raw_search(ptr, 0x00, UINT64_MAX) - ptr;
 	result = raw_alloc(size + 1);
@@ -57,4 +57,3 @@ void *raw_dupz(const void *ptr)
 	result[size] = 0x00;
 	return (result);
 }
-
