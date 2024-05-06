@@ -19,9 +19,11 @@ int32_t	raw_compare(const void *a, const void *b, const uint64_t size)
 	uint64_t		i;
 
 	i = 0;
+	if (!a || !b || !size)
+		return (0);
 	ptr_a = (unsigned char *)a;
 	ptr_b = (unsigned char *)b;
-	while (ptr_a[i] == ptr_b[i] && i < size)
+	while (ptr_a[i] && ptr_a[i] == ptr_b[i] && i < size)
 		++i;
 	return (ptr_a[i] - ptr_b[i]);
 }
