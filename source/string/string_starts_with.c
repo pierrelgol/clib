@@ -16,7 +16,7 @@ bool	string_starts_with_scalar(const char *source, const int32_t scalar)
 {
 	if (!source)
 		return (false);
-	return (source == scalar);
+	return (source[0] == scalar);
 }
 
 bool	string_starts_with_any(const char *source, t_bitset const *delimiters)

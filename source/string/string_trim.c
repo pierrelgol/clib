@@ -21,7 +21,7 @@ char *string_trim_left(t_allocator *const allocator, const char *source, const u
 	slen = string_length(source);
 	if (amount >= slen)
 		return (memdupz(allocator, ""));
-	return memdupz(allocator, &source[amount]);
+	return memdupz(allocator, (void *const)&source[amount]);
 }
 
 char *string_trim_right(t_allocator *const allocator, const char *source, const uint64_t amount)

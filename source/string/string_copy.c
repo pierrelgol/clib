@@ -28,20 +28,16 @@ uint64_t	string_copy(char *dest, const char *src, const uint64_t destsize)
 uint64_t	string_ccopy(char *dest, const int32_t ch, const char *src,
 		const uint64_t destsize)
 {
-	char		*d;
-	char		*s;
 	uint64_t	i;
 
 	if (!dest || !src || destsize == 0)
 		return (0);
 	i = 0;
-	d = dest;
-	s = src;
 	while (i < destsize)
 	{
-		if (*(s + i) == (uint8_t)ch)
+		if (*(src + i) == (uint8_t)ch)
 			return (i + 1);
-		*(d + i) = *(s + i);
+		*(dest + i) = *(src + i);
 		++i;
 	}
 	return (0);

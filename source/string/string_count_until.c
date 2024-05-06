@@ -92,7 +92,7 @@ uint64_t	string_count_until_sequence(const char *haystack,
 	count = 0;
 	needle_len = string_length(needle);
 	haystack_len = string_length(haystack);
-	haystack_end = haystack + haystack_len;
+	haystack_end = (char*)haystack + haystack_len;
 	while (haystack < haystack_end && string_ncompare(haystack, needle,
 			needle_len) != 0)
 	{

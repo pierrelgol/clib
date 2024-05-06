@@ -16,7 +16,7 @@ t_bitset bitset_init_empty(void)
 {
 	t_bitset bitset;
 	raw_zero(&bitset, sizeof(t_bitset));
-	return bitset;
+	return (bitset);
 }
 
 t_bitset bitset_init_from_str(const char *string)
@@ -25,16 +25,14 @@ t_bitset bitset_init_from_str(const char *string)
 	uint8_t   offset;
 	uint8_t   index;
 	uint64_t *set;
+
 	bitset = bitset_init_empty();
 	while (*string)
 	{
 		index = (uint8_t) (*string);
 		offset = index % 64;
-		if (index < BITSET_SIZE)
-		{
-			set = &bitset.set[index / 64];
-			*set |= (1ULL << offset);
-		}
+		set = &bitset.set[index / 64];
+		*set |= (1ULL << offset);
 		string++;
 	}
 	return (bitset);
@@ -43,17 +41,17 @@ t_bitset bitset_init_from_str(const char *string)
 t_bitset bitset_reset(t_bitset *bitset)
 {
 	raw_zero(bitset, sizeof(t_bitset));
-	return *bitset;
+	return (*bitset);
 }
 
-void bitset_set_bit(t_bitset *bitset, uint64_t index, bool value)
+void bitset_set_bit(t_bitset *bitset, const uint64_t index, const bool value)
 {
 	uint8_t   offset;
 	uint64_t *set;
 
 	if (index < BITSET_SIZE)
 	{
-		set = &bitset->set[index / 64];
+		set = (uint64_t*)&bitset->set[index / 64];
 		offset = index % 64;
 		if (value)
 			*set |= (1ULL << offset);
@@ -62,17 +60,16 @@ void bitset_set_bit(t_bitset *bitset, uint64_t index, bool value)
 	}
 }
 
-bool bitset_is_set(t_bitset *bitset, uint64_t index)
+bool bitset_is_set(const t_bitset *bitset, const uint64_t index)
 {
 	uint8_t   offset;
 	uint64_t *set;
 
 	if (index < BITSET_SIZE)
 	{
-		set = &bitset->set[index / 64];
+		set = (uint64_t*)&bitset->set[index / 64];
 		offset = index % 64;
-		return (*set >> offset) & 1ULL;
+		return ((*set >> offset) & 1ULL);
 	}
 	return (false);
 }
-

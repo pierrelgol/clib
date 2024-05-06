@@ -94,13 +94,13 @@ void *memdupz(t_allocator *const allocator, void *const ptr);
 t_bitset bitset_init_empty(void);
 t_bitset bitset_init_from_str(const char *string);
 t_bitset bitset_reset(t_bitset *bitset);
-void     bitset_set_bit(t_bitset *bitset, uint64_t index, bool value);
-bool     bitset_is_set(t_bitset *bitset, uint64_t index);
+void     bitset_set_bit(t_bitset *bitset, const uint64_t index, const bool value);
+bool     bitset_is_set(const t_bitset *bitset, const uint64_t index);
 
-t_bitset bitset_and(t_bitset *bitset1, t_bitset *bitset2);
-t_bitset bitset_or(t_bitset *bitset1, t_bitset *bitset2);
-t_bitset bitset_xor(t_bitset *bitset1, t_bitset *bitset2);
-t_bitset bitset_difference(t_bitset *bitset1, t_bitset *bitset2);
+t_bitset bitset_and(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_or(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_xor(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_difference(const t_bitset *bitset1, const t_bitset *bitset2);
 
 uint64_t string_length(const char *string);
 

@@ -19,7 +19,7 @@ char *string_replace_scalar(t_allocator *const allocator, const char *source, co
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, source);
+	result = memdupz(allocator, (void*)source);
 	i = 0;
 	while (result[i])
 	{
@@ -37,7 +37,7 @@ char *string_replace_any(t_allocator *const allocator, const char *source, t_bit
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, source);
+	result = memdupz(allocator, (void*)source);
 	i = 0;
 	while (result[i])
 	{
@@ -55,7 +55,7 @@ char *string_replace_none(t_allocator *const allocator, const char *source, t_bi
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, source);
+	result = memdupz(allocator, (void*)source);
 	i = 0;
 	while (result[i])
 	{
@@ -73,7 +73,7 @@ char *string_replace_predicate(t_allocator *const allocator, const char *source,
 
 	if (!source)
 		return (NULL);
-	result = memdupz(allocator, source);
+	result = memdupz(allocator, (void*)source);
 	i = 0;
 	while (result[i])
 	{

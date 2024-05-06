@@ -20,12 +20,12 @@ char	*string_search_scalar(const char *source, const int32_t scalar,
 	if (!source || !n)
 		return (NULL);
 	if (scalar == '\0')
-		return (&source[string_length(source)]);
+		return ((char*)&source[string_length(source)]);
 	i = 0;
 	while (i < n)
 	{
 		if (source[i] == scalar)
-			return (&source[i]);
+			return ((char*)&source[i]);
 		++i;
 	}
 	return (NULL);
@@ -42,7 +42,7 @@ char	*string_search_any(const char *source, t_bitset const *delimiters,
 	while (i < n)
 	{
 		if (bitset_is_set(delimiters, source[i]))
-			return (&source[i]);
+			return ((char*)&source[i]);
 		++i;
 	}
 	return (NULL);
@@ -59,7 +59,7 @@ char	*string_search_none(const char *source, t_bitset const *delimiters,
 	while (i < n)
 	{
 		if (!bitset_is_set(delimiters, source[i]))
-			return (&source[i]);
+			return ((char*)&source[i]);
 		++i;
 	}
 	return (NULL);
@@ -76,7 +76,7 @@ char	*string_search_predicate(const char *source, t_fn_predicate *predicate,
 	while (i < n)
 	{
 		if (predicate(source[i]))
-			return (&source[i]);
+			return ((char*)&source[i]);
 		++i;
 	}
 	return (NULL);
