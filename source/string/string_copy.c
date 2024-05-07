@@ -33,7 +33,7 @@ uint64_t	string_ccopy(char *dest, const int32_t ch, const char *src,
 	if (!dest || !src || destsize == 0)
 		return (0);
 	i = 0;
-	while (i < destsize)
+	while (*(src + i) && i < destsize)
 	{
 		if (*(src + i) == (uint8_t)ch)
 			return (i + 1);
