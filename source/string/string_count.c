@@ -22,7 +22,7 @@ uint64_t	string_count_scalar(const char *source, const int32_t scalar,
 		return (0);
 	i = 0;
 	count = 0;
-	while (source[i])
+	while (source[i] && i < n)
 	{
 		if (source[i] == scalar)
 			count += 1;
@@ -41,7 +41,7 @@ uint64_t	string_count_any(const char *source, t_bitset const *delimiters,
 		return (0);
 	i = 0;
 	count = 0;
-	while (source[i])
+	while (source[i] && i < n)
 	{
 		if (bitset_is_set(delimiters, source[i]))
 			count += 1;
