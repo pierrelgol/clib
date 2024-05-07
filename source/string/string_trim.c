@@ -39,7 +39,7 @@ char	*string_trim_right(t_allocator *const allocator, const char *source,
 	ret = memalloc(allocator, slen - amount + 1);
 	if (!ret)
 		return (NULL);
-	raw_copy(ret, source, slen - amount);
+	string_copy(ret, source, slen - amount);
 	ret[slen - amount] = '\0';
 	return (ret);
 }
