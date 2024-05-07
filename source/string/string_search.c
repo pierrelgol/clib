@@ -98,7 +98,7 @@ char	*string_search_sequence(const char *haystack, const char *needle,
 	i = 0;
 	while (i <= (haystack_len - needle_len))
 	{
-		if (raw_compare(&haystack[i], needle, needle_len) == 0)
+		if (string_ncompare(&haystack[i], needle, needle_len) == 0)
 			return ((char *)&haystack[i]);
 		if (i + needle_len >= n)
 			break ;
