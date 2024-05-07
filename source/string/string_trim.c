@@ -62,7 +62,7 @@ char	*string_trim_both(t_allocator *const allocator, const char *source,
 	ret = memalloc(allocator, slen - trim_both_amount + 1);
 	if (!ret)
 		return (NULL);
-	raw_copy(ret, &source[amount], slen - trim_both_amount);
+	string_copy(ret, &source[amount], slen - trim_both_amount);
 	ret[slen - trim_both_amount] = '\0';
 	return (ret);
 }
