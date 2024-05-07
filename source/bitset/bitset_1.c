@@ -64,13 +64,13 @@ void	bitset_set_bit(t_bitset *bitset, const uint64_t index, const bool value)
 bool	bitset_is_set(const t_bitset *bitset, const uint64_t index)
 {
 	uint8_t		offset;
-	uint64_t	*set;
+	uint64_t	set;
 
 	if (index < BITSET_SIZE)
 	{
-		set = (uint64_t *)&bitset->set[index / 64];
+		set = (uint64_t)bitset->set[index / 64];
 		offset = index % 64;
-		return ((*set >> offset) & 1ULL);
+		return ((set >> offset) & 1ULL);
 	}
 	return (false);
 }

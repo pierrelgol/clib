@@ -63,7 +63,7 @@ int32_t	string_casecompare(const char *s1, const char *s2)
 		++ptr_s1;
 		++ptr_s2;
 	}
-	return (*ptr_s1 - *ptr_s2);
+	return ((*ptr_s1 | 32) - (*ptr_s2 | 32));
 }
 
 int32_t	string_ncasecompare(const char *s1, const char *s2, const uint64_t n)
@@ -83,5 +83,5 @@ int32_t	string_ncasecompare(const char *s1, const char *s2, const uint64_t n)
 		++ptr_s2;
 		++i;
 	}
-	return (*ptr_s1 - *ptr_s2);
+	return ((*ptr_s1 | 32) - (*ptr_s2 | 32));
 }

@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.c                                     :+:      :+:    :+:   */
+/*   char_3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/06 13:32:50 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:51 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/07 15:38:13 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/07 15:38:13 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uint64_t	string_length(const char *string)
+bool is_control(int32_t ch)
 {
-	char	*ptr;
-
-	if (!string)
-		return (0);
-	ptr = (char*) string;
-	while (*ptr)
-		++ptr;
-	return ((uint64_t)(ptr - string));
+	return (ch == 127 || (ch >= 0 && ch <= 31));
 }
+
+bool is_eof(int32_t ch)
+{
+	return (ch == -1);
+}
+
+bool is_graph(int32_t ch)
+{
+	return (!is_control(ch) && !is_spaces(ch));
+}
+
+bool is_hex(int32_t ch)
+{
+	return ((ch >= '0' && ch <= '9') || ((ch | 32) >= 'a' && (ch | 32) <= 'f'));
+}
+
+bool is_punct(int32_t ch)
+{
+	return (!is_alnum(ch) && !is_control(ch));
+}
+

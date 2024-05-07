@@ -1,25 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string_utils.c                                     :+:      :+:    :+:   */
+/*   char_2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/06 13:32:50 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/06 13:32:51 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/07 15:38:08 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/07 15:38:09 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uint64_t	string_length(const char *string)
+bool is_printable(int32_t ch)
 {
-	char	*ptr;
-
-	if (!string)
-		return (0);
-	ptr = (char*) string;
-	while (*ptr)
-		++ptr;
-	return ((uint64_t)(ptr - string));
+	return (is_control(ch) == false);
 }
+
+bool is_ascii(int32_t ch)
+{
+	return (ch >= 0 && ch <= 127);
+}
+
+bool is_newline(int32_t ch)
+{
+	return (ch == 10);
+}
+
+bool is_upper(int32_t ch)
+{
+	return (ch >= 'A' && ch <= 'Z');
+}
+
+bool is_lower(int32_t ch)
+{
+	return (ch >= 'a' && ch <= 'z');
+}
+

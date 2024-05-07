@@ -16,15 +16,17 @@ RM     =  rm -f
 
 CFLAGS =   -Wall                                    \
            -Wextra                                  \
-           -fsanitize=memory                        \
            -g3                                      \
 
 NAME   =    libclib.a
 DIRS   =    source/memory                           \
             source/allocator                        \
             source/bitset                           \
+            source/print                            \
             source/string                           \
             source/misc                             \
+            source/char                             \
+            source/testing                          \
 
 SRCS := $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)

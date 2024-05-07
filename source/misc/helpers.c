@@ -17,3 +17,9 @@ void	expect(bool condition)
 	if (!condition)
 		abort();
 }
+
+void	warn(bool condition)
+{
+	if (!condition)
+		printf("error : condition evaluated to false\n");
+}
