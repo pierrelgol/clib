@@ -23,3 +23,16 @@ uint64_t	string_length(const char *string)
 		++ptr;
 	return ((uint64_t)(ptr - string));
 }
+
+uint64_t string_index_of_difference(const char *s1, const char *s2)
+{
+	uint64_t	index;
+
+	if (!s1 || !s2)
+		return (NOTFOUND);
+	index = 0;
+	while (s1[index] && s1[index] == s2[index])
+		++index;
+	return (index);
+}
+

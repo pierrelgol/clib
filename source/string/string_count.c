@@ -91,26 +91,27 @@ uint64_t	string_count_predicate(const char *source,
 uint64_t	string_count_sequence(const char *haystack, const char *needle,
 		const uint64_t n)
 {
-	uint64_t	haystack_len;
-	uint64_t	needle_len;
-	uint64_t	count;
-	uint64_t	i;
+	uint64_t u1;
+	uint64_t u2;
+	uint64_t count;
 
-	if (!haystack || !needle)
-		return (NOTFOUND);
-	haystack_len = string_length(haystack);
-	needle_len = string_length(needle);
-	if (haystack_len < needle_len)
-		return (NOTFOUND);
-	i = 0;
+	if (!haystack)
+		return (0);
+	if (needle[0] == '\0')
+		return (0);
+	u1 = 0;
 	count = 0;
-	while (i <= (haystack_len - needle_len))
+	while (haystack[u1])
 	{
-		if (raw_compare(&haystack[i], needle, needle_len) == 0)
+		u2 = 0;
+		while (haystack[u1] && haystack[u1] == needle[u2] && u1 < n)
+		{
+			u2++;
+			u1++;
+		}
+		if (!needle[u2])
 			count += 1;
-		if ((i + needle_len) >= n)
-			break ;
-		++i;
+		u1 = (u1 - u2) + 1;
 	}
 	return (count);
 }

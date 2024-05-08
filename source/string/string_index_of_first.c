@@ -12,10 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t	string_index_of_first_scalar(const char *source,
-		const int32_t scalar)
+uint64_t string_index_of_first_scalar(const char *source, const int32_t scalar)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -29,10 +28,9 @@ uint64_t	string_index_of_first_scalar(const char *source,
 	return (NOTFOUND);
 }
 
-uint64_t	string_index_of_first_any(const char *source,
-		t_bitset const *delimiters)
+uint64_t string_index_of_first_any(const char *source, t_bitset const *delimiters)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -46,10 +44,9 @@ uint64_t	string_index_of_first_any(const char *source,
 	return (NOTFOUND);
 }
 
-uint64_t	string_index_of_first_none(const char *source,
-		t_bitset const *delimiters)
+uint64_t string_index_of_first_none(const char *source, t_bitset const *delimiters)
 {
-	uint64_t	i;
+	uint64_t i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -63,10 +60,9 @@ uint64_t	string_index_of_first_none(const char *source,
 	return (NOTFOUND);
 }
 
-uint64_t	string_index_of_first_predicate(const char *source,
-		bool(predicate)(int32_t ch))
+uint64_t string_index_of_first_predicate(const char *source, bool(predicate)(int32_t ch))
 {
-	uint64_t	i;
+	uint64_t i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -80,25 +76,27 @@ uint64_t	string_index_of_first_predicate(const char *source,
 	return (NOTFOUND);
 }
 
-uint64_t	string_index_of_first_sequence(const char *haystack,
-		const char *needle)
+uint64_t string_index_of_first_sequence(const char *haystack, const char *needle)
 {
-	uint64_t	haystack_len;
-	uint64_t	needle_len;
-	uint64_t	i;
+	uint64_t u1;
+	uint64_t u2;
 
-	if (!haystack || !needle)
-		return (NOTFOUND);
-	haystack_len = string_length(haystack);
-	needle_len = string_length(needle);
-	if (haystack_len < needle_len)
-		return (NOTFOUND);
-	i = 0;
-	while (i <= (haystack_len - needle_len))
+	if (!haystack)
+		return (0);
+	if (needle[0] == '\0')
+		return (0);
+	u1 = 0;
+	while (haystack[u1])
 	{
-		if (raw_compare(&haystack[i], needle, needle_len) == 0)
-			return (i);
-		++i;
+		u2 = 0;
+		while (haystack[u1] && haystack[u1] == needle[u2])
+		{
+			u2++;
+			u1++;
+		}
+		if (!needle[u2])
+			return (u1 - u2);
+		u1 = (u1 - u2) + 1;
 	}
 	return (NOTFOUND);
 }

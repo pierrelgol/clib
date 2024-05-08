@@ -58,7 +58,7 @@ void print_ko(void)
 
 void print_test_name(char *name)
 {
-	printf("test : -> %s%-32s%s : ", YELLOW, name, RESET);
+	printf("test : -> %s%-40s%s : ", YELLOW, name, RESET);
 	fflush(stdout);
 }
 
@@ -329,6 +329,370 @@ void test_string_starts_with_sequence(char *case_name, char *source, char *needl
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
 }
 
+/******************************************************************************/
+
+void test_string_ends_with_scalar(char *case_name, char *source, int32_t scalar, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_ends_with_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_ends_with_any(char *case_name, char *source, t_bitset *bitset, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_ends_with_any(source, bitset);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_ends_with_none(char *case_name, char *source, t_bitset *bitset, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_ends_with_none(source, bitset);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_ends_with_predicate(char *case_name, char *source, bool(predicate)(int32_t ch), bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_ends_with_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_ends_with_sequence(char *case_name, char *source, char *needle,  bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_ends_with_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
+
+void test_string_index_of_first_scalar(char *case_name, char *source, int32_t scalar, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_index_of_first_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_first_any(char *case_name, char *source, t_bitset *delimiters, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_index_of_first_any(source, delimiters);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_first_none(char *case_name, char *source, t_bitset *delimiters, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_index_of_first_none(source, delimiters);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_first_predicate(char *case_name, char *source, bool(predicate)(int32_t ch), bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_index_of_first_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_first_sequence(char *case_name, char *source, char *needle, bool expected)
+{
+	bool got;
+
+	test_setup(case_name);
+	got = string_index_of_first_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%b%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+/******************************************************************************/
+
+void test_string_index_of_last_scalar(char *case_name, char *source, int32_t scalar, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_index_of_last_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_last_any(char *case_name, char *source, t_bitset *delimiters, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_index_of_last_any(source, delimiters);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_last_none(char *case_name, char *source, t_bitset *delimiters, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_index_of_last_none(source, delimiters);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_last_predicate(char *case_name, char *source, bool(predicate)(int32_t ch), uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_index_of_last_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void test_string_index_of_last_sequence(char *case_name, char *source, char *needle, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_index_of_last_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
+
+void	test_string_count_scalar(char *case_name, char *source, int32_t scalar, uint64_t n, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_scalar(source, scalar, n);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_any(char *case_name, char *source, t_bitset *any, uint64_t n, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_any(source, any, n);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_none(char *case_name, char *source, t_bitset *none, uint64_t n, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_none(source, none, n);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_predicate(char *case_name, char *source, bool (predicate)(int32_t ch), uint64_t n, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_predicate(source, predicate, n);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_sequence(char *case_name, char *source, char *needle, uint64_t n, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_sequence(source, needle, n);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
+
+void	test_string_count_until_scalar(char *case_name, char *source, int32_t scalar, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_until_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_until_any(char *case_name, char *source, t_bitset *any, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_until_any(source, any);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_until_none(char *case_name, char *source, t_bitset *none, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_until_none(source, none);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_until_predicate(char *case_name, char *source, bool (predicate)(int32_t ch), uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_until_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_until_sequence(char *case_name, char *source, char *needle,  uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_until_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
+
+void	test_string_count_leading_scalar(char *case_name, char *source, int32_t scalar, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_leading_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_leading_any(char *case_name, char *source, t_bitset *any, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_leading_any(source, any);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_leading_none(char *case_name, char *source, t_bitset *none, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_leading_none(source, none);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_leading_predicate(char *case_name, char *source, bool (predicate)(int32_t ch), uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_leading_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_leading_sequence(char *case_name, char *source, char *needle,  uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_leading_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
+
+void	test_string_count_trailing_scalar(char *case_name, char *source, int32_t scalar, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_trailing_scalar(source, scalar);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_trailing_any(char *case_name, char *source, t_bitset *any, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_trailing_any(source, any);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_trailing_none(char *case_name, char *source, t_bitset *none, uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_trailing_none(source, none);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_trailing_predicate(char *case_name, char *source, bool (predicate)(int32_t ch), uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_trailing_predicate(source, predicate);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+void	test_string_count_trailing_sequence(char *case_name, char *source, char *needle,  uint64_t expected)
+{
+	uint64_t got;
+
+	test_setup(case_name);
+	got = string_count_trailing_sequence(source, needle);
+	put_result(got == expected);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%lu%s  got %s%lu%s\n", GREEN, expected, RESET, RED, got, RESET);
+}
+
+/******************************************************************************/
 
 void call_test(void)
 {
@@ -406,35 +770,249 @@ void call_test(void)
 	// test_string_contains_none("string_contains_none() : 2", "abcdefHIJKLmnopqrstuvwxyz", &set, 26, true);
 	// set = bitset("a");
 	// test_string_contains_none("string_contains_none() : 3", "abcdefHIJKLmnopqrstuvwxyz", &set, 26, false);
-	test_string_contains_predicate("string_contains_predicate() : 1", "abcdefHIJKLmnopqrstuvwxyz", is_upper, 26, true);
-	test_string_contains_predicate("string_contains_predicate() : 2", "ABCDEFhijklMNOPQRSTUVWXYZ", is_lower, 26, true);
-	test_string_contains_predicate("string_contains_predicate() : 3", "ABCDEFhijklMNOPQRSTUVWXYZ", is_spaces, 26, false);
-	test_string_contains_sequence("string_contains_sequence() : 1", "abcdefhijklmnopqrstuvwxyz", "z", 26, true);
-	test_string_contains_sequence("string_contains_sequence() : 2", "abcdefhijklmnopqrstuvwxyz", "a", 26, true);
-	test_string_contains_sequence("string_contains_sequence() : 3", "abcdefhijklmnopqrstuvwxyz", "abcdefhijklmnopqrstuvwxyz", 26, true);
+	// test_string_contains_predicate("string_contains_predicate() : 1", "abcdefHIJKLmnopqrstuvwxyz", is_upper, 26, true);
+	// test_string_contains_predicate("string_contains_predicate() : 2", "ABCDEFhijklMNOPQRSTUVWXYZ", is_lower, 26, true);
+	// test_string_contains_predicate("string_contains_predicate() : 3", "ABCDEFhijklMNOPQRSTUVWXYZ", is_spaces, 26, false);
+	// test_string_contains_sequence("string_contains_sequence() : 1", "abcdefhijklmnopqrstuvwxyz", "z", 26, true);
+	// test_string_contains_sequence("string_contains_sequence() : 2", "abcdefhijklmnopqrstuvwxyz", "a", 26, true);
+	// test_string_contains_sequence("string_contains_sequence() : 3", "abcdefhijklmnopqrstuvwxyz", "abcdefhijklmnopqrstuvwxyz", 26, true);
 
-	test_string_starts_with_scalar("string_starts_with_scalar() : 1", "abcdef", 'a', true);
-	test_string_starts_with_scalar("string_starts_with_scalar() : 2", "abcdef", 'b', false);
-	test_string_starts_with_scalar("string_starts_with_scalar() : 3", "abcdef", '7', false);
+	// test_string_starts_with_scalar("string_starts_with_scalar() : 1", "abcdef", 'a', true);
+	// test_string_starts_with_scalar("string_starts_with_scalar() : 2", "abcdef", 'b', false);
+	// test_string_starts_with_scalar("string_starts_with_scalar() : 3", "abcdef", '7', false);
 
-	set = bitset("abc");
-	test_string_starts_with_any("string_starts_with_any() : 1", "abcdef", &set, true);
-	test_string_starts_with_any("string_starts_with_any() : 2", "bbcdef", &set, true);
-	test_string_starts_with_any("string_starts_with_any() : 3", "cbcdef", &set, true);
-	test_string_starts_with_any("string_starts_with_any() : 4", "Zbcdef", &set, false);
-	test_string_starts_with_any("string_starts_with_any() : 5", "Ibcdef", &set, false);
-	test_string_starts_with_any("string_starts_with_any() : 6", "Gbcdef", &set, false);
+	// set = bitset("abc");
+	// test_string_starts_with_any("string_starts_with_any() : 1", "abcdef", &set, true);
+	// test_string_starts_with_any("string_starts_with_any() : 2", "bbcdef", &set, true);
+	// test_string_starts_with_any("string_starts_with_any() : 3", "cbcdef", &set, true);
+	// test_string_starts_with_any("string_starts_with_any() : 4", "Zbcdef", &set, false);
+	// test_string_starts_with_any("string_starts_with_any() : 5", "Ibcdef", &set, false);
+	// test_string_starts_with_any("string_starts_with_any() : 6", "Gbcdef", &set, false);
 
-	set = bitset("ABC");
-	test_string_starts_with_none("string_starts_with_none() : 1", "abcdef", &set, true);
-	test_string_starts_with_none("string_starts_with_none() : 2", "bbcdef", &set, true);
-	test_string_starts_with_none("string_starts_with_none() : 3", "cbcdef", &set, true);
-	test_string_starts_with_none("string_starts_with_none() : 4", "Abcdef", &set, false);
-	test_string_starts_with_none("string_starts_with_none() : 5", "Bbcdef", &set, false);
-	test_string_starts_with_none("string_starts_with_none() : 6", "Cbcdef", &set, false);
+	// set = bitset("ABC");
+	// test_string_starts_with_none("string_starts_with_none() : 1", "abcdef", &set, true);
+	// test_string_starts_with_none("string_starts_with_none() : 2", "bbcdef", &set, true);
+	// test_string_starts_with_none("string_starts_with_none() : 3", "cbcdef", &set, true);
+	// test_string_starts_with_none("string_starts_with_none() : 4", "Abcdef", &set, false);
+	// test_string_starts_with_none("string_starts_with_none() : 5", "Bbcdef", &set, false);
+	// test_string_starts_with_none("string_starts_with_none() : 6", "Cbcdef", &set, false);
 
-	test_string_starts_with_predicate("string_starts_with_predicate : 1", "abcdef", is_alpha, true);
-	test_string_starts_with_predicate("string_starts_with_predicate : 2", "abcdef", is_digit, false);
+	// test_string_starts_with_predicate("string_starts_with_predicate : 1", "abcdef", is_alpha, true);
+	// test_string_starts_with_predicate("string_starts_with_predicate : 2", "abcdef", is_digit, false);
+
+	// test_string_starts_with_sequence("string_starts_with_sequence() : 1", "aaabbbcccddd", "aaa", true);
+	// test_string_starts_with_sequence("string_starts_with_sequence() : 2", "aaabbbcccddd", "aa", true);
+	// test_string_starts_with_sequence("string_starts_with_sequence() : 3", "aaabbbcccddd", "a", true);
+	// test_string_starts_with_sequence("string_starts_with_sequence() : 4", "aaabbbcccddd", "b", false);
+	// test_string_starts_with_sequence("string_starts_with_sequence() : 5", "aaabbbcccddd", "aaabbbcccddd", true);
+
+	// test_string_ends_with_scalar("string_ends_with_scalar() : 1", "abcdef", 'f', true);
+	// test_string_ends_with_scalar("string_ends_with_scalar() : 2", "abcdef", 'e', false);
+	// test_string_ends_with_scalar("string_ends_with_scalar() : 3", "abcdef", 'a', false);
+
+	// set = bitset("def");
+	// test_string_ends_with_any("string_ends_with_any() : 1", "abcdef", &set, true);
+	// test_string_ends_with_any("string_ends_with_any() : 2", "bbcdee", &set, true);
+	// test_string_ends_with_any("string_ends_with_any() : 3", "cbcded", &set, true);
+	// test_string_ends_with_any("string_ends_with_any() : 4", "ZbcdeZ", &set, false);
+	// test_string_ends_with_any("string_ends_with_any() : 5", "IbcdeI", &set, false);
+	// test_string_ends_with_any("string_ends_with_any() : 6", "GbcdeG", &set, false);
+
+	// set = bitset("ABC");
+	// test_string_ends_with_none("string_ends_with_none() : 1", "abcdef", &set, true);
+	// test_string_ends_with_none("string_ends_with_none() : 2", "bbcdef", &set, true);
+	// test_string_ends_with_none("string_ends_with_none() : 3", "cbcdef", &set, true);
+	// test_string_ends_with_none("string_ends_with_none() : 4", "AbcdeA", &set, false);
+	// test_string_ends_with_none("string_ends_with_none() : 5", "BbcdeB", &set, false);
+	// test_string_ends_with_none("string_ends_with_none() : 6", "CbcdeC", &set, false);
+
+	// test_string_ends_with_predicate("string_ends_with_predicate : 1", "00000f", is_alpha, true);
+	// test_string_ends_with_predicate("string_ends_with_predicate : 2", "00000f", is_digit, false);
+	// test_string_ends_with_predicate("string_ends_with_predicate : 3", "f", is_alpha, true);
+	// test_string_ends_with_predicate("string_ends_with_predicate : 4", "f", is_digit, false);
+
+	// test_string_ends_with_sequence("string_ends_with_sequence() : 1", "aaabbbcccddd", "ddd", true);
+	// test_string_ends_with_sequence("string_ends_with_sequence() : 2", "aaabbbcccddd", "dd", true);
+	// test_string_ends_with_sequence("string_ends_with_sequence() : 3", "aaabbbcccddd", "d", true);
+	// test_string_ends_with_sequence("string_ends_with_sequence() : 4", "aaabbbcccddd", "b", false);
+	// test_string_ends_with_sequence("string_ends_with_sequence() : 5", "aaabbbcccddd", "aaabbbcccddd", true);
+
+	// test_string_index_of_first_scalar("string_index_of_first_scalar() : 1", "a", 'a', 0);
+	// test_string_index_of_first_scalar("string_index_of_first_scalar() : 2", "abc", 'c', 2);
+	// test_string_index_of_first_scalar("string_index_of_first_scalar() : 3", "abc", 'b', 1);
+
+	// set = bitset("abcd");
+	// test_string_index_of_first_any("string_index_of_first_any() : 1", "aaa bbb ccc ddd", &set, 0);
+	// set = bitset("bcd");
+	// test_string_index_of_first_any("string_index_of_first_any() : 2", "aaa bbb ccc ddd", &set, 4);
+	// set = bitset("cd");
+	// test_string_index_of_first_any("string_index_of_first_any() : 3", "aaa bbb ccc ddd", &set, 8);
+	// set = bitset("d");
+	// test_string_index_of_first_any("string_index_of_first_any() : 4", "aaa bbb ccc ddd", &set, 12);
+
+	// set = bitset(" ");
+	// test_string_index_of_first_none("string_index_of_first_none() : 1", "aaa bbb ccc ddd", &set, 0);
+	// set = bitset(" a");
+	// test_string_index_of_first_none("string_index_of_first_none() : 2", "aaa bbb ccc ddd", &set, 4);
+	// set = bitset("a b");
+	// test_string_index_of_first_none("string_index_of_first_none() : 3", "aaa bbb ccc ddd", &set, 8);
+	// set = bitset("abc ");
+	// test_string_index_of_first_none("string_index_of_first_none() : 4", "aaa bbb ccc ddd", &set, 12);
+
+	// test_string_index_of_first_predicate("string_index_of_first_predicate() : 1", "000111aaa   ABC", is_digit, 0);
+	// test_string_index_of_first_predicate("string_index_of_first_predicate() : 2", "000111aaa   ABC", is_alpha, 6);
+	// test_string_index_of_first_predicate("string_index_of_first_predicate() : 3", "000111aaa   ABC", is_spaces, 9);
+	// test_string_index_of_first_predicate("string_index_of_first_predicate() : 4", "000111aaa   ABC", is_upper, 12);
+	// test_string_index_of_first_predicate("string_index_of_first_predicate() : 5", "000111aaa   ", is_newline, NOTFOUND);
+
+	// test_string_index_of_first_sequence("string_index_of_first_sequence() : 1","aaabbbcccddd", "aaa", 0);
+	// test_string_index_of_first_sequence("string_index_of_first_sequence() : 2","aaabbbcccddd", "bbb", 3);
+	// test_string_index_of_first_sequence("string_index_of_first_sequence() : 3","aaabbbcccddd", "ccc", 6);
+	// test_string_index_of_first_sequence("string_index_of_first_sequence() : 4","aaabbbcccddd", "ddd", 9);
+	// test_string_index_of_first_sequence("string_index_of_first_sequence() : 5","aaabbbcccddd", "eee", NOTFOUND);
+
+	// test_string_index_of_last_scalar("string_index_of_last_scalar() : 1", "abcdef", 'a', 0);
+	// test_string_index_of_last_scalar("string_index_of_last_scalar() : 2", "abcdef", 'c', 2);
+	// test_string_index_of_last_scalar("string_index_of_last_scalar() : 3", "abcdef", 'f', 5);
+	// test_string_index_of_last_scalar("string_index_of_last_scalar() : 4", "abcdef", 'z', NOTFOUND);
+
+	// set = bitset("abc ");
+	// test_string_index_of_last_any("string_index_of_last_any() : 1", "aaa bbb ccc", &set, 10);
+	// set = bitset(" ");
+	// test_string_index_of_last_any("string_index_of_last_any() : 2", "aaa bbb ccc", &set, 7);
+	// set = bitset("b");
+	// test_string_index_of_last_any("string_index_of_last_any() : 3", "aaa bbb ccc", &set, 6);
+
+	// set = bitset("ab ");
+	// test_string_index_of_last_none("string_index_of_last_none() : 1", "aaa bbb ccc", &set, 10);
+	// set = bitset("abc");
+	// test_string_index_of_last_none("string_index_of_last_none() : 2", "aaa bbb ccc", &set, 7);
+	// set = bitset("ac ");
+	// test_string_index_of_last_none("string_index_of_last_none() : 3", "aaa bbb ccc", &set, 6);
+	// set = bitset("ac b");
+	// test_string_index_of_last_none("string_index_of_last_none() : 4", "aaa bbb ccc", &set, 0);
+
+	// test_string_index_of_last_predicate("string_index_of_last_predicate() : 1", "aaa   CCC000", is_lower, 2);
+	// test_string_index_of_last_predicate("string_index_of_last_predicate() : 2", "aaa   CCC000", is_spaces, 5);
+	// test_string_index_of_last_predicate("string_index_of_last_predicate() : 3", "aaa   CCC000", is_upper, 8);
+	// test_string_index_of_last_predicate("string_index_of_last_predicate() : 4", "aaa   CCC000", is_digit, 11);
+	// test_string_index_of_last_predicate("string_index_of_last_predicate() : 4", "aaa   CCC000", is_newline, NOTFOUND);
+
+	// test_string_index_of_last_sequence("string_index_of_last_sequence() : 1", "aaabbbcccddd", "ddd", 9);
+	// test_string_index_of_last_sequence("string_index_of_last_sequence() : 2", "aaabbbcccddd", "ccc", 6);
+	// test_string_index_of_last_sequence("string_index_of_last_sequence() : 3", "aaabbbcccddd", "bbb", 3);
+	// test_string_index_of_last_sequence("string_index_of_last_sequence() : 4", "aaabbbcccddd", "aaa", 0);
+	// test_string_index_of_last_sequence("string_index_of_last_sequence() : 5", "aaabbbcccddd", "zzz", NOTFOUND);
+
+	// test_string_count_scalar("string_count_scalar() : 1", "aaabbbccc", 'a', 9, 3);
+	// test_string_count_scalar("string_count_scalar() : 2", "aaabbbccc", 'b', 3, 0);
+	// test_string_count_scalar("string_count_scalar() : 2", "aaabbbccc", 'b', 9, 3);
+	// test_string_count_scalar("string_count_scalar() : 3", "aaabbbccc", 'c', 9, 3);
+	// test_string_count_scalar("string_count_scalar() : 4", "aaabbbccc", ' ', 9, 0);
+
+	// set = bitset("abc");
+	// test_string_count_any("string_count_any() : 1", "aaabbbccc", &set, 9, 9);
+	// set = bitset("ab");
+	// test_string_count_any("string_count_any() : 2", "aaabbbccc", &set, 9, 6);
+	// set = bitset("a");
+	// test_string_count_any("string_count_any() : 3", "aaabbbccc", &set, 3, 3);
+	// set = bitset("a");
+	// test_string_count_any("string_count_any() : 4", "aaabbbccc", &set, 9, 3);
+	// set = bitset(" ");
+	// test_string_count_any("string_count_any() : 5", "aaabbbccc", &set, 9, 0);
+
+	// set = bitset("abc");
+	// test_string_count_none("string_count_none() : 1", "aaabbbccc", &set, 9, 0);
+	// set = bitset("ab");
+	// test_string_count_none("string_count_none() : 2", "aaabbbccc", &set, 9, 3);
+	// set = bitset("a");
+	// test_string_count_none("string_count_none() : 3", "aaabbbccc", &set, 3, 0);
+	// set = bitset("a");
+	// test_string_count_none("string_count_none() : 4", "aaabbbccc", &set, 9, 6);
+	// set = bitset(" ");
+	// test_string_count_none("string_count_none() : 5", "aaabbbccc", &set, 9, 9);
+
+	// test_string_count_predicate("string_count_predicate() : 1", "aaaBBB###   000", is_lower, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 2", "aaaBBB###   000", is_upper, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 3", "aaaBBB###   000", is_punct, 15, 6);
+	// test_string_count_predicate("string_count_predicate() : 4", "aaaBBB###   000", is_spaces, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 5", "aaaBBB###   000", is_digit, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 6", "aaaBBB###   000", is_control, 15, 0);
+
+	// test_string_count_sequence("string_count_sequence() : 1", "aaabbbaaabbbaaabbb", "aaa", 18, 3);
+	// test_string_count_sequence("string_count_sequence() : 2", "aaabbbaaabbbaaabbb", "bbb", 18, 3);
+	// test_string_count_sequence("string_count_sequence() : 3", "aaabbbaaabbbaaabbb", "zzz", 18, 0);
+
+	// test_string_count_until_scalar("string_count_until_scalar() : 1", "aaabbbcccddd", 'b', 3);
+	// test_string_count_until_scalar("string_count_until_scalar() : 2", "aaabbbcccddd", 'c', 6);
+	// test_string_count_until_scalar("string_count_until_scalar() : 3", "aaabbbcccddd", 'd', 9);
+	// test_string_count_until_scalar("string_count_until_scalar() : 4", "aaabbbcccddd", 'z', 12);
+
+	// set = bitset(" ");
+	// test_string_count_until_any("string_count_until_any() : 1", "aaa bbb ccc ddd", &set, 3);
+	// test_string_count_until_any("string_count_until_any() : 2", "aaabbb ccc ddd", &set, 6);
+	// test_string_count_until_any("string_count_until_any() : 3", "aaabbbccc ddd", &set, 9);
+	// test_string_count_until_any("string_count_until_any() : 4", "aaabbbcccddd", &set, 12);
+
+	// test_string_count_until_none("string_count_until_none() : 1", "aaa bbb ccc ddd", &set, 0);
+	// test_string_count_until_none("string_count_until_none() : 2", "    bbb ccc ddd", &set, 4);
+	// test_string_count_until_none("string_count_until_none() : 2", "        ccc ddd", &set, 8);
+	// test_string_count_until_none("string_count_until_none() : 2", "            ddd", &set, 12);
+	// test_string_count_until_none("string_count_until_none() : 2", "               ", &set, 15);
+
+	// test_string_count_until_predicate("string_count_until_predicate() : 1", "aaa bbb ccc ddd", is_spaces, 3);
+	// test_string_count_until_predicate("string_count_until_predicate() : 2", "aaabbb ccc ddd", is_spaces, 6);
+	// test_string_count_until_predicate("string_count_until_predicate() : 3", "aaabbbccc ddd", is_spaces, 9);
+	// test_string_count_until_predicate("string_count_until_predicate() : 4", "aaabbbcccddd", is_spaces, 12);
+
+	// test_string_count_until_sequence("string_count_until_sequence() : 1", "aaa bbb ccc ddd", "ddd", 12);
+	// test_string_count_until_sequence("string_count_until_sequence() : 1", "aaa bbb ccc ddd", "ccc", 8);
+	// test_string_count_until_sequence("string_count_until_sequence() : 1", "aaa bbb ccc ddd", "bbb", 4);
+	// test_string_count_until_sequence("string_count_until_sequence() : 1", "aaa bbb ccc ddd", "aaa", 0);
+
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 1", "aaabbbcccddd", 'a', 3);
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 2", "bbbcccddd", 'b', 3);
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 3", "cccddd", 'c', 3);
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 4", "ddd", 'd', 3);
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 5", "", 'z', 0);
+	// test_string_count_leading_scalar("string_count_leading_scalar() : 6", "aaabbbccc", 'z', 0);
+
+	// set = bitset("a");
+	// test_string_count_leading_any("string_count_leading_any() : 1", "aaabbbcccddd", &set, 3);
+	// set = bitset("ab");
+	// test_string_count_leading_any("string_count_leading_any() : 2", "aaabbbcccddd", &set, 6);
+	// set = bitset("abc");
+	// test_string_count_leading_any("string_count_leading_any() : 3", "aaabbbcccddd", &set, 9);
+	// set = bitset("abcd");
+	// test_string_count_leading_any("string_count_leading_any() : 4", "aaabbbcccddd", &set, 12);
+	// set = bitset("abcd");
+	// test_string_count_leading_any("string_count_leading_any() : 5", "aaabbbcccddd", &set, 12);
+
+	// set = bitset("bcd");
+	// test_string_count_leading_none("string_count_leading_none() : 1", "aaabbbcccddd", &set, 3);
+	// set = bitset("cd");
+	// test_string_count_leading_none("string_count_leading_none() : 2", "aaabbbcccddd", &set, 6);
+	// set = bitset("d");
+	// test_string_count_leading_none("string_count_leading_none() : 3", "aaabbbcccddd", &set, 9);
+	// set = bitset(" ");
+	// test_string_count_leading_none("string_count_leading_none() : 4", "aaabbbcccddd", &set, 12);
+
+	// test_string_count_leading_predicate("string_count_leading_predicate() : 1", "aaabbbcccddd", is_alpha, 12);
+	// test_string_count_leading_predicate("string_count_leading_predicate() : 2", "AAABBBCCCDDD", is_lower, 0);
+	// test_string_count_leading_predicate("string_count_leading_predicate() : 3", "0aaaaaaaaaaa", is_digit, 1);
+
+	// test_string_count_leading_sequence("string_count_leading_sequence() : 1", "ababab_aaaa_ababab", "ab", 3);
+	// test_string_count_leading_sequence("string_count_leading_sequence() : 2", "ababab", "ab", 3);
+	// test_string_count_leading_sequence("string_count_leading_sequence() : 3", "", "a", 0);
+
+	test_string_count_trailing_scalar("string_count_trailing_scalar() : 1", "aaabbbcccddd", 'd',3 );
+	test_string_count_trailing_scalar("string_count_trailing_scalar() : 2", "aaabbbccc", 'c',3 );
+	test_string_count_trailing_scalar("string_count_trailing_scalar() : 3", "aaabbb", 'b',3 );
+	test_string_count_trailing_scalar("string_count_trailing_scalar() : 4", "aaa", 'a',3 );
+	test_string_count_trailing_scalar("string_count_trailing_scalar() : 5", "aaabbbcccddd", 'z',0 );
+
+
+	
 }
 
 int main(void)

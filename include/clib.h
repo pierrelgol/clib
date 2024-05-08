@@ -127,6 +127,8 @@ t_bitset bitset_difference(const t_bitset *bitset1, const t_bitset *bitset2);
 
 // OK
 uint64_t string_length(const char *string);
+// OK
+uint64_t string_index_of_difference(const char *s1, const char *s2);
 
 // OK
 int32_t string_compare(const char *s1, const char *s2);
@@ -144,28 +146,48 @@ uint64_t string_ccopy(char *dest, const int32_t ch, const char *src, const uint6
 //ok
 uint64_t string_lcopy(char *dst, const char *src, uint64_t dsize);
 
+//ok
 char *string_search_scalar(const char *source, const int32_t scalar, const uint64_t n);
+//ok
 char *string_search_any(const char *source, t_bitset const *delimiters, const uint64_t n);
+//ok
 char *string_search_none(const char *source, t_bitset const *delimiters, const uint64_t n);
+//ok
 char *string_search_predicate(const char *source, bool(predicate)(int32_t ch), const uint64_t n);
+//ok
 char *string_search_sequence(const char *haystack, const char *needle, const uint64_t n);
 
+//ok
 bool string_contains_scalar(const char *source, const int32_t scalar, const uint64_t n);
+//ok
 bool string_contains_any(const char *source, t_bitset const *delimiters, const uint64_t n);
+//ok
 bool string_contains_none(const char *source, t_bitset const *delimiters, const uint64_t n);
+//ok
 bool string_contains_predicate(const char *source, bool(predicate)(int32_t ch), const uint64_t n);
+//ok
 bool string_contains_sequence(const char *needle, const char *haystack, const uint64_t n);
 
+//ok
 bool string_starts_with_scalar(const char *source, const int32_t scalar);
+//ok
 bool string_starts_with_any(const char *source, t_bitset const *delimiters);
+//ok
 bool string_starts_with_none(const char *source, t_bitset const *delimiters);
+//ok
 bool string_starts_with_predicate(const char *source, bool(predicate)(int32_t ch));
+//ok
 bool string_starts_with_sequence(const char *haystack, const char *needle);
 
+//ok
 bool string_ends_with_scalar(const char *source, const int32_t scalar);
+//ok
 bool string_ends_with_any(const char *source, t_bitset const *delimiters);
+//ok
 bool string_ends_with_none(const char *source, t_bitset const *delimiters);
+//ok
 bool string_ends_with_predicate(const char *source, bool(predicate)(int32_t ch));
+//ok
 bool string_ends_with_sequence(const char *haystack, const char *needle);
 
 uint64_t string_index_of_first_scalar(const char *source, const int32_t scalar);
