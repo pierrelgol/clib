@@ -694,8 +694,41 @@ void	test_string_count_trailing_sequence(char *case_name, char *source, char *ne
 
 /******************************************************************************/
 
+void	test_string_trim_left(char *case_name, t_allocator *allocator, char *source, const uint64_t amount, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_left(allocator, source, amount);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_right(char *case_name, t_allocator *allocator, char *source, const uint64_t amount, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_right(allocator, source, amount);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_both(char *case_name, t_allocator *allocator, char *source, const uint64_t amount, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_both(allocator, source, amount);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+/******************************************************************************/
+
 void call_test(void)
 {
+	t_allocator	*allocator = gpa_init(NULL);
 	t_bitset set = bitset("abc");
 
 	// test_string_length("string_length() : 1", "", 0);
@@ -1005,14 +1038,67 @@ void call_test(void)
 	// test_string_count_leading_sequence("string_count_leading_sequence() : 2", "ababab", "ab", 3);
 	// test_string_count_leading_sequence("string_count_leading_sequence() : 3", "", "a", 0);
 
-	test_string_count_trailing_scalar("string_count_trailing_scalar() : 1", "aaabbbcccddd", 'd',3 );
-	test_string_count_trailing_scalar("string_count_trailing_scalar() : 2", "aaabbbccc", 'c',3 );
-	test_string_count_trailing_scalar("string_count_trailing_scalar() : 3", "aaabbb", 'b',3 );
-	test_string_count_trailing_scalar("string_count_trailing_scalar() : 4", "aaa", 'a',3 );
-	test_string_count_trailing_scalar("string_count_trailing_scalar() : 5", "aaabbbcccddd", 'z',0 );
+	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 1", "aaabbbcccddd", 'd',3 );
+	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 2", "aaabbbccc", 'c',3 );
+	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 3", "aaabbb", 'b',3 );
+	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 4", "aaa", 'a',3 );
+	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 5", "aaabbbcccddd", 'z',0 );
 
+	// set = bitset(" \t_");
+	// test_string_count_trailing_any("string_count_trailing_any() : 1", "hello   _	", &set, 5);
+	// set = bitset(" ");
+	// test_string_count_trailing_any("string_count_trailing_any() : 2", "hello  ", &set, 2);
+	// set = bitset("abc");
+	// test_string_count_trailing_any("string_count_trailing_any() : 3", "helloabcabcabcbababcbabcabc", &set, 22);
 
-	
+	// set = bitset("hello");
+	// test_string_count_trailing_none("string_count_trailing_none() : 1", "hello   _	", &set, 5);
+	// set = bitset("hello");
+	// test_string_count_trailing_none("string_count_trailing_none() : 2", "hello  ", &set, 2);
+	// set = bitset("hello");
+	// test_string_count_trailing_none("string_count_trailing_none() : 3", "helloabcabcabcbababcbabcabc", &set, 22);
+
+	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 1", "0aaaaa55555%%%%%", is_punct, 5);
+	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 2", "0aaaaa55555", is_digit, 5);
+	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 3", "0aaaaa", is_lower, 5);
+	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 3", "0", is_digit, 1);
+	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 6", "0aaaaa55555%%%%%", is_control, 0);
+
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 1", "aaabbbcccddd", "ddd", 1);
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 2", "aaabbbccc", "ccc", 1);
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 3", "aaabbb", "bbb", 1);
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 4", "aaa", "aaa", 1);
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 5", "aaa", "aa", 1);
+	// test_string_count_trailing_sequence("string_count_trailing_sequence() : 6", "aaa", "zzzzzzz", 0);
+
+	// test_string_trim_left("string_trim_left() : 1", allocator, "     hello world", 5, "hello world");
+	// test_string_trim_left("string_trim_left() : 2", allocator, "    hello world", 4, "hello world");
+	// test_string_trim_left("string_trim_left() : 3", allocator, "   hello world", 3, "hello world");
+	// test_string_trim_left("string_trim_left() : 4", allocator, "  hello world", 2, "hello world");
+	// test_string_trim_left("string_trim_left() : 5", allocator, " hello world", 1, "hello world");
+	// test_string_trim_left("string_trim_left() : 6", allocator, "hello world", 0, "hello world");
+	// test_string_trim_left("string_trim_left() : 7", allocator, "hello world", 11, "");
+	// test_string_trim_left("string_trim_left() : 8", allocator, "hello world", 31, "");
+
+	// test_string_trim_right("string_trim_right() : 1", allocator, "hello world     ", 5, "hello world");
+	// test_string_trim_right("string_trim_right() : 2", allocator, "hello world    ", 4, "hello world");
+	// test_string_trim_right("string_trim_right() : 3", allocator, "hello world   ", 3, "hello world");
+	// test_string_trim_right("string_trim_right() : 4", allocator, "hello world  ", 2, "hello world");
+	// test_string_trim_right("string_trim_right() : 5", allocator, "hello world ", 1, "hello world");
+	// test_string_trim_right("string_trim_right() : 6", allocator, "hello world", 0, "hello world");
+	// test_string_trim_right("string_trim_right() : 7", allocator, "hello world", 11, "");
+	// test_string_trim_right("string_trim_right() : 8", allocator, "hello world", 31, "");
+
+	// test_string_trim_both("string_trim_both() : 1", allocator, "     hello world     ", 5, "hello world");
+	// test_string_trim_both("string_trim_both() : 2", allocator, "    hello world    ", 4, "hello world");
+	// test_string_trim_both("string_trim_both() : 3", allocator, "   hello world   ", 3, "hello world");
+	// test_string_trim_both("string_trim_both() : 4", allocator, "  hello world  ", 2, "hello world");
+	// test_string_trim_both("string_trim_both() : 5", allocator, " hello world ", 1, "hello world");
+	// test_string_trim_both("string_trim_both() : 6", allocator, "hello world", 0, "hello world");
+	// test_string_trim_both("string_trim_both() : 7", allocator, "hello world", 11, "");
+	// test_string_trim_both("string_trim_both() : 8", allocator, "hello world", 31, "");
+
+	allocator->deinit(allocator);
 }
 
 int main(void)

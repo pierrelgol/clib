@@ -24,7 +24,7 @@ uint64_t	string_count_trailing_scalar(const char *source,
 	slen = string_length(source);
 	if (slen == 0)
 		return (0);
-	while (source[slen - i - 1])
+	while ((slen - i))
 	{
 		if (source[slen - i - 1] != scalar)
 			break ;
@@ -66,7 +66,7 @@ uint64_t	string_count_trailing_none(const char *source,
 	slen = string_length(source);
 	if (slen == 0)
 		return (0);
-	while (source[slen - i - 1])
+	while (slen - i)
 	{
 		if (bitset_is_set(delimiters, source[slen - i - 1]))
 			break ;
@@ -87,7 +87,7 @@ uint64_t	string_count_trailing_predicate(const char *source,
 	slen = string_length(source);
 	if (slen == 0)
 		return (0);
-	while (source[slen - i - 1])
+	while (slen - i)
 	{
 		if (!predicate(source[slen - i - 1]))
 			break ;
@@ -111,7 +111,7 @@ uint64_t	string_count_trailing_sequence(const char *haystack,
 	haystack_len = string_length(haystack);
 	haystack_end = (char *)haystack;
 	haystack = (const char *)(haystack + haystack_len - needle_len);
-	while (haystack > haystack_end && string_ncompare(haystack, needle,
+	while (haystack >= haystack_end && string_ncompare(haystack, needle,
 			needle_len) == 0)
 	{
 		haystack -= needle_len;
