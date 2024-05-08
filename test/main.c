@@ -726,6 +726,107 @@ void	test_string_trim_both(char *case_name, t_allocator *allocator, char *source
 
 /******************************************************************************/
 
+void	test_string_trim_leading_scalar(char *case_name, t_allocator *allocator, char *source, int32_t scalar, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_leading_scalar(allocator, source, scalar);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_leading_any(char *case_name, t_allocator *allocator, char *source, t_bitset *delimiters, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_leading_any(allocator, source, delimiters);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_leading_none(char *case_name, t_allocator *allocator, char *source, t_bitset *delimiters, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_leading_none(allocator, source, delimiters);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_leading_predicate(char *case_name, t_allocator *allocator, char *source, bool (predicate)(int32_t ch), char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_leading_predicate(allocator, source, predicate);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_leading_sequence(char *case_name, t_allocator *allocator, char *source, char *sequence, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_leading_sequence(allocator, source, sequence);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+/******************************************************************************/
+
+void	test_string_trim_trailing_scalar(char *case_name, t_allocator *allocator, char *source, int32_t scalar, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_trailing_scalar(allocator, source, scalar);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_trailing_any(char *case_name, t_allocator *allocator, char *source, t_bitset *delimiters, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_trailing_any(allocator, source, delimiters);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_trailing_none(char *case_name, t_allocator *allocator, char *source, t_bitset *delimiters, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_trailing_none(allocator, source, delimiters);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_trailing_predicate(char *case_name, t_allocator *allocator, char *source, bool (predicate)(int32_t ch), char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_trailing_predicate(allocator, source, predicate);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+void	test_string_trim_trailing_sequence(char *case_name, t_allocator *allocator, char *source, char *sequence, char *expected)
+{
+	char *got;
+	test_setup(case_name);
+	got = string_trim_trailing_sequence(allocator, source, sequence);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
 void call_test(void)
 {
 	t_allocator	*allocator = gpa_init(NULL);
@@ -1015,7 +1116,7 @@ void call_test(void)
 	// set = bitset("ab");
 	// test_string_count_leading_any("string_count_leading_any() : 2", "aaabbbcccddd", &set, 6);
 	// set = bitset("abc");
-	// test_string_count_leading_any("string_count_leading_any() : 3", "aaabbbcccddd", &set, 9);
+	// test_string_count_leading_any("string_count_leading_any() : 3", "a            Locale: en_US.UTF-8aabbbcccddd", &set, 9);
 	// set = bitset("abcd");
 	// test_string_count_leading_any("string_count_leading_any() : 4", "aaabbbcccddd", &set, 12);
 	// set = bitset("abcd");
@@ -1055,7 +1156,7 @@ void call_test(void)
 	// test_string_count_trailing_none("string_count_trailing_none() : 1", "hello   _	", &set, 5);
 	// set = bitset("hello");
 	// test_string_count_trailing_none("string_count_trailing_none() : 2", "hello  ", &set, 2);
-	// set = bitset("hello");
+	// set = bitset("hello");            Locale: en_US.UTF-8
 	// test_string_count_trailing_none("string_count_trailing_none() : 3", "helloabcabcabcbababcbabcabc", &set, 22);
 
 	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 1", "0aaaaa55555%%%%%", is_punct, 5);
@@ -1098,7 +1199,43 @@ void call_test(void)
 	// test_string_trim_both("string_trim_both() : 7", allocator, "hello world", 11, "");
 	// test_string_trim_both("string_trim_both() : 8", allocator, "hello world", 31, "");
 
-	allocator->deinit(allocator);
+	test_string_trim_leading_scalar("string_trim_leading_scalar() : 1", allocator, "aaabbbccc", 'a', "bbbccc");
+	test_string_trim_leading_scalar("string_trim_leading_scalar() : 2", allocator, "aabbbccc", 'a', "bbbccc");
+	test_string_trim_leading_scalar("string_trim_leading_scalar() : 3", allocator, "abbbccc", 'a', "bbbccc");
+	test_string_trim_leading_scalar("string_trim_leading_scalar() : 4", allocator, "bbbccc", 'a', "bbbccc");
+	test_string_trim_leading_scalar("string_trim_leading_scalar() : 5", allocator, "bbbccczzz", 'z', "bbbccczzz");
+
+	set = bitset("a");
+	test_string_trim_leading_any("string_trim_leading_any() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
+	set = bitset("ab");
+	test_string_trim_leading_any("string_trim_leading_any() : 2", allocator, "aaaabbbccd", &set, "ccd");
+	set = bitset("abc");
+	test_string_trim_leading_any("string_trim_leading_any() : 3", allocator, "aaaabbbccd", &set, "d");
+	set = bitset("abcd");
+	test_string_trim_leading_any("string_trim_leading_any() : 4", allocator, "aaaabbbccd", &set, "");
+
+	set = bitset("bcd");
+	test_string_trim_leading_none("string_trim_leading_none() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
+	set = bitset("cd");
+	test_string_trim_leading_none("string_trim_leading_none() : 2", allocator, "aaaabbbccd", &set, "ccd");
+	set = bitset("d");
+	test_string_trim_leading_none("string_trim_leading_none() : 3", allocator, "aaaabbbccd", &set, "d");
+	set = bitset("abcd");
+	test_string_trim_leading_none("string_trim_leading_none() : 4", allocator, "aaaabbbccd", &set, "aaaabbbccd");
+
+	test_string_trim_leading_predicate("string_trim_leading_predicate() : 1", allocator, "aaaa111$$B", is_lower, "111$$B");
+	test_string_trim_leading_predicate("string_trim_leading_predicate() : 2", allocator, "111$$B", is_digit, "$$B");
+	test_string_trim_leading_predicate("string_trim_leading_predicate() : 3", allocator, "$$B", is_punct, "B");
+	test_string_trim_leading_predicate("string_trim_leading_predicate() : 4", allocator, "B", is_upper, "");
+
+	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "aaaabbbccd", "aaaa", "bbbccd");
+	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "bbbccd", "bbb", "ccd");
+	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "ccd", "cc", "d");
+
+
+	
+
+	allocator->deinit(allocator);        
 }
 
 int main(void)

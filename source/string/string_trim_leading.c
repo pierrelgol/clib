@@ -19,8 +19,7 @@ char	*string_trim_leading_scalar(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_leading_scalar(source,
-			scalar);
+	amount = string_count_leading_scalar(source, scalar);
 	return (string_trim_left(allocator, source, amount));
 }
 
@@ -31,8 +30,7 @@ char	*string_trim_leading_any(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_leading_any(source,
-			delimiters);
+	amount = string_count_leading_any(source, delimiters);
 	return (string_trim_left(allocator, source, amount));
 }
 
@@ -43,8 +41,7 @@ char	*string_trim_leading_none(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_leading_none(source,
-			delimiters);
+	amount = string_count_leading_none(source, delimiters);
 	return (string_trim_left(allocator, source, amount));
 }
 
@@ -55,8 +52,7 @@ char	*string_trim_leading_predicate(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_length(source) - string_count_leading_predicate(source,
-			predicate);
+	amount = string_count_leading_predicate(source, predicate);
 	return (string_trim_left(allocator, source, amount));
 }
 
@@ -67,7 +63,6 @@ char	*string_trim_leading_sequence(t_allocator *const allocator,
 
 	if (!haystack)
 		return (NULL);
-	amount = string_length(haystack) - string_count_leading_sequence(haystack,
-			needle);
+	amount = string_count_leading_sequence(haystack, needle);
 	return (string_trim_left(allocator, haystack, amount));
 }
