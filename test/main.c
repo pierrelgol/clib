@@ -1138,6 +1138,7 @@ void call_test(void)
 	// test_string_count_leading_sequence("string_count_leading_sequence() : 1", "ababab_aaaa_ababab", "ab", 3);
 	// test_string_count_leading_sequence("string_count_leading_sequence() : 2", "ababab", "ab", 3);
 	// test_string_count_leading_sequence("string_count_leading_sequence() : 3", "", "a", 0);
+	// test_string_count_leading_sequence("string_count_leading_sequence() : 4", "aaaabbbccd", "aaaa", 1);
 
 	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 1", "aaabbbcccddd", 'd',3 );
 	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 2", "aaabbbccc", 'c',3 );
@@ -1199,38 +1200,40 @@ void call_test(void)
 	// test_string_trim_both("string_trim_both() : 7", allocator, "hello world", 11, "");
 	// test_string_trim_both("string_trim_both() : 8", allocator, "hello world", 31, "");
 
-	test_string_trim_leading_scalar("string_trim_leading_scalar() : 1", allocator, "aaabbbccc", 'a', "bbbccc");
-	test_string_trim_leading_scalar("string_trim_leading_scalar() : 2", allocator, "aabbbccc", 'a', "bbbccc");
-	test_string_trim_leading_scalar("string_trim_leading_scalar() : 3", allocator, "abbbccc", 'a', "bbbccc");
-	test_string_trim_leading_scalar("string_trim_leading_scalar() : 4", allocator, "bbbccc", 'a', "bbbccc");
-	test_string_trim_leading_scalar("string_trim_leading_scalar() : 5", allocator, "bbbccczzz", 'z', "bbbccczzz");
+	// test_string_trim_leading_scalar("string_trim_leading_scalar() : 1", allocator, "aaabbbccc", 'a', "bbbccc");
+	// test_string_trim_leading_scalar("string_trim_leading_scalar() : 2", allocator, "aabbbccc", 'a', "bbbccc");
+	// test_string_trim_leading_scalar("string_trim_leading_scalar() : 3", allocator, "abbbccc", 'a', "bbbccc");
+	// test_string_trim_leading_scalar("string_trim_leading_scalar() : 4", allocator, "bbbccc", 'a', "bbbccc");
+	// test_string_trim_leading_scalar("string_trim_leading_scalar() : 5", allocator, "bbbccczzz", 'z', "bbbccczzz");
 
-	set = bitset("a");
-	test_string_trim_leading_any("string_trim_leading_any() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
-	set = bitset("ab");
-	test_string_trim_leading_any("string_trim_leading_any() : 2", allocator, "aaaabbbccd", &set, "ccd");
-	set = bitset("abc");
-	test_string_trim_leading_any("string_trim_leading_any() : 3", allocator, "aaaabbbccd", &set, "d");
-	set = bitset("abcd");
-	test_string_trim_leading_any("string_trim_leading_any() : 4", allocator, "aaaabbbccd", &set, "");
+	// set = bitset("a");
+	// test_string_trim_leading_any("string_trim_leading_any() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
+	// set = bitset("ab");
+	// test_string_trim_leading_any("string_trim_leading_any() : 2", allocator, "aaaabbbccd", &set, "ccd");
+	// set = bitset("abc");
+	// test_string_trim_leading_any("string_trim_leading_any() : 3", allocator, "aaaabbbccd", &set, "d");
+	// set = bitset("abcd");
+	// test_string_trim_leading_any("string_trim_leading_any() : 4", allocator, "aaaabbbccd", &set, "");
 
-	set = bitset("bcd");
-	test_string_trim_leading_none("string_trim_leading_none() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
-	set = bitset("cd");
-	test_string_trim_leading_none("string_trim_leading_none() : 2", allocator, "aaaabbbccd", &set, "ccd");
-	set = bitset("d");
-	test_string_trim_leading_none("string_trim_leading_none() : 3", allocator, "aaaabbbccd", &set, "d");
-	set = bitset("abcd");
-	test_string_trim_leading_none("string_trim_leading_none() : 4", allocator, "aaaabbbccd", &set, "aaaabbbccd");
+	// set = bitset("bcd");
+	// test_string_trim_leading_none("string_trim_leading_none() : 1", allocator, "aaaabbbccd", &set, "bbbccd");
+	// set = bitset("cd");
+	// test_string_trim_leading_none("string_trim_leading_none() : 2", allocator, "aaaabbbccd", &set, "ccd");
+	// set = bitset("d");
+	// test_string_trim_leading_none("string_trim_leading_none() : 3", allocator, "aaaabbbccd", &set, "d");
+	// set = bitset("abcd");
+	// test_string_trim_leading_none("string_trim_leading_none() : 4", allocator, "aaaabbbccd", &set, "aaaabbbccd");
 
-	test_string_trim_leading_predicate("string_trim_leading_predicate() : 1", allocator, "aaaa111$$B", is_lower, "111$$B");
-	test_string_trim_leading_predicate("string_trim_leading_predicate() : 2", allocator, "111$$B", is_digit, "$$B");
-	test_string_trim_leading_predicate("string_trim_leading_predicate() : 3", allocator, "$$B", is_punct, "B");
-	test_string_trim_leading_predicate("string_trim_leading_predicate() : 4", allocator, "B", is_upper, "");
+	// test_string_trim_leading_predicate("string_trim_leading_predicate() : 1", allocator, "aaaa111$$B", is_lower, "111$$B");
+	// test_string_trim_leading_predicate("string_trim_leading_predicate() : 2", allocator, "111$$B", is_digit, "$$B");
+	// test_string_trim_leading_predicate("string_trim_leading_predicate() : 3", allocator, "$$B", is_punct, "B");
+	// test_string_trim_leading_predicate("string_trim_leading_predicate() : 4", allocator, "B", is_upper, "");
 
-	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "aaaabbbccd", "aaaa", "bbbccd");
-	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "bbbccd", "bbb", "ccd");
-	test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "ccd", "cc", "d");
+	// test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "aaaabbbccd", "aaaa", "bbbccd");
+	// test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "bbbccd", "bbb", "ccd");
+	// test_string_trim_leading_sequence("string_trim_leading_sequence() : 1", allocator, "ccd", "cc", "d");
+
+	test_string_trim_trailing_scalar("string_trim_trailing_scalar() : 1", allocator, "dccbbbaaaa", 'a', "dccbbb");
 
 
 	

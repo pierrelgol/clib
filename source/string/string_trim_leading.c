@@ -63,6 +63,6 @@ char	*string_trim_leading_sequence(t_allocator *const allocator,
 
 	if (!haystack)
 		return (NULL);
-	amount = string_count_leading_sequence(haystack, needle);
+	amount = string_count_leading_sequence(haystack, needle) * string_length(needle);
 	return (string_trim_left(allocator, haystack, amount));
 }
