@@ -34,6 +34,6 @@ bool is_hex(int32_t ch)
 
 bool is_punct(int32_t ch)
 {
-	return (!is_alnum(ch) && !is_control(ch));
+	return (ch != 32 && !is_alnum(ch) && !is_control(ch));
 }
 

@@ -12,12 +12,11 @@
 
 #include "../../include/clib.h"
 
-char	*string_filter_scalar(t_allocator *const allocator, const char *source,
-		const int32_t scalar)
+char *string_filter_scalar(t_allocator *const allocator, const char *source, const int32_t scalar)
 {
-	char		*result;
-	uint64_t	len;
-	uint64_t	i;
+	char    *result;
+	uint64_t len;
+	uint64_t i;
 
 	if (!source)
 		return (NULL);
@@ -35,12 +34,11 @@ char	*string_filter_scalar(t_allocator *const allocator, const char *source,
 	return (result);
 }
 
-char	*string_filter_any(t_allocator *const allocator, const char *source,
-		t_bitset const *delimiters)
+char *string_filter_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters)
 {
-	char		*result;
-	uint64_t	len;
-	uint64_t	i;
+	char    *result;
+	uint64_t len;
+	uint64_t i;
 
 	if (!source)
 		return (NULL);
@@ -58,12 +56,11 @@ char	*string_filter_any(t_allocator *const allocator, const char *source,
 	return (result);
 }
 
-char	*string_filter_none(t_allocator *const allocator, const char *source,
-		t_bitset const *delimiters)
+char *string_filter_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters)
 {
-	char		*result;
-	uint64_t	len;
-	uint64_t	i;
+	char    *result;
+	uint64_t len;
+	uint64_t i;
 
 	if (!source)
 		return (NULL);
@@ -81,12 +78,11 @@ char	*string_filter_none(t_allocator *const allocator, const char *source,
 	return (result);
 }
 
-char	*string_filter_predicate(t_allocator *const allocator,
-		const char *source, bool(predicate)(int32_t ch))
+char *string_filter_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch))
 {
-	char		*result;
-	uint64_t	len;
-	uint64_t	i;
+	char    *result;
+	uint64_t len;
+	uint64_t i;
 
 	if (!source)
 		return (NULL);
@@ -104,27 +100,28 @@ char	*string_filter_predicate(t_allocator *const allocator,
 	return (result);
 }
 
-char	*string_filter_sequence(t_allocator *const allocator,
-		const char *haystack, const char *needle)
+char *string_filter_sequence(t_allocator *const allocator, const char *haystack, const char *needle)
 {
-	uint64_t	haystack_len;
-	uint64_t	needle_len;
-	uint64_t	filtered_len;
-	char		*result;
-	uint64_t	i;
+	char    *result;
+	char    *end;
+	uint64_t nlen;
+	uint64_t rlen;
+	uint64_t i;
 
-	if (!haystack || !needle)
+	if (!haystack)
 		return (NULL);
-	haystack_len = string_length(haystack);
-	needle_len = string_length(needle);
-	filtered_len = haystack_len - string_count_leading_sequence(haystack,
-			needle);
-	result = memalloc(allocator, filtered_len + 1);
+	if (!needle || !needle[0])
+		return (memdupz(allocator, (void *const)haystack));
+	end = (char *) haystack + string_length(haystack);
+	rlen = (uint64_t) (end - haystack);
+	nlen = string_length(needle);
+	rlen -= (string_count_sequence(haystack, needle, rlen) * nlen);
+	result = memalloc(allocator, rlen + 1);
 	i = 0;
-	while (*haystack && i < filtered_len)
+	while (haystack <= end && i < rlen)
 	{
-		if (string_ncompare(haystack, needle, needle_len) == 0)
-			haystack += needle_len;
+		if (string_index_of_difference(needle, haystack) == nlen)
+			haystack += nlen;
 		else
 			result[i++] = *haystack++;
 	}

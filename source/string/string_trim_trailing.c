@@ -67,7 +67,7 @@ char	*string_trim_trailing_sequence(t_allocator *const allocator,
 
 	if (!haystack)
 		return (NULL);
-	amount = string_length(haystack) * string_count_trailing_sequence(haystack,
+	amount = string_length(needle) * string_count_trailing_sequence(haystack,
 			needle);
 	return (string_trim_right(allocator, haystack, amount));
 }

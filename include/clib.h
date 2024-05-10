@@ -146,6 +146,9 @@ uint64_t string_ccopy(char *dest, const int32_t ch, const char *src, const uint6
 //ok
 uint64_t string_lcopy(char *dst, const char *src, uint64_t dsize);
 
+char *string_clone(t_allocator *const allocator, const char *source);
+char *string_nclone(t_allocator *const allocator, const char *source, const uint64_t n);
+
 //ok
 char *string_search_scalar(const char *source, const int32_t scalar, const uint64_t n);
 //ok
@@ -254,9 +257,42 @@ char *string_replace_none(t_allocator *const allocator, const char *source, t_bi
 char *string_replace_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch), const int32_t with);
 char *string_replace_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const char *with);
 
+char	*string_extract_between_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char	*string_extract_between_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char	*string_extract_between_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char	*string_extract_between_predicate(t_allocator *const allocator, const char *source, bool (predicate)(int32_t ch));
+char	*string_extract_between_sequence(t_allocator *const allocator, const char *source, const char *needle);
+
+uint64_t	string_wcount_scalar(const char *source, const int32_t scalar);
+uint64_t	string_wcount_any(const char *source, const t_bitset *delimiters);
+uint64_t	string_wcount_none(const char *source, const t_bitset *delimiters);
+uint64_t	string_wcount_predicate(const char *source, bool (predicate)(int32_t ch));
+uint64_t	string_wcount_sequence(const char *source, const char *sequence);
+
+uint64_t	string_wlength_scalar(const char *source, const int32_t scalar);
+uint64_t	string_wlength_any(const char *source, const t_bitset *delimiters);
+uint64_t	string_wlength_none(const char *source, const t_bitset *delimiters);
+uint64_t	string_wlength_predicate(const char *source, bool (predicate)(int32_t ch));
+uint64_t	string_wlength_sequence(const char *source, const char *sequence);
+
+
+char **string_split_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char **string_split_any(t_allocator *const allocator, const char *source, const t_bitset *delimiters);
+char **string_split_none(t_allocator *const allocator, const char *source, const t_bitset *delimiters);
+char **string_split_predicate(t_allocator *const allocator, const char *source, bool (predicate)(int32_t));
+char **string_split_sequence(t_allocator *const allocator, const char *source, const char *needle);
+
+char	*string_join_one(t_allocator *const allocator, const char *s1, const char *s2);
+char	*string_join_many(t_allocator *const allocator, const char **strings);
+char	*string_join_many_scalar(t_allocator *const allocator, const char **strings, const int32_t scalar);
+char	*string_join_many_sequence(t_allocator *const allocator, const char **strings, const char *sequence);
+
+
+
 // ***********************************+************************************** //
 //                           print                                            //
 // ************************************************************************** //
+
 
 typedef int(t_print_fmt)(va_list arg, int fd);
 
