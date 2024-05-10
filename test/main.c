@@ -835,7 +835,7 @@ void test_string_filter_scalar(char *case_name, t_allocator *allocator, char *so
 
 	test_setup(case_name);
 	got = string_filter_scalar(allocator, source, scalar);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -846,7 +846,7 @@ void test_string_filter_any(char *case_name, t_allocator *allocator, char *sourc
 
 	test_setup(case_name);
 	got = string_filter_any(allocator, source, any);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -857,7 +857,7 @@ void test_string_filter_none(char *case_name, t_allocator *allocator, char *sour
 
 	test_setup(case_name);
 	got = string_filter_none(allocator, source, none);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -868,7 +868,7 @@ void test_string_filter_predicate(char *case_name, t_allocator *allocator, char 
 
 	test_setup(case_name);
 	got = string_filter_predicate(allocator, source, predicate);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -879,7 +879,7 @@ void test_string_filter_sequence(char *case_name, t_allocator *allocator, char *
 
 	test_setup(case_name);
 	got = string_filter_sequence(allocator, source, sequence);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -946,7 +946,7 @@ void test_string_replace_scalar(char *case_name, t_allocator *allocator, char *s
 
 	test_setup(case_name);
 	got = string_replace_scalar(allocator, source, scalar, with);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -957,7 +957,7 @@ void test_string_replace_any(char *case_name, t_allocator *allocator, char *sour
 
 	test_setup(case_name);
 	got = string_replace_any(allocator, source, any, with);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -968,7 +968,7 @@ void test_string_replace_none(char *case_name, t_allocator *allocator, char *sou
 
 	test_setup(case_name);
 	got = string_replace_none(allocator, source, none, with);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -979,7 +979,7 @@ void test_string_replace_predicate(char *case_name, t_allocator *allocator, char
 
 	test_setup(case_name);
 	got = string_replace_predicate(allocator, source, predicate, with);
-	put_result(string_compare(got, expected) == 0);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
@@ -987,13 +987,30 @@ void test_string_replace_predicate(char *case_name, t_allocator *allocator, char
 void test_string_replace_sequence(char *case_name, t_allocator *allocator, char *source, char *needle, char *with, char *expected)
 {
 	char *got;
+	char *out_buffer;
 
 	test_setup(case_name);
-	// got = string_replace_sequence(allocator, source, needle, with);
-	put_result(string_compare(got, expected) == 0);
+	out_buffer = memalloc(allocator, string_compute_replace_sequence_size(source, needle, with));
+	got = string_replace_sequence(source, needle, with, out_buffer);
+	put_result(string_compare(expected, got) == 0);
 	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
 	memdealloc(allocator, got);
 }
+
+/******************************************************************************/
+
+void test_string_extract_between_scalar(char *case_name, t_allocator *allocator, char *source, int32_t scalar, char *expected)
+{
+	char *got;
+
+	test_setup(case_name);
+	got = string_extract_between_scalar(allocator, source, scalar);
+	put_result(string_compare(expected, got) == 0);
+	test_teardown((char *) __PRETTY_FUNCTION__, case_name, " expected %s%s%s  got %s%s%s\n", GREEN, expected, RESET, RED, got, RESET);
+	memdealloc(allocator, got);
+}
+
+
 
 void call_test(void)
 {
@@ -1032,6 +1049,7 @@ void call_test(void)
 	// test_string_search_scalar("string_search_scalar() : 2", "This is a testz", 'z', 15, "z");
 	// test_string_search_scalar("string_search_scalar() : 3", "This is a testz", ' ', 15, " is a testz");
 	// test_string_search_scalar("string_search_scalar() : 4", "This is a testz", 'G', 15, NULL);
+
 	// test_string_search_any("string_seach_any() : 1", "000aaabbbccc000", &set, 15, "aaabbbccc000");
 	// set = bitset("bc");
 	// test_string_search_any("string_seach_any() : 2", "000aaabbbccc000", &set, 15, "bbbccc000");
@@ -1060,6 +1078,7 @@ void call_test(void)
 	// test_string_contains_scalar("string_contains_scalar() : 3", "abcdefhijklmnopqrstuvwxyz", 'A', 26, false);
 	// test_string_contains_scalar("string_contains_scalar() : 4", "abcdefhijklmnopqrstuvwxyz", 'Z', 26, false);
 	// test_string_contains_scalar("string_contains_scalar() : 5", "abcdefhijklmno0pqrstuvwxyz", '0', 26, true);
+
 	// set = bitset("hjkl");
 	// test_string_contains_any("string_contains_any() : 1", "abcdefhijklmnopqrstuvwxyz", &set, 26, true);
 	// set = bitset("BhjklA");
@@ -1236,8 +1255,8 @@ void call_test(void)
 
 	// test_string_count_predicate("string_count_predicate() : 1", "aaaBBB### 000", is_lower, 15, 3);
 	// test_string_count_predicate("string_count_predicate() : 2", "aaaBBB### 000", is_upper, 15, 3);
-	// test_string_count_predicate("string_count_predicate() : 3", "aaaBBB### 000", is_punct, 15, 6);
-	// test_string_count_predicate("string_count_predicate() : 4", "aaaBBB### 000", is_spaces, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 3", "aaaBBB### 000", is_punct, 15, 3);
+	// test_string_count_predicate("string_count_predicate() : 4", "aaaBBB### 000", is_spaces, 15, 1);
 	// test_string_count_predicate("string_count_predicate() : 5", "aaaBBB### 000", is_digit, 15, 3);
 	// test_string_count_predicate("string_count_predicate() : 6", "aaaBBB### 000", is_control, 15, 0);
 
@@ -1256,11 +1275,12 @@ void call_test(void)
 	// test_string_count_until_any("string_count_until_any() : 3", "aaabbbccc ddd", &set, 9);
 	// test_string_count_until_any("string_count_until_any() : 4", "aaabbbcccddd", &set, 12);
 
+	// set = bitset(" ");
 	// test_string_count_until_none("string_count_until_none() : 1", "aaa bbb ccc ddd", &set, 0);
 	// test_string_count_until_none("string_count_until_none() : 2", "    bbb ccc ddd", &set, 4);
-	// test_string_count_until_none("string_count_until_none() : 2", " ccc ddd", &set, 8);
-	// test_string_count_until_none("string_count_until_none() : 2", " ddd", &set, 12);
-	// test_string_count_until_none("string_count_until_none() : 2", " ", &set, 15);
+	// test_string_count_until_none("string_count_until_none() : 3", "        ccc ddd", &set, 8);
+	// test_string_count_until_none("string_count_until_none() : 4", "            ddd", &set, 12);
+	// test_string_count_until_none("string_count_until_none() : 5", "               ", &set, 15);
 
 	// test_string_count_until_predicate("string_count_until_predicate() : 1", "aaa bbb ccc ddd", is_spaces, 3);
 	// test_string_count_until_predicate("string_count_until_predicate() : 2", "aaabbb ccc ddd", is_spaces, 6);
@@ -1284,7 +1304,7 @@ void call_test(void)
 	// set = bitset("ab");
 	// test_string_count_leading_any("string_count_leading_any() : 2", "aaabbbcccddd", &set, 6);
 	// set = bitset("abc");
-	// test_string_count_leading_any("string_count_leading_any() : 3", "a Locale: en_US.UTF-8aabbbcccddd", &set, 9);
+	// test_string_count_leading_any("string_count_leading_any() : 3", "aaabbbcccddd", &set, 9);
 	// set = bitset("abcd");
 	// test_string_count_leading_any("string_count_leading_any() : 4", "aaabbbcccddd", &set, 12);
 	// set = bitset("abcd");
@@ -1315,17 +1335,17 @@ void call_test(void)
 	// test_string_count_trailing_scalar("string_count_trailing_scalar() : 5", "aaabbbcccddd", 'z',0 );
 
 	// set = bitset(" \t_");
-	// test_string_count_trailing_any("string_count_trailing_any() : 1", "hello _	", &set, 5);
+	// test_string_count_trailing_any("string_count_trailing_any() : 1", "hello   _\t", &set, 5);
 	// set = bitset(" ");
-	// test_string_count_trailing_any("string_count_trailing_any() : 2", "hello ", &set, 2);
+	// test_string_count_trailing_any("string_count_trailing_any() : 2", "hello  ", &set, 2);
 	// set = bitset("abc");
 	// test_string_count_trailing_any("string_count_trailing_any() : 3", "helloabcabcabcbababcbabcabc", &set, 22);
 
 	// set = bitset("hello");
-	// test_string_count_trailing_none("string_count_trailing_none() : 1", "hello _	", &set, 5);
+	// test_string_count_trailing_none("string_count_trailing_none() : 1", "hello   _\t", &set, 5);
 	// set = bitset("hello");
-	// test_string_count_trailing_none("string_count_trailing_none() : 2", "hello ", &set, 2);
-	// set = bitset("hello");            Locale: en_US.UTF-8
+	// test_string_count_trailing_none("string_count_trailing_none() : 2", "hello  ", &set, 2);
+	// set = bitset("hello");
 	// test_string_count_trailing_none("string_count_trailing_none() : 3", "helloabcabcabcbababcbabcabc", &set, 22);
 
 	// test_string_count_trailing_predicate("string_count_trailing_predicate() : 1", "0aaaaa55555%%%%%", is_punct, 5);
@@ -1350,19 +1370,19 @@ void call_test(void)
 	// test_string_trim_left("string_trim_left() : 7", allocator, "hello world", 11, "");
 	// test_string_trim_left("string_trim_left() : 8", allocator, "hello world", 31, "");
 
-	// test_string_trim_right("string_trim_right() : 1", allocator, "hello world ", 5, "hello world");
-	// test_string_trim_right("string_trim_right() : 2", allocator, "hello world ", 4, "hello world");
-	// test_string_trim_right("string_trim_right() : 3", allocator, "hello world ", 3, "hello world");
-	// test_string_trim_right("string_trim_right() : 4", allocator, "hello world ", 2, "hello world");
+	// test_string_trim_right("string_trim_right() : 1", allocator, "hello world     ", 5, "hello world");
+	// test_string_trim_right("string_trim_right() : 2", allocator, "hello world    ", 4, "hello world");
+	// test_string_trim_right("string_trim_right() : 3", allocator, "hello world   ", 3, "hello world");
+	// test_string_trim_right("string_trim_right() : 4", allocator, "hello world  ", 2, "hello world");
 	// test_string_trim_right("string_trim_right() : 5", allocator, "hello world ", 1, "hello world");
 	// test_string_trim_right("string_trim_right() : 6", allocator, "hello world", 0, "hello world");
 	// test_string_trim_right("string_trim_right() : 7", allocator, "hello world", 11, "");
 	// test_string_trim_right("string_trim_right() : 8", allocator, "hello world", 31, "");
 
-	// test_string_trim_both("string_trim_both() : 1", allocator, "     hello world ", 5, "hello world");
-	// test_string_trim_both("string_trim_both() : 2", allocator, "    hello world ", 4, "hello world");
-	// test_string_trim_both("string_trim_both() : 3", allocator, "   hello world ", 3, "hello world");
-	// test_string_trim_both("string_trim_both() : 4", allocator, "  hello world ", 2, "hello world");
+	// test_string_trim_both("string_trim_both() : 1", allocator, "     hello world     ", 5, "hello world");
+	// test_string_trim_both("string_trim_both() : 2", allocator, "    hello world    ", 4, "hello world");
+	// test_string_trim_both("string_trim_both() : 3", allocator, "   hello world   ", 3, "hello world");
+	// test_string_trim_both("string_trim_both() : 4", allocator, "  hello world  ", 2, "hello world");
 	// test_string_trim_both("string_trim_both() : 5", allocator, " hello world ", 1, "hello world");
 	// test_string_trim_both("string_trim_both() : 6", allocator, "hello world", 0, "hello world");
 	// test_string_trim_both("string_trim_both() : 7", allocator, "hello world", 11, "");
@@ -1456,32 +1476,32 @@ void call_test(void)
 	// test_string_filter_sequence("string_filter_sequence() : 3", allocator, "https://www.google.com", "", "https://www.google.com");
 	// test_string_filter_sequence("string_filter_sequence() : 4", allocator, "abTabhabiabsab abiabsab abaab abtabeabsabtab", "ab", "This is a test");
 
-	test_string_wcount_scalar("string_wcount_scalar() : 1", "This is a lovely string", ' ', 5);
-	test_string_wcount_scalar("string_wcount_scalar() : 2", "@This@@ @@is@@ @@a@@ @@lovely@@ @@string@", '@', 9);
-	test_string_wcount_scalar("string_wcount_scalar() : 3", "This", ' ', 1);
-	test_string_wcount_scalar("string_wcount_scalar() : 4", " This ", ' ', 1);
-	test_string_wcount_scalar("string_wcount_scalar() : 5", "    This     ", ' ', 1);
-	test_string_wcount_scalar("string_wcount_scalar() : 6", "    Th is     ", ' ', 2);
-	test_string_wcount_scalar("string_wcount_scalar() : 7", NULL, ' ', 0);
+	// test_string_wcount_scalar("string_wcount_scalar() : 1", "This is a lovely string", ' ', 5);
+	// test_string_wcount_scalar("string_wcount_scalar() : 2", "@This@@ @@is@@ @@a@@ @@lovely@@ @@string@", '@', 9);
+	// test_string_wcount_scalar("string_wcount_scalar() : 3", "This", ' ', 1);
+	// test_string_wcount_scalar("string_wcount_scalar() : 4", " This ", ' ', 1);
+	// test_string_wcount_scalar("string_wcount_scalar() : 5", "    This     ", ' ', 1);
+	// test_string_wcount_scalar("string_wcount_scalar() : 6", "    Th is     ", ' ', 2);
+	// test_string_wcount_scalar("string_wcount_scalar() : 7", NULL, ' ', 0);
 
-	set = bitset(" ,");
-	test_string_wcount_any("string_wcount_any() : 1", "This is a test" ,&set, 4);
-	test_string_wcount_any("string_wcount_any() : 2", ",This, ,is, ,a, ,test," ,&set, 4);
-	set = bitset("z");
-	test_string_wcount_any("string_wcount_any() : 3", ",This, ,is, ,a, ,test," ,&set, 1);
-	test_string_wcount_any("string_wcount_any() : 4", ",This, ,is, ,a, ,test,zzz" ,&set, 1);
+	// set = bitset(" ,");
+	// test_string_wcount_any("string_wcount_any() : 1", "This is a test" ,&set, 4);
+	// test_string_wcount_any("string_wcount_any() : 2", ",This, ,is, ,a, ,test," ,&set, 4);
+	// set = bitset("z");
+	// test_string_wcount_any("string_wcount_any() : 3", ",This, ,is, ,a, ,test," ,&set, 1);
+	// test_string_wcount_any("string_wcount_any() : 4", ",This, ,is, ,a, ,test,zzz" ,&set, 1);
 
-	set = bitset("Thisisatest");
-	test_string_wcount_none("string_wcount_none() : 1", "This is a test" ,&set, 4);
-	test_string_wcount_none("string_wcount_none() : 2", "This is a test" ,&set, 4);
-	test_string_wcount_none("string_wcount_none() : 3", "" ,&set, 0);
+	// set = bitset("Thisisatest");
+	// test_string_wcount_none("string_wcount_none() : 1", "This is a test" ,&set, 4);
+	// test_string_wcount_none("string_wcount_none() : 2", "This is a test" ,&set, 4);
+	// test_string_wcount_none("string_wcount_none() : 3", "" ,&set, 0);
 
-	test_string_wcount_predicate("string_wcount_predicate() : 1", "This is a \ttest\n", is_spaces, 4);
-	test_string_wcount_predicate("string_wcount_predicate() : 2", "&^This() ;is *a \ttest\n", is_punct, 4);
+	// test_string_wcount_predicate("string_wcount_predicate() : 1", "This is a \ttest\n", is_spaces, 4);
+	// test_string_wcount_predicate("string_wcount_predicate() : 2", "&^This() ;is *a \ttest\n", is_punct, 4);
 
-	test_string_wcount_sequence("string_wcount_sequence() : 1", "__This__is__a__test__", "__", 4);
-	test_string_wcount_sequence("string_wcount_sequence() : 2", "__This__is__a__test__", "_", 4);
-	test_string_wcount_sequence("string_wcount_sequence() : 3", "thisThisthisisthisathistestthis", "this", 4);
+	// test_string_wcount_sequence("string_wcount_sequence() : 1", "__This__is__a__test__", "__", 4);
+	// test_string_wcount_sequence("string_wcount_sequence() : 2", "__This__is__a__test__", "_", 4);
+	// test_string_wcount_sequence("string_wcount_sequence() : 3", "thisThisthisisthisathistestthis", "this", 4);
 
 	// test_string_replace_scalar("string_replace_scalar() : 1", allocator, "ThGs Gs a test of a strGng", 'G', 'i', "This is a test of a string");
 	// test_string_replace_scalar("string_replace_scalar() : 2", allocator, "ThGs Gs a test of a strGng", 'z', 'i', "ThGs Gs a test of a strGng");
@@ -1511,6 +1531,11 @@ void call_test(void)
 
 	// test_string_replace_sequence("string_replace_sequence() : 1", allocator, "" , "", "", "");
 	// test_string_replace_sequence("string_replace_sequence() : 2", allocator, "this is a string this is a string this is a string" , "this", "This", "This is a string This is a string This is a string");
+	// test_string_replace_sequence("string_replace_sequence() : 3", allocator, "this is a string this is a string this is a string" , "this", "", " is a string  is a string  is a string");
+	// test_string_replace_sequence("string_replace_sequence() : 2", allocator, "$HOME/file.c" , "$HOME", "/home/pollivie", "/home/pollivie/file.c");
+
+	
+
 
 	allocator->deinit(allocator);
 }

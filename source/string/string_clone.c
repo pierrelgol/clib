@@ -16,7 +16,6 @@ char *string_clone(t_allocator *const allocator, const char *source)
 {
 	char    *result;
 	uint64_t len;
-	uint64_t i;
 
 	len = string_length(source);
 	result = memalloc(allocator, len + 1);

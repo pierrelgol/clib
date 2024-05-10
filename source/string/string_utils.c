@@ -12,21 +12,21 @@
 
 #include "../../include/clib.h"
 
-uint64_t	string_length(const char *string)
+uint64_t string_length(const char *string)
 {
-	char	*ptr;
+	char *ptr;
 
 	if (!string)
 		return (0);
-	ptr = (char*) string;
+	ptr = (char *) string;
 	while (*ptr)
 		++ptr;
-	return ((uint64_t)(ptr - string));
+	return ((uint64_t) (ptr - string));
 }
 
 uint64_t string_index_of_difference(const char *s1, const char *s2)
 {
-	uint64_t	index;
+	uint64_t index;
 
 	if (!s1 || !s2)
 		return (NOTFOUND);
@@ -36,3 +36,18 @@ uint64_t string_index_of_difference(const char *s1, const char *s2)
 	return (index);
 }
 
+uint64_t string_compute_replace_sequence_size(const char *haystack, const char *needle, const char *with)
+{
+	uint64_t hlen;
+	uint64_t nlen;
+	uint64_t wlen;
+	uint64_t count;
+
+	hlen = string_length(haystack);
+	nlen = string_length(needle);
+	wlen = string_length(with);
+	count = string_count_sequence(haystack, needle, hlen);
+	hlen = hlen - (count * nlen);
+	hlen = hlen + (count * wlen);
+	return (hlen);
+}

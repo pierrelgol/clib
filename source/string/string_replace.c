@@ -84,6 +84,26 @@ char *string_replace_predicate(t_allocator *const allocator, const char *source,
 	return (result);
 }
 
-// char *string_replace_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const char *with)
-// {
-// }
+char *string_replace_sequence(const char *haystack, const char *needle, const char *with, char *out_buffer)
+{
+	uint64_t nlen;
+	uint64_t i;
+	uint64_t j;
+
+	if (!haystack || !needle || (*needle == 0) || !with)
+		return (NULL);
+	nlen  = string_length(needle);
+	i = 0;
+	j = 0;
+	while (haystack[i])
+	{
+		if (string_starts_with_sequence(&haystack[i], needle))
+		{
+			j += string_append_one_assume_capacity(&out_buffer[j], with);
+			i += nlen;
+		}
+		else
+			out_buffer[j++] = haystack[i++];
+	}
+	return (out_buffer);
+}

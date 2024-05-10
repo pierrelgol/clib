@@ -129,6 +129,9 @@ t_bitset bitset_difference(const t_bitset *bitset1, const t_bitset *bitset2);
 uint64_t string_length(const char *string);
 // OK
 uint64_t string_index_of_difference(const char *s1, const char *s2);
+// OK
+uint64_t string_compute_replace_sequence_size(const char *haystack, const char *needle, const char *with);
+
 
 // OK
 int32_t string_compare(const char *s1, const char *s2);
@@ -255,7 +258,7 @@ char *string_replace_scalar(t_allocator *const allocator, const char *source, co
 char *string_replace_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
 char *string_replace_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
 char *string_replace_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch), const int32_t with);
-char *string_replace_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const char *with);
+char *string_replace_sequence(const char *haystack, const char *needle, const char *with, char *out_buffer);
 
 char	*string_extract_between_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
 char	*string_extract_between_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
@@ -281,6 +284,11 @@ char **string_split_any(t_allocator *const allocator, const char *source, const 
 char **string_split_none(t_allocator *const allocator, const char *source, const t_bitset *delimiters);
 char **string_split_predicate(t_allocator *const allocator, const char *source, bool (predicate)(int32_t));
 char **string_split_sequence(t_allocator *const allocator, const char *source, const char *needle);
+
+uint64_t string_append_one_assume_capacity(char *dest, const char *one);
+uint64_t string_append_one(t_allocator *const allocator, char **dest, const char *one, const uint64_t destsize);
+uint64_t string_append_many_assume_capacity(char *dest, const char **strings);
+uint64_t string_append_many(t_allocator *const allocator, char **dest, const char **strings, const uint64_t destsize);
 
 char	*string_join_one(t_allocator *const allocator, const char *s1, const char *s2);
 char	*string_join_many(t_allocator *const allocator, const char **strings);
