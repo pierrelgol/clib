@@ -5,95 +5,84 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 14:11:56 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/10 14:11:57 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/11 12:34:24 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/11 12:34:25 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-char *string_join_one(t_allocator *const allocator, const char *s1, const char *s2)
+char	*string_join_scalar(t_allocator *const allocator, const char *string,
+		const int32_t scalar)
 {
-	char    *result;
-	uint64_t s1len;
-	uint64_t s2len;
-	uint64_t len;
+	char		*result;
+	uint64_t	len;
 
-	if (!s1 || !s2)
-		return (NULL);
-	s1len = string_length(s1);
-	s2len = string_length(s2);
-	len = s1len + s2len;
+	len = string_length(string) + 1;
 	result = memalloc(allocator, len + 1);
-	string_copy(result, s1, len + 1);
-	string_copy(&result[s1len], s2, len + 1);
-	result[len] = 0x00;
+	result = string_append_sequence(result, string, len + 1);
+	result = string_append_scalar(result, scalar, len + 1);
 	return (result);
 }
 
-char *string_join_many(t_allocator *const allocator, const char **strings)
+char	*string_join_sequence(t_allocator *const allocator, const char *string,
+		const char *sequence)
 {
-	char    *result;
-	uint64_t len;
-	uint64_t i;
+	char		*result;
+	uint64_t	len;
 
-	i = 0;
-	len = 0;
-	while (strings[i])
-		len += string_length(strings[i++]);
+	len = string_length(string) + string_length(sequence);
 	result = memalloc(allocator, len + 1);
-	string_append_many_assume_capacity(result, &strings[1]);
+	result = string_append_sequence(result, string, len + 1);
+	result = string_append_sequence(result, sequence, len + 1);
 	return (result);
 }
 
-char *string_join_many_scalar(t_allocator *const allocator, const char **strings, const int32_t scalar)
+char	*string_join_scalar_sequence(t_allocator *const allocator,
+		const char *string, const int32_t scalar, const char *sequence)
 {
-	char    *result;
-	uint64_t len;
-	uint64_t i;
-	uint64_t j;
+	char		*result;
+	uint64_t	len;
 
-	i = 0;
-	len = 1;
-	while (strings[i])
-		len += string_length(strings[i++]) + 1;
+	len = string_length(string) + string_length(sequence) + 1;
+	result = memalloc(allocator, len + 1);
+	result = string_append_sequence(result, string, len + 1);
+	result = string_append_scalar(result, scalar, len + 1);
+	result = string_append_sequence(result, sequence, len + 1);
+	return (result);
+}
+
+char	*string_join_many_sequence(t_allocator *const allocator,
+		const char *string, const char **many)
+{
+	char		*result;
+	uint64_t	len;
+	uint64_t	i;
+
+	len = string_split_length(many);
 	result = memalloc(allocator, len + 1);
 	i = 0;
-	j = 0;
-	while (strings[i])
+	string_append_sequence(result, string, len + 1);
+	while (many[i])
+		string_append_sequence(result, many[i++], len + 1);
+	return (result);
+}
+
+char	*string_join_many_scalar_sequence(t_allocator *const allocator,
+		const char *string, const int32_t scalar, const char **many)
+{
+	char		*result;
+	uint64_t	len;
+	uint64_t	i;
+
+	len = string_split_length(many);
+	result = memalloc(allocator, len + 1);
+	i = 0;
+	string_append_sequence(result, string, len + 1);
+	while (many[i])
 	{
-		if (i == 0)
-			j += string_append_one_assume_capacity(&result[j], (char[2]){(char) scalar, 0});
-		j += string_append_one_assume_capacity(&result[j], strings[i++]);
-		if ((j + 1) != len)
-			j += string_append_one_assume_capacity(&result[j], (char[2]){(char) scalar, 0});
-	}
-	return (result);
-}
-
-char *string_join_many_sequence(t_allocator *const allocator, const char **strings, const char *sep)
-{
-	char    *result;
-	uint64_t slen;
-	uint64_t len;
-	uint64_t i;
-	uint64_t j;
-
-	i = 0;
-	slen = string_length(sep);
-	len = slen;
-	while (strings[i])
-		len += string_length(strings[i++]) + slen;
-	result = memalloc(allocator, len + 1);
-	i = 0;
-	j = 0;
-	while (strings[i])
-	{
-		if (i == 0)
-			j += string_append_one_assume_capacity(&result[j], sep);
-		j += string_append_one_assume_capacity(&result[j], strings[i++]);
-		if ((j + slen) != len)
-			j += string_append_one_assume_capacity(&result[j], sep);
+		string_append_scalar(result, scalar, len + 1);
+		string_append_sequence(result, many[i++], len + 1);
 	}
 	return (result);
 }

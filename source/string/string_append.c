@@ -5,68 +5,107 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/10 14:26:43 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/10 14:26:43 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/11 12:19:33 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/11 12:19:34 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
+char	*string_append_scalar(char *dest, const int32_t scalar,
+		const uint64_t destsize)
+{
+	uint64_t	i;
 
-uint64_t string_append_one_assume_capacity(char *dest, const char *one)
+	i = string_length(dest);
+	if ((i + 1) < destsize)
+	{
+		dest[i++] = scalar;
+		dest[i] = 0x00;
+	}
+	return (dest);
+}
+
+char	*string_append_sequence(char *dest, const char *sequence,
+		const uint64_t destsize)
 {
 	uint64_t	i;
 	uint64_t	j;
 
-	if (!dest || !one)
-		return (0);
+	if (!sequence)
+		return (dest);
 	i = string_length(dest);
 	j = 0;
-	while (one[j])
-		dest[i++] = one[j++];
+	while (sequence[j] && (i + 1) < destsize)
+		dest[i++] = (char)sequence[j++];
 	dest[i] = 0x00;
-	return (j);
+	return (dest);
 }
 
-uint64_t string_append_many_assume_capacity(char *dest, const char **strings)
-{
-	uint64_t i;
-	uint64_t j;
-
-	if (!dest  || !strings || !*strings)
-		return (0);
-	i = string_length(dest);
-	j = 0;
-	while (strings[j])
-		i += string_append_one_assume_capacity(&dest[i], strings[j++]);
-	dest[i] = 0x00;
-	return (i);
-}
-
-uint64_t string_append_one(t_allocator *const allocator, char **dest, const char *one, const uint64_t destsize)
-{
-	uint64_t	dlen;
-	uint64_t	olen;
-
-	if (!dest || !one)
-		return (0);
-	dlen = string_length(*dest);
-	olen = string_length(one);
-	if (dlen + olen + 1 < destsize)
-		*dest = memresize(allocator, *dest, destsize, destsize + olen + 1);
-	return (string_append_one_assume_capacity(*dest, one));
-}
-
-uint64_t string_append_many(t_allocator *const allocator, char **dest, const char **strings, const uint64_t destsize)
+char	*string_append_scalar_sequence(char *dest, const int32_t scalar,
+		const char *sequence, const uint64_t destsize)
 {
 	uint64_t	i;
 	uint64_t	j;
 
-	if (!dest || !strings)
-		return (0);
-	i = 0;
-	j= 0;
-	while (strings[i])
-		j += string_append_one(allocator, dest, strings[i++], destsize);
-	return (j);
+	i = string_length(dest);
+	if ((i + 1) < destsize)
+	{
+		dest[i++] = scalar;
+		dest[i] = 0x00;
+	}
+	if (!sequence)
+		return (dest);
+	j = 0;
+	while (sequence[j] && (i + 1) < destsize)
+		dest[i++] = (char)sequence[j++];
+	dest[i] = 0x00;
+	return (dest);
+}
+
+char	*string_append_many_sequence(char *dest, const char **many,
+		const uint64_t destsize)
+{
+	uint64_t	i;
+	uint64_t	j;
+	uint64_t	k;
+	char		*sequence;
+
+	j = 0;
+	i = string_length(dest);
+	while (many[j])
+	{
+		k = 0;
+		sequence = (char *)many[j];
+		while (sequence[k] && (i + 1) < destsize)
+			dest[i++] = (char)sequence[k++];
+		dest[i] = 0x00;
+	}
+	return (dest);
+}
+
+char	*string_append_many_scalar_sequence(char *dest, const int32_t scalar,
+		const char **many, const uint64_t destsize)
+{
+	uint64_t	i;
+	uint64_t	j;
+	uint64_t	k;
+	char		*sequence;
+
+	j = 0;
+	i = string_length(dest);
+	while (many[j])
+	{
+		k = 0;
+		sequence = (char *)many[j];
+		if ((i + 1) < destsize)
+		{
+			dest[i++] = scalar;
+			dest[i] = 0x00;
+		}
+		while (sequence[k] && (i + 1) < destsize)
+			dest[i++] = (char)sequence[k++];
+		dest[i] = 0x00;
+	}
+	return (dest);
 }

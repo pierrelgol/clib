@@ -12,7 +12,8 @@
 
 #include "../../include/clib.h"
 
-uint64_t	string_copy(char *dest, const char *src, const uint64_t destsize)
+uint64_t	string_copy_until_scalar(char *dest, const char *src,
+		const int32_t scalar, const uint64_t destsize)
 {
 	uint64_t	i;
 
@@ -20,41 +21,86 @@ uint64_t	string_copy(char *dest, const char *src, const uint64_t destsize)
 		return (string_length(src));
 	i = 0;
 	while (*src && i < (destsize - 1))
+	{
+		if (*src == scalar)
+			break ;
 		dest[i++] = *src++;
+	}
 	dest[i] = 0x00;
 	return (i);
 }
 
-uint64_t	string_ccopy(char *dest, const int32_t ch, const char *src,
-		const uint64_t destsize)
+uint64_t	string_copy_until_any(char *dest, const char *src,
+		const t_bitset *delimiters, const uint64_t destsize)
 {
 	uint64_t	i;
 
 	if (!dest || !src || destsize == 0)
-		return (0);
+		return (string_length(src));
 	i = 0;
-	while (*(src + i) && i < destsize)
+	while (*src && i < (destsize - 1))
 	{
-		if (*(src + i) == (uint8_t)ch)
-			return (i + 1);
-		*(dest + i) = *(src + i);
-		++i;
+		if (bitset_is_set(delimiters, *src))
+			break ;
+		dest[i++] = *src++;
 	}
-	return (0);
+	dest[i] = 0x00;
+	return (i);
 }
 
-uint64_t	string_lcopy(char *dst, const char *src, uint64_t dsize)
+uint64_t	string_copy_until_none(char *dest, const char *src,
+		const t_bitset *delimiters, const uint64_t destsize)
 {
 	uint64_t	i;
 
-	i = 0;
-	if (dsize == 0)
+	if (!dest || !src || destsize == 0)
 		return (string_length(src));
-	while (src[i] && (i + 1) < dsize)
+	i = 0;
+	while (*src && i < (destsize - 1))
 	{
-		dst[i] = src[i];
-		++i;
+		if (!bitset_is_set(delimiters, *src))
+			break ;
+		dest[i++] = *src++;
 	}
-	dst[i] = 0x00;
-	return (string_length(src));
+	dest[i] = 0x00;
+	return (i);
+}
+
+uint64_t	string_copy_until_predicate(char *dest, const char *src,
+		bool(predicate)(int32_t ch), const uint64_t destsize)
+{
+	uint64_t	i;
+
+	if (!dest || !src || destsize == 0)
+		return (string_length(src));
+	i = 0;
+	while (*src && i < (destsize - 1))
+	{
+		if (predicate(*src))
+			break ;
+		dest[i++] = *src++;
+	}
+	dest[i] = 0x00;
+	return (i);
+}
+
+uint64_t	string_copy_until_sequence(char *dest, const char *src,
+		const char *needle, const uint64_t destsize)
+{
+	uint64_t	i;
+	char		*end;
+
+	if (!dest || !src || destsize == 0)
+		return (string_length(src));
+	i = 0;
+	end = string_search_sequence(src, needle, string_length(src));
+	if (!end)
+		return (string_copy_until_scalar(dest, src, '\0', destsize));
+	else
+	{
+		while (src < end && i < (destsize - 1))
+			dest[i++] = *src++;
+		dest[i] = 0x00;
+	}
+	return (i);
 }

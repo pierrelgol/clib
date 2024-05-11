@@ -39,7 +39,7 @@ char	*string_trim_right(t_allocator *const allocator, const char *source,
 	ret = memalloc(allocator, slen - amount + 1);
 	if (!ret)
 		return (NULL);
-	string_copy(ret, source, slen - amount + 1);
+	string_copy_until_scalar(ret, source, '\0', slen - amount + 1);
 	ret[slen - amount] = '\0';
 	return (ret);
 }
@@ -62,7 +62,8 @@ char	*string_trim_both(t_allocator *const allocator, const char *source,
 	ret = memalloc(allocator, slen - trim_both_amount + 1);
 	if (!ret)
 		return (NULL);
-	string_copy(ret, &source[amount], slen - trim_both_amount + 1);
+	string_copy_until_scalar(ret, &source[amount], '\0', slen - trim_both_amount
+		+ 1);
 	ret[slen - trim_both_amount] = '\0';
 	return (ret);
 }

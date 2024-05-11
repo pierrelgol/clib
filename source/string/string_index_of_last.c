@@ -12,10 +12,11 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_index_of_last_scalar(const char *source, const int32_t scalar)
+uint64_t	string_index_of_last_scalar(const char *source,
+		const int32_t scalar)
 {
-	uint64_t last;
-	uint64_t i;
+	uint64_t	last;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -32,10 +33,11 @@ uint64_t string_index_of_last_scalar(const char *source, const int32_t scalar)
 	return (last);
 }
 
-uint64_t string_index_of_last_any(const char *source, t_bitset const *delimiters)
+uint64_t	string_index_of_last_any(const char *source,
+		t_bitset const *delimiters)
 {
-	uint64_t last;
-	uint64_t i;
+	uint64_t	last;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -52,10 +54,11 @@ uint64_t string_index_of_last_any(const char *source, t_bitset const *delimiters
 	return (last);
 }
 
-uint64_t string_index_of_last_none(const char *source, t_bitset const *delimiters)
+uint64_t	string_index_of_last_none(const char *source,
+		t_bitset const *delimiters)
 {
-	uint64_t last;
-	uint64_t i;
+	uint64_t	last;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -72,10 +75,11 @@ uint64_t string_index_of_last_none(const char *source, t_bitset const *delimiter
 	return (last);
 }
 
-uint64_t string_index_of_last_predicate(const char *source, bool(predicate)(int32_t ch))
+uint64_t	string_index_of_last_predicate(const char *source,
+		bool(predicate)(int32_t ch))
 {
-	uint64_t last;
-	uint64_t i;
+	uint64_t	last;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -92,15 +96,14 @@ uint64_t string_index_of_last_predicate(const char *source, bool(predicate)(int3
 	return (last);
 }
 
-uint64_t string_index_of_last_sequence(const char *haystack, const char *needle)
+uint64_t	string_index_of_last_sequence(const char *haystack,
+		const char *needle)
 {
-	uint64_t u1;
-	uint64_t u2;
-	uint64_t last;
+	uint64_t	u1;
+	uint64_t	u2;
+	uint64_t	last;
 
-	if (!haystack)
-		return (0);
-	if (needle[0] == '\0')
+	if (!haystack || needle[0] == '\0')
 		return (0);
 	u1 = 0;
 	last = 0;
@@ -116,7 +119,8 @@ uint64_t string_index_of_last_sequence(const char *haystack, const char *needle)
 			last = (u1 - u2);
 		u1 = (u1 - u2) + 1;
 	}
-	if (last == 0 && needle[(string_index_of_difference(needle, haystack))] != 0)
+	u2 = string_index_of_difference(needle, haystack);
+	if (last == 0 && needle[u2] != 0)
 		return (NOTFOUND);
 	return (last);
 }

@@ -12,9 +12,9 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_wlength_scalar(const char *source, const int32_t scalar)
+uint64_t	string_wlength_scalar(const char *source, const int32_t scalar)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (0);
@@ -22,9 +22,9 @@ uint64_t string_wlength_scalar(const char *source, const int32_t scalar)
 	return (string_count_until_scalar(&source[i], scalar));
 }
 
-uint64_t string_wlength_any(const char *source, const t_bitset *delimiters)
+uint64_t	string_wlength_any(const char *source, const t_bitset *delimiters)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (0);
@@ -32,9 +32,9 @@ uint64_t string_wlength_any(const char *source, const t_bitset *delimiters)
 	return (string_count_until_any(&source[i], delimiters));
 }
 
-uint64_t string_wlength_none(const char *source, const t_bitset *delimiters)
+uint64_t	string_wlength_none(const char *source, const t_bitset *delimiters)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (0);
@@ -42,9 +42,10 @@ uint64_t string_wlength_none(const char *source, const t_bitset *delimiters)
 	return (string_count_until_none(&source[i], delimiters));
 }
 
-uint64_t string_wlength_predicate(const char *source, bool(predicate)(int32_t ch))
+uint64_t	string_wlength_predicate(const char *source,
+		bool(predicate)(int32_t ch))
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (0);
@@ -52,12 +53,13 @@ uint64_t string_wlength_predicate(const char *source, bool(predicate)(int32_t ch
 	return (string_count_until_predicate(&source[i], predicate));
 }
 
-uint64_t string_wlength_sequence(const char *source, const char *sequence)
+uint64_t	string_wlength_sequence(const char *source, const char *sequence)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (0);
-	i = string_count_leading_sequence(source, sequence) * string_length(sequence);
+	i = string_count_leading_sequence(source, sequence)
+		* string_length(sequence);
 	return (string_count_until_sequence(&source[i], sequence));
 }

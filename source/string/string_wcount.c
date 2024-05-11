@@ -32,9 +32,9 @@ uint64_t	string_wcount_scalar(const char *source, const int32_t scalar)
 	}
 	return (count);
 }
+
 uint64_t	string_wcount_any(const char *source, const t_bitset *delimiters)
 {
-	
 	uint64_t	count;
 	uint64_t	slen;
 	uint64_t	i;
@@ -53,9 +53,9 @@ uint64_t	string_wcount_any(const char *source, const t_bitset *delimiters)
 	}
 	return (count);
 }
+
 uint64_t	string_wcount_none(const char *source, const t_bitset *delimiters)
 {
-	
 	uint64_t	count;
 	uint64_t	slen;
 	uint64_t	i;
@@ -75,9 +75,9 @@ uint64_t	string_wcount_none(const char *source, const t_bitset *delimiters)
 	return (count);
 }
 
-uint64_t	string_wcount_predicate(const char *source, bool (predicate)(int32_t ch))
+uint64_t	string_wcount_predicate(const char *source,
+		bool(predicate)(int32_t ch))
 {
-	
 	uint64_t	count;
 	uint64_t	slen;
 	uint64_t	i;

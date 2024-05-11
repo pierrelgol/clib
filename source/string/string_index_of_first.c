@@ -12,9 +12,10 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_index_of_first_scalar(const char *source, const int32_t scalar)
+uint64_t	string_index_of_first_scalar(const char *source,
+		const int32_t scalar)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -28,9 +29,10 @@ uint64_t string_index_of_first_scalar(const char *source, const int32_t scalar)
 	return (NOTFOUND);
 }
 
-uint64_t string_index_of_first_any(const char *source, t_bitset const *delimiters)
+uint64_t	string_index_of_first_any(const char *source,
+		t_bitset const *delimiters)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -44,9 +46,10 @@ uint64_t string_index_of_first_any(const char *source, t_bitset const *delimiter
 	return (NOTFOUND);
 }
 
-uint64_t string_index_of_first_none(const char *source, t_bitset const *delimiters)
+uint64_t	string_index_of_first_none(const char *source,
+		t_bitset const *delimiters)
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -60,9 +63,10 @@ uint64_t string_index_of_first_none(const char *source, t_bitset const *delimite
 	return (NOTFOUND);
 }
 
-uint64_t string_index_of_first_predicate(const char *source, bool(predicate)(int32_t ch))
+uint64_t	string_index_of_first_predicate(const char *source,
+		bool(predicate)(int32_t ch))
 {
-	uint64_t i;
+	uint64_t	i;
 
 	if (!source)
 		return (NOTFOUND);
@@ -76,10 +80,11 @@ uint64_t string_index_of_first_predicate(const char *source, bool(predicate)(int
 	return (NOTFOUND);
 }
 
-uint64_t string_index_of_first_sequence(const char *haystack, const char *needle)
+uint64_t	string_index_of_first_sequence(const char *haystack,
+		const char *needle)
 {
-	uint64_t u1;
-	uint64_t u2;
+	uint64_t	u1;
+	uint64_t	u2;
 
 	if (!haystack)
 		return (0);

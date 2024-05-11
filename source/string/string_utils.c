@@ -12,21 +12,35 @@
 
 #include "../../include/clib.h"
 
-uint64_t string_length(const char *string)
+uint64_t	string_length(const char *string)
 {
-	char *ptr;
+	char	*ptr;
 
 	if (!string)
 		return (0);
-	ptr = (char *) string;
+	ptr = (char *)string;
 	while (*ptr)
 		++ptr;
-	return ((uint64_t) (ptr - string));
+	return ((uint64_t)(ptr - string));
 }
 
-uint64_t string_index_of_difference(const char *s1, const char *s2)
+uint64_t	string_split_length(const char **split)
 {
-	uint64_t index;
+	uint64_t	total;
+	uint64_t	i;
+
+	if (!split || *split == 0)
+		return (0);
+	i = 0;
+	total = 0;
+	while (split[i])
+		total += string_length(split[i++]);
+	return (total);
+}
+
+uint64_t	string_index_of_difference(const char *s1, const char *s2)
+{
+	uint64_t	index;
 
 	if (!s1 || !s2)
 		return (NOTFOUND);
@@ -36,12 +50,13 @@ uint64_t string_index_of_difference(const char *s1, const char *s2)
 	return (index);
 }
 
-uint64_t string_compute_replace_sequence_size(const char *haystack, const char *needle, const char *with)
+uint64_t	string_compute_replace_sequence_size(const char *haystack,
+		const char *needle, const char *with)
 {
-	uint64_t hlen;
-	uint64_t nlen;
-	uint64_t wlen;
-	uint64_t count;
+	uint64_t	hlen;
+	uint64_t	nlen;
+	uint64_t	wlen;
+	uint64_t	count;
 
 	hlen = string_length(haystack);
 	nlen = string_length(needle);

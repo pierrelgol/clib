@@ -19,8 +19,7 @@ char	*string_trim_trailing_scalar(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_count_trailing_scalar(source,
-			scalar);
+	amount = string_count_trailing_scalar(source, scalar);
 	return (string_trim_right(allocator, source, amount));
 }
 
@@ -31,8 +30,7 @@ char	*string_trim_trailing_any(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_count_trailing_any(source,
-			delimiters);
+	amount = string_count_trailing_any(source, delimiters);
 	return (string_trim_right(allocator, source, amount));
 }
 
@@ -43,8 +41,7 @@ char	*string_trim_trailing_none(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_count_trailing_none(source,
-			delimiters);
+	amount = string_count_trailing_none(source, delimiters);
 	return (string_trim_right(allocator, source, amount));
 }
 
@@ -55,8 +52,7 @@ char	*string_trim_trailing_predicate(t_allocator *const allocator,
 
 	if (!source)
 		return (NULL);
-	amount = string_count_trailing_predicate(source,
-			predicate);
+	amount = string_count_trailing_predicate(source, predicate);
 	return (string_trim_right(allocator, source, amount));
 }
 

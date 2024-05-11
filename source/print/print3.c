@@ -14,7 +14,6 @@
 
 t_printer	print_fmt_parser(const char *fmt)
 {
-
 	if (fmt[0] == '%' || fmt[0] == 'c')
 		return ((t_printer){.fmt = put_char});
 	else if (fmt[0] == 's')

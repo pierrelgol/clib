@@ -91,9 +91,9 @@ uint64_t	string_count_predicate(const char *source,
 uint64_t	string_count_sequence(const char *haystack, const char *needle,
 		const uint64_t n)
 {
-	uint64_t u1;
-	uint64_t u2;
-	uint64_t count;
+	uint64_t	u1;
+	uint64_t	u2;
+	uint64_t	count;
 
 	if (!haystack)
 		return (0);
