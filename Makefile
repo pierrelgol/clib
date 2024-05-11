@@ -13,60 +13,20 @@
 
 CC     =  clang
 RM     =  rm -f
-# CFLAGS =  -Wall                                     \
-#           -Wextra                                   \
-#           -glldb                                    \
-#           -march=native                             \
-#           -mtune=native                             \
-#           -fsanitize=address                        \
-#           -fsanitize=undefined                      \
-#           -fsanitize=integer                        \
-#           -fstrict-overflow                         \
-#           -Walloca                                  \
-#           -Wformat=2                                \
-#           -Wformat-security                         \
-#           -Wnull-dereference                        \
-#           -Wstack-protector                         \
-#           -Wvla                                     \
-#           -Wshorten-64-to-32                        \
-#           -Warray-bounds                            \
-#           -Warray-bounds-pointer-arithmetic         \
-#           -Wimplicit-fallthrough                    \
-#           -Wloop-analysis                           \
-#           -Wshift-sign-overflow                     \
-#           -Wswitch-enum                             \
-#           -Wtautological-constant-in-range-compare  \
-#           -Wcomma                                   \
-#           -Wassign-enum                             \
-#           -Wbad-function-cast                       \
-#           -Wfloat-equal                             \
-#           -Wformat-type-confusion                   \
-#           -Wpointer-arith                           \
-#           -Widiomatic-parentheses                   \
-#           -Wunreachable-code-aggressive             \
-#           -fstack-protector-all                     \
-#           -fPIE                                     \
-#           -fno-optimize-sibling-calls               \
-
 
 CFLAGS =   -Wall                                    \
            -Wextra                                  \
-           -glldb                                   \
+           -g3                                      \
 
-NAME   =    libplib.a
+NAME   =    libclib.a
 DIRS   =    source/memory                           \
-            source/char                             \
-            source/string                           \
-            source/list                             \
             source/allocator                        \
-            source/buffer                           \
-            source/queue                            \
-            source/stack                            \
-            source/scanner                          \
-            source/vector                           \
-            source/table                            \
-            source/file                             \
+            source/bitset                           \
             source/print                            \
+            source/string                           \
+            source/misc                             \
+            source/char                             \
+            source/testing                          \
 
 SRCS := $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)

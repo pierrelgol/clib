@@ -3,26 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   string_clone.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/03 12:51:39 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/03 12:51:39 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/11 13:29:04 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/11 13:29:04 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
-#include <assert.h>
 
-char	*string_clone(struct s_allocator *allocator, const char *string)
+char	*string_clone(t_allocator *const allocator, const char *src)
 {
-	char		*clone;
-	uint64_t	len;
+	return (string_nclone(allocator, src, string_length(src)));
+}
 
-	assert(string != 0);
-	assert(allocator != 0);
-	len = string_length(string);
-	clone = allocator->create(allocator, len + 1);
-	clone = memory_copy(clone, string, len);
-	clone[len] = 0x00;
-	return (clone);
+char	*string_clone_scalar(t_allocator *const allocator, const int32_t ch)
+{
+	char	*result;
+
+	result = memalloc(allocator, 2);
+	result[0] = (uint8_t)ch;
+	result[1] = 0x00;
+	return (result);
+}
+
+char	*string_nclone(t_allocator *const allocator, const char *src,
+		uint64_t n)
+{
+	char	*result;
+
+	result = memalloc(allocator, n + 1);
+	result = string_append_sequence(result, src, n + 1);
+	return (result);
 }
