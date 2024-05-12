@@ -485,4 +485,56 @@ t_printer		print_fmt_parser(const char *fmt);
 int32_t			arg_len(const char *fmt);
 int32_t			print(int fd, const char *fmt, ...);
 
+// ***********************************+************************************** //
+//                           LIST                                             //
+// ************************************************************************** //
+
+
+t_node *node_create(t_allocator *const allocator, const uintptr_t data);
+t_node *node_destroy(t_allocator *const allocator, t_node *const node);
+t_node *node_get_nchild(t_node *const node, const uint64_t n);
+t_node *node_get_matching_child(t_node *const node, const uintptr_t data, bool(compare)(const uintptr_t, const uintptr_t));
+t_node  *node_remove_child(t_node *const node);
+uint64_t node_count_child(t_node *const node);
+void     node_insert_child(t_node *const node, t_node *const child);
+
+t_list  *list_create(t_allocator *const allocator);
+bool     list_is_empty(t_list *const list);
+uint64_t list_size(t_list *const list);
+void list_insert_at(t_list *const self, t_node *const node, const uint64_t index);
+void    list_insert_back(t_list *const self, t_node *const node);
+void    list_insert_front(t_list *const self, t_node *const node);
+t_node *list_remove_at(t_list *const self, const uint64_t index);
+t_node *list_remove_back(t_list *const self);
+t_node *list_remove_front(t_list *const self);
+void list_push_at(t_list *const self, const uintptr_t data, const uint64_t index);
+void      list_push_back(t_list *const self, const uintptr_t data);
+void      list_push_front(t_list *const self, const uintptr_t data);
+uintptr_t list_pop_at(t_list *const self, const uint64_t index);
+uintptr_t list_pop_back(t_list *const self);
+uintptr_t list_pop_front(t_list *const self);
+
+
+// ***********************************+************************************** //
+//                           BUFFER                                           //
+// ************************************************************************** //
+
+bool      buffer_clear(t_buffer *const self);
+bool      buffer_grow(t_buffer *const self);
+bool      buffer_should_grow(t_buffer *const self, const uint64_t requested);
+int32_t   buffer_getch(t_buffer *const self);
+int32_t   buffer_putch(t_buffer *const self, const char ch);
+uint64_t  buffer_reserve(t_buffer *const self, const uint64_t size);
+t_buffer *buffer_create(t_allocator *const allocator);
+t_buffer *buffer_destroy(t_buffer *self);
+uint64_t buffer_read(t_buffer *const self, char *const buf, const uint64_t buffsize);
+uint64_t buffer_cache(t_buffer *const self, const int32_t fd);
+uint64_t buffer_unread_count(t_buffer *const self);
+uint64_t buffer_unwrite_count(t_buffer *const self);
+uint64_t buffer_write(t_buffer *const self, char *buf, const uint64_t size);
+char *buffer_gets(t_buffer *const self, char *const dest, const uint64_t size);
+char *buffer_puts(t_buffer *const self, const char *str);
+void  buffer_compact(t_buffer *const self);
+
+
 #endif

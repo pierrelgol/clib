@@ -27,6 +27,7 @@ typedef struct s_logger    t_logger;
 typedef struct s_bitset    t_bitset;
 typedef struct s_node      t_node;
 typedef struct s_list      t_list;
+typedef struct s_buffer	   t_buffer;
 
 bool(predicate)(int32_t ch);
 
@@ -112,13 +113,6 @@ struct s_node
 	uintptr_t      data;
 };
 
-t_node *node_create(t_allocator *const allocator, const uintptr_t data);
-t_node *node_destroy(t_allocator *const allocator, t_node *const node);
-t_node *node_get_nchild(t_node *const node, const uint64_t n);
-t_node *node_get_matching_child(t_node *const node, const uintptr_t data, bool(compare)(const uintptr_t, const uintptr_t));
-t_node  *node_remove_child(t_node *const node);
-uint64_t node_count_child(t_node *const node);
-void     node_insert_child(t_node *const node, t_node *const child);
 
 struct s_list
 {
@@ -128,20 +122,19 @@ struct s_list
 	uint64_t     size;
 };
 
-t_list  *list_create(t_allocator *const allocator);
-bool     list_is_empty(t_list *const list);
-uint64_t list_size(t_list *const list);
-void list_insert_at(t_list *const self, t_node *const node, const uint64_t index);
-void    list_insert_back(t_list *const self, t_node *const node);
-void    list_insert_front(t_list *const self, t_node *const node);
-t_node *list_remove_at(t_list *const self, const uint64_t index);
-t_node *list_remove_back(t_list *const self);
-t_node *list_remove_front(t_list *const self);
-void list_push_at(t_list *const self, const uintptr_t data, const uint64_t index);
-void      list_push_back(t_list *const self, const uintptr_t data);
-void      list_push_front(t_list *const self, const uintptr_t data);
-uintptr_t list_pop_at(t_list *const self, const uint64_t index);
-uintptr_t list_pop_back(t_list *const self);
-uintptr_t list_pop_front(t_list *const self);
+
+#define BUFFER_CAPACITY 4095
+
+struct s_buffer
+{
+	t_allocator *allocator;
+	uint64_t     read_count;
+	uint64_t     write_count;
+	uint64_t     capacity;
+	int32_t      fdin;
+	int32_t      fdout;
+	char        *ptr;
+};
+
 
 #endif
