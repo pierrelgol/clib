@@ -29,6 +29,7 @@ DIRS   =    source/memory                           \
             source/testing                          \
             source/list                             \
             source/buffer                           \
+            source/table                            \
 
 SRCS := $(foreach dir,$(DIRS),$(wildcard ./$(dir)/*.c))
 OBJS := $(SRCS:.c=.o)

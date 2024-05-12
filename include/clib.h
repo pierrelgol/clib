@@ -536,5 +536,22 @@ char *buffer_gets(t_buffer *const self, char *const dest, const uint64_t size);
 char *buffer_puts(t_buffer *const self, const char *str);
 void  buffer_compact(t_buffer *const self);
 
+/******************************************************************************/
+/*                                Table                                       */
+/******************************************************************************/
+
+
+t_table  *table_create(t_allocator *const allocator);
+void      table_destroy(t_table *const self);
+void      table_entry_set(t_table *const self, char *const key, const uintptr_t value);
+uintptr_t table_entry_get(t_table *const self, char *const key);
+uint64_t  table_hash(char *const str);
+t_entry  *table_body_create(t_allocator *const allocator, const uint64_t capacity);
+void      table_body_remove(t_table *const self, char *const key);
+void      table_body_resize(t_table *const self, const uint64_t capacity);
+uint64_t  table_body_find_empty(t_table *const self, char *const key);
+
+
+
 
 #endif

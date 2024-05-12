@@ -27,9 +27,11 @@ typedef struct s_logger    t_logger;
 typedef struct s_bitset    t_bitset;
 typedef struct s_node      t_node;
 typedef struct s_list      t_list;
-typedef struct s_buffer	   t_buffer;
+typedef struct s_buffer    t_buffer;
+typedef struct s_entry     t_entry;
+typedef struct s_table     t_table;
 
-bool(predicate)(int32_t ch);
+typedef bool(t_predicate)(int32_t ch);
 
 typedef void *(t_fn_alloc) (void *const handle, const uint64_t size);
 typedef void *(t_fn_dealloc) (void *const handle, void *const ptr);
@@ -113,7 +115,6 @@ struct s_node
 	uintptr_t      data;
 };
 
-
 struct s_list
 {
 	t_allocator *allocator;
@@ -121,7 +122,6 @@ struct s_list
 	t_node      *tail;
 	uint64_t     size;
 };
-
 
 #define BUFFER_CAPACITY 4095
 
@@ -136,5 +136,23 @@ struct s_buffer
 	char        *ptr;
 };
 
+#ifndef DEFAULT_TABLE_SIZE
+#define DEFAULT_TABLE_SIZE 37781
+#endif
+
+struct s_entry
+{
+	char     *key;
+	uintptr_t value;
+};
+
+struct s_table
+{
+	t_allocator *allocator;
+	uint64_t size;
+	uint64_t capacity;
+	t_entry *body;
+
+};
 
 #endif
