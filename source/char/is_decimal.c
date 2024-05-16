@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffer_puts.c                                      :+:      :+:    :+:   */
+/*   is_decimal.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 21:27:25 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 21:27:26 by pollivie         ###   ########.fr       */
+/*   Created: 2023/12/01 12:12:24 by plgol.perso       #+#    #+#             */
+/*   Updated: 2024/05/16 09:31:24 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-char	*buffer_puts(t_buffer *self, char *str)
+bool is_decimal(int32_t ch)
 {
-	uint64_t	written;
-	char		*ptr;
-
-	ptr = &self->buffer[self->w];
-	written = string_copy_until_scalar(&self->buffer[self->w], str, '\n',
-			buffer_unwrite_count(self));
-	self->w += written + 1;
-	return (ptr);
+	return ((ch >= '0' && ch <= '9') || ch == '.');
 }

@@ -1,27 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffer_read.c                                      :+:      :+:    :+:   */
+/*   gpa_dupz.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 21:29:48 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 21:29:49 by pollivie         ###   ########.fr       */
+/*   Created: 2024/03/15 12:31:27 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/16 09:20:23 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uint64_t	buffer_read(t_buffer *self, char *buf, uint32_t size)
+void *gc_dupz(t_allocator *self, void *ptr, uint64_t bytes)
 {
-	uint64_t	unread_left;
-	uint64_t	read_count;
+	void *dup;
 
-	unread_left = buffer_unread_count(self);
-	if (size >= unread_left)
-		size = unread_left;
-	read_count = string_copy_until_scalar(buf, self->buffer, 0x00, size);
-	self->r += read_count;
-	buffer_compact(self);
-	return (read_count);
+	dup = gc_create(self, bytes + 1);
+	if (!dup)
+		return (ptr);
+	memory_copy(dup, ptr, bytes);
+	((char *) dup)[bytes] = 0x00;
+	return (dup);
 }

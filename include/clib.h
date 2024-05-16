@@ -80,15 +80,6 @@ void        *heap_clear(t_allocator *self, void *ptr);
 void         heap_reserve(t_allocator *self, uint64_t size, uint64_t count);
 void        *heap_deinit(t_allocator *self);
 
-t_allocator *arena_init(void);
-void        *arena_create(t_allocator *self, uint64_t size);
-void        *arena_destroy(t_allocator *self, void *ptr);
-void        *arena_dup(t_allocator *self, void *ptr, uint64_t bytes);
-void        *arena_dupz(t_allocator *self, void *ptr, uint64_t bytes);
-void        *arena_clear(t_allocator *self, void *ptr);
-void         arena_reserve(t_allocator *self, uint64_t size, uint64_t count);
-void        *arena_deinit(t_allocator *self);
-
 t_allocator *gc_init(void);
 void        *gc_create(t_allocator *self, uint64_t size);
 void        *gc_destroy(t_allocator *self, void *ptr);
@@ -121,62 +112,62 @@ uint64_t bit_unset_bit(uint64_t num, uint64_t pos);
 //                                  Char                                      //
 // ************************************************************************** //
 
-/// char_is_alnum - check if a character is alphanumeric
-bool char_is_alnum(int32_t ch);
+/// is_alnum - check if a character is alphanumeric
+bool is_alnum(int32_t ch);
 
-/// char_is_alpha - check if a character is alphabetic
-bool char_is_alpha(int32_t ch);
+/// is_alpha - check if a character is alphabetic
+bool is_alpha(int32_t ch);
 
-/// char_is_ascii - check if a character is ascii
-bool char_is_ascii(int32_t ch);
+/// is_ascii - check if a character is ascii
+bool is_ascii(int32_t ch);
 
-/// char_is_binary - check if a character is binary
-bool char_is_binary(int32_t ch);
+/// is_binary - check if a character is binary
+bool is_binary(int32_t ch);
 
-/// char_is_decimal - check if a character is decimal
-bool char_is_decimal(int32_t ch);
+/// is_decimal - check if a character is decimal
+bool is_decimal(int32_t ch);
 
-/// char_is_digit - check if a character is a digit
-bool char_is_digit(int32_t ch);
+/// is_digit - check if a character is a digit
+bool is_digit(int32_t ch);
 
-/// char_is_even - check if a character is even
-bool char_is_even(int32_t ch);
+/// is_even - check if a character is even
+bool is_even(int32_t ch);
 
-/// char_is_hex - check if a character is hex
-bool char_is_hex(int32_t ch);
+/// is_hex - check if a character is hex
+bool is_hex(int32_t ch);
 
-/// char_is_lowercase - check if a character is lowercase
-bool char_is_lowercase(int32_t ch);
+/// is_lowercase - check if a character is lowercase
+bool is_lowercase(int32_t ch);
 
-/// char_is_newline - check if a character is a newline
-bool char_is_newline(int32_t ch);
+/// is_newline - check if a character is a newline
+bool is_newline(int32_t ch);
 
-/// char_is_null - check if a character is null
-bool char_is_octal(int32_t ch);
+/// is_null - check if a character is null
+bool is_octal(int32_t ch);
 
-/// char_is_odd - check if a character is odd
-bool char_is_odd(int32_t ch);
+/// is_odd - check if a character is odd
+bool is_odd(int32_t ch);
 
-/// char_is_printable - check if a character is printable
-bool char_is_printable(int32_t ch);
+/// is_printable - check if a character is printable
+bool is_printable(int32_t ch);
 
-/// char_is_spaces - check if a character is 32 || (9-13)
-bool char_is_spaces(int32_t ch);
+/// is_spaces - check if a character is 32 || (9-13)
+bool is_spaces(int32_t ch);
 
-/// char_is_uppercase - check if a character is uppercase
-bool char_is_uppercase(int32_t ch);
+/// is_uppercase - check if a character is uppercase
+bool is_uppercase(int32_t ch);
 
-/// char_is_whitespace - check if a character is whitespace (32 || (9,11,12,13))
-bool char_is_whitespace(int32_t ch);
+/// is_whitespace - check if a character is whitespace (32 || (9,11,12,13))
+bool is_whitespace(int32_t ch);
 
-/// char_to_lowercase - convert a character to lowercase
-int32_t char_to_lowercase(int32_t ch);
+/// to_lowercase - convert a character to lowercase
+int32_t to_lowercase(int32_t ch);
 
-/// char_to_reversecase - convert a character to reversecase
-int32_t char_to_reversecase(int32_t ch);
+/// to_reversecase - convert a character to reversecase
+int32_t to_reversecase(int32_t ch);
 
-/// char_to_uppercase - convert a character to uppercase
-int32_t char_to_uppercase(int32_t ch);
+/// to_uppercase - convert a character to uppercase
+int32_t to_uppercase(int32_t ch);
 
 // ***********************************+************************************** //
 //                                  Memory                                    //
@@ -224,153 +215,214 @@ void *memory_zalloc(uint64_t size);
 void *memory_realloc(void *ptr, uint64_t osize, uint64_t nsize);
 
 // ***********************************+************************************** //
+//                                  bitset                                    //
+// ************************************************************************** //
+
+#define BITSET_SIZE 256
+
+typedef struct s_bitset
+{
+	union
+	{
+		uint64_t set[4];
+		struct
+		{
+			uint64_t a;
+			uint64_t b;
+			uint64_t c;
+			uint64_t d;
+		};
+	};
+} t_bitset;
+
+void bitset_set_bit(t_bitset *bitset, const uint64_t index, const bool value);
+bool bitset_is_set(const t_bitset *bitset, const uint64_t index);
+t_bitset bitset_init_empty(void);
+t_bitset bitset_init_from_str(const char *string);
+t_bitset bitset_reset(t_bitset *bitset);
+t_bitset bitset_and(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_or(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_xor(const t_bitset *bitset1, const t_bitset *bitset2);
+t_bitset bitset_difference(const t_bitset *bitset1, const t_bitset *bitset2);
+
+// ***********************************+************************************** //
 //                                  String                                    //
 // ************************************************************************** //
 
 typedef bool(t_predicate)(int32_t ch);
 
-typedef struct s_string_iterator
-
-{
-	t_allocator *allocator;
-	t_predicate *predicate;
-	t_predicate *on_event;
-	char        *start;
-	char        *end;
-	char        *cursor;
-	char        *charset;
-
-} t_string_iterator;
-
-t_string_iterator *string_iterator_create(t_allocator *allocator);
-t_string_iterator *string_iterator_init_scalar(t_string_iterator *iterator, const char *string, const char scalar);
-t_string_iterator *string_iterator_init_sequence(t_string_iterator *iterator, const char *string, const char *needle);
-t_string_iterator *string_iterator_init_any(t_string_iterator *iterator, const char *string, const char *charset);
-t_string_iterator *string_iterator_on_event_skip(t_string_iterator *iterator, t_predicate *predicate);
-t_string_iterator *string_iterator_on_event_match(t_string_iterator *iterator, t_predicate *predicate);
-t_string_iterator *string_iterator_init_predicate(t_string_iterator *iterator, const char *string, t_predicate *predicate);
-t_string_iterator *string_iterator_deinit(t_string_iterator *iterator);
-t_string_iterator *string_iterator_destroy(t_string_iterator *iterator);
-
+/* IMMUTABLE */
 uint64_t string_length(const char *string);
+uint64_t string_split_length(const char **split);
+uint64_t string_index_of_difference(const char *s1, const char *s2);
+uint64_t string_compute_replace_sequence_size(const char *haystack, const char *needle, const char *with);
 
-bool char_in_set(char set[256], char ch);
-char *string_charset(char set[256], const char *charset);
-char *string_create(t_allocator *allocator, const uint64_t size);
-char *string_clone(t_allocator *allocator, const char *string);
-char *string_nclone(t_allocator *allocator, const char *string, const uint64_t ssize);
-char *string_slice(t_allocator *allocator, const char *string, uint64_t start, uint64_t size);
+int32_t string_compare(const char *s1, const char *s2);
+int32_t string_ncompare(const char *s1, const char *s2, const uint64_t n);
+int32_t string_casecompare(const char *s1, const char *s2);
+int32_t string_ncasecompare(const char *s1, const char *s2, const uint64_t n);
 
-uint64_t string_safe_copy(char *dest, const char *src, const uint64_t destsize);
-uint64_t string_safe_ccopy(char *dest, const char *src, const char ch, const uint64_t destsize);
-uint64_t string_safe_pcopy(char *dest, const char *src, t_predicate *predicate, const uint64_t destsize);
+uint64_t string_copy_until_scalar(char *dest, const char *src, const int32_t scalar, const uint64_t destsize);
+uint64_t string_copy_until_any(char *dest, const char *src, const t_bitset *delimiters, const uint64_t destsize);
+uint64_t string_copy_until_none(char *dest, const char *src, const t_bitset *delimiters, const uint64_t destsize);
+uint64_t string_copy_until_predicate(char *dest, const char *src, bool(predicate)(int32_t ch), const uint64_t destsize);
+uint64_t string_copy_until_sequence(char *dest, const char *src, const char *needle, const uint64_t destsize);
 
-int32_t string_compare(const char *str1, const char *str2);
-int32_t string_ncompare(const char *str1, const char *str2, const uint64_t n);
-int32_t string_casecompare(const char *str1, const char *str2);
-int32_t string_ncasecompare(const char *str1, const char *str2 ,const uint64_t n);
+char *string_search_scalar(const char *source, const int32_t scalar, const uint64_t n);
+char *string_search_any(const char *source, t_bitset const *delimiters, const uint64_t n);
+char *string_search_none(const char *source, t_bitset const *delimiters, const uint64_t n);
+char *string_search_predicate(const char *source, bool(predicate)(int32_t ch), const uint64_t n);
+char *string_search_sequence(const char *haystack, const char *needle, const uint64_t n);
 
-uint64_t string_search_scalar(const char *string, const char scalar, const uint64_t ssize);
-uint64_t string_search_sequence(const char *string, const char *needle, const uint64_t ssize);
-uint64_t string_search_any(const char *string, const char *charset, const uint64_t ssize);
-uint64_t string_search_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+bool string_contains_scalar(const char *source, const int32_t scalar, const uint64_t n);
+bool string_contains_any(const char *source, t_bitset const *delimiters, const uint64_t n);
+bool string_contains_none(const char *source, t_bitset const *delimiters, const uint64_t n);
+bool string_contains_predicate(const char *source, bool(predicate)(int32_t ch), const uint64_t n);
+bool string_contains_sequence(const char *needle, const char *haystack, const uint64_t n);
 
-bool string_contains_scalar(const char *string, const char scalar, const uint64_t ssize);
-bool string_contains_sequence(const char *string, const char *needle, const uint64_t ssize);
-bool string_contains_any(const char *string, const char *charset, const uint64_t ssize);
-bool string_contains_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+bool string_starts_with_scalar(const char *source, const int32_t scalar);
+bool string_starts_with_any(const char *source, t_bitset const *delimiters);
+bool string_starts_with_none(const char *source, t_bitset const *delimiters);
+bool string_starts_with_predicate(const char *source, bool(predicate)(int32_t ch));
+bool string_starts_with_sequence(const char *haystack, const char *needle);
 
-bool string_starts_with_scalar(const char *string, const char scalar, const uint64_t ssize);
-bool string_starts_with_sequence(const char *string, const char *needle, const uint64_t ssize);
-bool string_starts_with_any(const char *string, const char *charset, const uint64_t ssize);
-bool string_starts_with_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+bool string_ends_with_scalar(const char *source, const int32_t scalar);
+bool string_ends_with_any(const char *source, t_bitset const *delimiters);
+bool string_ends_with_none(const char *source, t_bitset const *delimiters);
+bool string_ends_with_predicate(const char *source, bool(predicate)(int32_t ch));
+bool string_ends_with_sequence(const char *haystack, const char *needle);
 
-bool string_ends_with_scalar(const char *string, const char scalar, const uint64_t ssize);
-bool string_ends_with_sequence(const char *string, const char *needle, const uint64_t ssize);
-bool string_ends_with_any(const char *string, const char *charset, const uint64_t ssize);
-bool string_ends_with_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_index_of_first_scalar(const char *source, const int32_t scalar);
+uint64_t string_index_of_first_any(const char *source, t_bitset const *delimiters);
+uint64_t string_index_of_first_none(const char *source, t_bitset const *delimiters);
+uint64_t string_index_of_first_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_index_of_first_sequence(const char *haystack, const char *needle);
 
-uint64_t string_count_scalar(const char *string, const char scalar, const uint64_t ssize);
-uint64_t string_count_sequence(const char *string, const char *needle, const uint64_t ssize);
-uint64_t string_count_any(const char *string, const char *charset, const uint64_t ssize);
-uint64_t string_count_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_index_of_last_scalar(const char *source, const int32_t scalar);
+uint64_t string_index_of_last_any(const char *source, t_bitset const *delimiters);
+uint64_t string_index_of_last_none(const char *source, t_bitset const *delimiters);
+uint64_t string_index_of_last_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_index_of_last_sequence(const char *haystack, const char *needle);
 
-uint64_t string_index_of_scalar(const char *string, const char scalar, const uint64_t ssize);
-uint64_t string_index_of_sequence(const char *string, const char *needle, const uint64_t ssize);
-uint64_t string_index_of_any(const char *string, const char *charset, const uint64_t ssize);
-uint64_t string_index_of_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_count_scalar(const char *source, const int32_t scalar, const uint64_t n);
+uint64_t string_count_any(const char *source, t_bitset const *delimiters, const uint64_t n);
+uint64_t string_count_none(const char *source, t_bitset const *delimiters, const uint64_t n);
+uint64_t string_count_predicate(const char *source, bool(predicate)(int32_t ch), const uint64_t n);
+uint64_t string_count_sequence(const char *haystack, const char *needle, const uint64_t n);
 
-uint64_t string_span_of_scalar(const char *string, const char scalar, const uint64_t ssize);
-uint64_t string_span_of_sequence(const char *string, const char *needle, const uint64_t ssize);
-uint64_t string_span_of_any(const char *string, const char *charset, const uint64_t ssize);
-uint64_t string_span_of_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_count_until_scalar(const char *source, const int32_t scalar);
+uint64_t string_count_until_any(const char *source, t_bitset const *delimiters);
+uint64_t string_count_until_none(const char *source, t_bitset const *delimiters);
+uint64_t string_count_until_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_count_until_sequence(const char *haystack, const char *needle);
 
-uint64_t string_cspan_of_scalar(const char *string, const char scalar, const uint64_t ssize);
-uint64_t string_cspan_of_sequence(const char *string, const char *needle, const uint64_t ssize);
-uint64_t string_cspan_of_any(const char *string, const char *charset, const uint64_t ssize);
-uint64_t string_cspan_of_predicate(const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_count_leading_scalar(const char *source, const int32_t scalar);
+uint64_t string_count_leading_any(const char *source, t_bitset const *delimiters);
+uint64_t string_count_leading_none(const char *source, t_bitset const *delimiters);
+uint64_t string_count_leading_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_count_leading_sequence(const char *haystack, const char *needle);
 
-char *string_filter_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t ssize);
-char *string_filter_sequence(t_allocator *allocator, const char *string, const char *needle, const uint64_t ssize);
-char *string_filter_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t ssize);
-char *string_filter_predicate(t_allocator *allocator, const char *string, t_predicate *predicate, const uint64_t ssize);
+uint64_t string_count_trailing_scalar(const char *source, const int32_t scalar);
+uint64_t string_count_trailing_any(const char *source, t_bitset const *delimiters);
+uint64_t string_count_trailing_none(const char *source, t_bitset const *delimiters);
+uint64_t string_count_trailing_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_count_trailing_sequence(const char *haystack, const char *needle);
 
-char *string_trim_left_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_trim_left_sequence(t_allocator *allocator, const char *string, const char *needle, const uint64_t n);
-char *string_trim_left_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_trim_left_predicate(t_allocator *allocator, const char *string, t_predicate *predicate, const uint64_t n);
+uint64_t string_wcount_scalar(const char *source, const int32_t scalar);
+uint64_t string_wcount_any(const char *source, const t_bitset *delimiters);
+uint64_t string_wcount_none(const char *source, const t_bitset *delimiters);
+uint64_t string_wcount_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_wcount_sequence(const char *source, const char *sequence);
 
-char *string_trim_right_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_trim_right_sequence(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_trim_right_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_trim_right_predicate(t_allocator *allocator, const char *string, t_predicate *predicate, const uint64_t n);
+uint64_t string_wlength_scalar(const char *source, const int32_t scalar);
+uint64_t string_wlength_any(const char *source, const t_bitset *delimiters);
+uint64_t string_wlength_none(const char *source, const t_bitset *delimiters);
+uint64_t string_wlength_predicate(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_wlength_sequence(const char *source, const char *sequence);
 
-char *string_trim_both_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_trim_both_sequence(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_trim_both_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_trim_both_predicate(t_allocator *allocator, const char *string, t_predicate *predicate, const uint64_t n);
+uint64_t string_wfind_scalar(const char *source, const int32_t scalar, uint64_t *out_start, uint64_t *out_end);
+uint64_t string_wfind_any(const char *source, const t_bitset *delimiters, uint64_t *out_start, uint64_t *out_end);
+uint64_t string_wfind_none(const char *source, const t_bitset *delimiters, uint64_t *out_start, uint64_t *out_end);
+uint64_t string_wfind_predicate(const char *source, bool(predicate)(int32_t ch), uint64_t *out_start, uint64_t *out_end);
+uint64_t string_wfind_sequence(const char *source, const char *needle, uint64_t *out_start, uint64_t *out_end);
 
-char *string_pad_left_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_pad_left_sequence(t_allocator *allocator, const char *string, const char *needle, const uint64_t n);
-char *string_pad_left_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
+/* MUTABLE */
 
-char *string_pad_right_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_pad_right_sequence(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_pad_right_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
+char *string_clone(t_allocator *const allocator, const char *src);
+char *string_clone_scalar(t_allocator *const allocator, const int32_t ch);
+char *string_nclone(t_allocator *const allocator, const char *src, uint64_t n);
 
-char *string_pad_both_scalar(t_allocator *allocator, const char *string, const char scalar, const uint64_t n);
-char *string_pad_both_sequence(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
-char *string_pad_both_any(t_allocator *allocator, const char *string, const char *charset, const uint64_t n);
+char *string_clone_until_scalar(t_allocator *const allocator, const char *src, const int32_t scalar);
+char *string_clone_until_any(t_allocator *const allocator, const char *src, const t_bitset *delimiters);
+char *string_clone_until_none(t_allocator *const allocator, const char *src, const t_bitset *delimiters);
+char *string_clone_until_predicate(t_allocator *const allocator, const char *src, bool(predicate)(int32_t ch));
+char *string_clone_until_sequence(t_allocator *const allocator, const char *src, const char *needle);
 
-char *string_append_one_assume_capacity(char *string, const char one);
-char *string_append_one(t_allocator *allocator, const char *string, const char one);
-char *string_append_many_assume_capacity(char *string, const char *many);
-char *string_append_many(t_allocator *allocator, char *string, const char *many);
+char *string_substring_scalar(t_allocator *const allocator, const char *src, const int32_t scalar);
+char *string_substring_any(t_allocator *const allocator, const char *src, const t_bitset *delimiters);
+char *string_substring_none(t_allocator *const allocator, const char *src, const t_bitset *delimiters);
+char *string_substring_predicate(t_allocator *const allocator, const char *src, bool(predicate)(int32_t ch));
+char *string_substring_sequence(t_allocator *const allocator, const char *src, const char *needle);
 
-char *string_join_one(t_allocator *allocator, const char *string, const char *one);
-char *string_join_one_sep(t_allocator *allocator, const char *string, const char *one, const char sep);
-char *string_join_many(t_allocator *allocator, const char *string, const char **many);
-char *string_join_many_sep(t_allocator *allocator, const char *string, const char **many, const char sep);
+char *string_join_scalar(t_allocator *const allocator, const char *string, const int32_t scalar);
+char *string_join_sequence(t_allocator *const allocator, const char *string, const char *sequence);
+char *string_join_scalar_sequence(t_allocator *const allocator, const char *string, const int32_t scalar, const char *sequence);
+char *string_join_many_sequence(t_allocator *const allocator, const char *string, const char **many);
+char *string_join_many_scalar_sequence(t_allocator *const allocator, const char *string, const int32_t scalar, const char **many);
 
-char *string_replace_scalar(char *string, const char scalar, const char with);
-char *string_replace_sequence(t_allocator *allocator, const char *string, const char *needle, const char *with);
-char *string_replace_any(t_allocator *allocator, const char *string, const char *charset, const char *with);
-char *string_replace_predicate(t_allocator *allocator, const char *string, t_predicate *predicate, const char with);
+char *string_pad_left_scalar(t_allocator *const allocator, const char *string, const int32_t scalar, const uint64_t amount);
+char *string_pad_right_scalar(t_allocator *const allocator, const char *string, const int32_t scalar, const uint64_t amount);
+char *string_pad_left_sequence(t_allocator *const allocator, const char *string, const char *sequence, const uint64_t amount);
+char *string_pad_right_sequence(t_allocator *const allocator, const char *string, const char *sequence, const uint64_t amount);
 
-char **string_split_scalar(t_allocator *allocator, const char *string, const char scalar);
-char **string_split_sequence(t_allocator *allocator, const char *string, const char *sequence);
-char **string_split_any(t_allocator *allocator, const char *string, const char *charset);
-char **string_split_predicate(t_allocator *allocator, const char *string, t_predicate *predicate);
-void string_split_destroy(t_allocator *allocator, char **split);
+char *string_append_scalar(char *dest, const int32_t scalar, const uint64_t destsize);
+char *string_append_sequence(char *dest, const char *sequence, const uint64_t destsize);
+char *string_append_scalar_sequence(char *dest, const int32_t scalar, const char *sequence, const uint64_t destsize);
+char *string_append_many_sequence(char *dest, const char **many, const uint64_t destsize);
+char *string_append_many_scalar_sequence(char *dest, const int32_t scalar, const char **many, const uint64_t destsize);
 
-char *string_to_lower(char *string);
-char *string_to_upper(char *string);
-char *string_to_capitalize(char *string);
-char *string_to_title(char *string);
-char *string_to_reverse(char *string);
+char *string_trim_left(t_allocator *const allocator, const char *source, const uint64_t amount);
+char *string_trim_right(t_allocator *const allocator, const char *source, const uint64_t amount);
+char *string_trim_both(t_allocator *const allocator, const char *source, const uint64_t amount);
+
+char *string_trim_leading_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char *string_trim_leading_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_trim_leading_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_trim_leading_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch));
+char *string_trim_leading_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
+
+char *string_trim_trailing_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char *string_trim_trailing_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_trim_trailing_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_trim_trailing_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch));
+char *string_trim_trailing_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
+
+char *string_filter_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char *string_filter_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_filter_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char *string_filter_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch));
+char *string_filter_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
+
+char *string_replace_scalar(t_allocator *const allocator, const char *source, const int32_t scalar, const int32_t with);
+char *string_replace_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
+char *string_replace_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t with);
+char *string_replace_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch), const int32_t with);
+char *string_replace_sequence(const char *haystack, const char *needle, const char *with, char *out_buffer);
+
+char **string_split_scalar(t_allocator *const allocator, const char *source, const int32_t scalar);
+char **string_split_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char **string_split_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters);
+char **string_split_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch));
+char **string_split_sequence(t_allocator *const allocator, const char *haystack, const char *needle);
+
+char *string_to_reverse(char *source);
+char *string_to_uppercase(char *source);
+char *string_to_lowercase(char *source);
+char *string_to_titlecase(char *source);
+char *string_to_capitalcase(char *source);
 
 // ***********************************+************************************** //
-//                                  List //
+//                                  List                                      //
 // ************************************************************************** //
 
 typedef struct s_node

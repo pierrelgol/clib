@@ -25,7 +25,7 @@ uint64_t	buffer_write(t_buffer *self, char *buf, uint32_t size)
 		else
 			size = write_space;
 	}
-	written = string_lcopy(&self->buffer[self->w], buf, size);
+	written = string_copy_until_scalar(&self->buffer[self->w], buf, 0x00, size);
 	self->w += written;
 	return (written);
 }

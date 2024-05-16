@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buffer_puts.c                                      :+:      :+:    :+:   */
+/*   to_lowercase.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plgol.perso <pollivie@student.42.fr>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/19 21:27:25 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/19 21:27:26 by pollivie         ###   ########.fr       */
+/*   Created: 2023/11/30 21:28:36 by plgol.perso       #+#    #+#             */
+/*   Updated: 2024/05/16 09:34:13 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-char	*buffer_puts(t_buffer *self, char *str)
+int32_t to_lowercase(int32_t ch)
 {
-	uint64_t	written;
-	char		*ptr;
-
-	ptr = &self->buffer[self->w];
-	written = string_copy_until_scalar(&self->buffer[self->w], str, '\n',
-			buffer_unwrite_count(self));
-	self->w += written + 1;
-	return (ptr);
+	if (ch >= 'A' && ch <= 'Z')
+		return (ch + 32);
+	return (ch);
 }

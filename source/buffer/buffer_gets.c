@@ -21,7 +21,7 @@ char	*buffer_gets(t_buffer *self, char *dest, uint32_t dsize)
 	unread_count = buffer_unread_count(self);
 	if (unread_count < dsize)
 		dsize = unread_count;
-	written = string_slcopy(dest, self->buffer, '\n', dsize);
+	written = string_copy_until_scalar(dest, self->buffer, '\n', dsize);
 	self->r += written + 1;
 	buffer_compact(self);
 	return (dest);
