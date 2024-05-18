@@ -21,8 +21,8 @@ char	*string_trim_left(t_allocator *const allocator, const char *source,
 		return (NULL);
 	slen = string_length(source);
 	if (amount >= slen)
-		return (memdupz(allocator, ""));
-	return (memdupz(allocator, (void *const) & source[amount]));
+		return (string_clone(allocator, ""));
+	return (string_clone(allocator, (void *const) & source[amount]));
 }
 
 char	*string_trim_right(t_allocator *const allocator, const char *source,
@@ -35,8 +35,8 @@ char	*string_trim_right(t_allocator *const allocator, const char *source,
 		return (NULL);
 	slen = string_length(source);
 	if (amount >= slen)
-		return (memdupz(allocator, ""));
-	ret = memalloc(allocator, slen - amount + 1);
+		return (string_clone(allocator, ""));
+	ret = allocator->create(allocator, slen - amount + 1);
 	if (!ret)
 		return (NULL);
 	string_copy_until_scalar(ret, source, '\0', slen - amount + 1);
@@ -55,11 +55,11 @@ char	*string_trim_both(t_allocator *const allocator, const char *source,
 		return (NULL);
 	slen = string_length(source);
 	if (amount >= slen)
-		return (memdupz(allocator, ""));
+		return (string_clone(allocator, ""));
 	trim_both_amount = amount * 2;
 	if (trim_both_amount >= slen)
-		return (memdupz(allocator, ""));
-	ret = memalloc(allocator, slen - trim_both_amount + 1);
+		return (string_clone(allocator, ""));
+	ret = allocator->create(allocator, slen - trim_both_amount + 1);
 	if (!ret)
 		return (NULL);
 	string_copy_until_scalar(ret, &source[amount], '\0', slen - trim_both_amount

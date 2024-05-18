@@ -19,7 +19,7 @@ char	*string_clone_until_scalar(t_allocator *const allocator,
 	uint64_t	len;
 
 	len = string_count_until_scalar(src, scalar);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	string_copy_until_scalar(result, src, scalar, len + 1);
 	return (result);
 }
@@ -31,7 +31,7 @@ char	*string_clone_until_any(t_allocator *const allocator, const char *src,
 	uint64_t	len;
 
 	len = string_count_until_any(src, delimiters);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	string_copy_until_any(result, src, delimiters, len + 1);
 	return (result);
 }
@@ -43,7 +43,7 @@ char	*string_clone_until_none(t_allocator *const allocator, const char *src,
 	uint64_t	len;
 
 	len = string_count_until_none(src, delimiters);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	string_copy_until_none(result, src, delimiters, len + 1);
 	return (result);
 }
@@ -55,7 +55,7 @@ char	*string_clone_until_predicate(t_allocator *const allocator,
 	uint64_t	len;
 
 	len = string_count_until_predicate(src, predicate);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	string_copy_until_predicate(result, src, predicate, len + 1);
 	return (result);
 }
@@ -67,7 +67,7 @@ char	*string_clone_until_sequence(t_allocator *const allocator,
 	uint64_t	len;
 
 	len = string_count_until_sequence(src, needle);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	string_copy_until_sequence(result, src, needle, len + 1);
 	return (result);
 }

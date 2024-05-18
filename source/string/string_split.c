@@ -24,7 +24,7 @@ char	**string_split_scalar(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_wcount_scalar(source, scalar) + string_count_scalar(source,
 			scalar, string_length(source));
-	result = memalloc(allocator, (len + 1) * sizeof(char *));
+	result = allocator->create(allocator, (len + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -52,7 +52,7 @@ char	**string_split_any(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_wcount_any(source, delimiters) + string_count_any(source,
 			delimiters, string_length(source));
-	result = memalloc(allocator, (len + 1) * sizeof(char *));
+	result = allocator->create(allocator, (len + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -80,7 +80,7 @@ char	**string_split_none(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_wcount_none(source, delimiters) + string_count_none(source,
 			delimiters, string_length(source));
-	result = memalloc(allocator, (len + 1) * sizeof(char *));
+	result = allocator->create(allocator, (len + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -109,7 +109,7 @@ char	**string_split_predicate(t_allocator *const allocator,
 		return (NULL);
 	len = string_wcount_predicate(source, predicate)
 		+ string_count_predicate(source, predicate, string_length(source));
-	result = memalloc(allocator, (len + 1) * sizeof(char *));
+	result = allocator->create(allocator, (len + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (i < len)
@@ -138,7 +138,7 @@ char	**string_split_sequence(t_allocator *const allocator,
 	nlen = string_length(needle);
 	len = string_wcount_sequence(haystack, needle);
 	len += string_count_sequence(haystack, needle, string_length(haystack));
-	result = memalloc(allocator, (len + 1) * sizeof(char *));
+	result = allocator->create(allocator, (len + 1) * sizeof(char *));
 	i = 0;
 	j = 0;
 	while (i < len)

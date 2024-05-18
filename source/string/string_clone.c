@@ -21,7 +21,7 @@ char	*string_clone_scalar(t_allocator *const allocator, const int32_t ch)
 {
 	char	*result;
 
-	result = memalloc(allocator, 2);
+	result = allocator->create(allocator, 2);
 	result[0] = (uint8_t)ch;
 	result[1] = 0x00;
 	return (result);
@@ -32,7 +32,7 @@ char	*string_nclone(t_allocator *const allocator, const char *src,
 {
 	char	*result;
 
-	result = memalloc(allocator, n + 1);
+	result = allocator->create(allocator, n + 1);
 	result = string_append_sequence(result, src, n + 1);
 	return (result);
 }

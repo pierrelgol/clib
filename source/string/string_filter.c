@@ -23,7 +23,7 @@ char	*string_filter_scalar(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_length(source);
 	len -= string_count_scalar(source, scalar, len);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (*source && i < len)
 	{
@@ -46,7 +46,7 @@ char	*string_filter_any(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_length(source);
 	len -= string_count_any(source, delimiters, len);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (*source && i < len)
 	{
@@ -69,7 +69,7 @@ char	*string_filter_none(t_allocator *const allocator, const char *source,
 		return (NULL);
 	len = string_length(source);
 	len -= string_count_none(source, delimiters, len);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (*source && i < len)
 	{
@@ -92,7 +92,7 @@ char	*string_filter_predicate(t_allocator *const allocator,
 		return (NULL);
 	len = string_length(source);
 	len -= string_count_predicate(source, predicate, len);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (*source && i < len)
 	{
@@ -116,12 +116,12 @@ char	*string_filter_sequence(t_allocator *const allocator,
 	if (!haystack)
 		return (NULL);
 	if (!needle || !needle[0])
-		return (memdupz(allocator, (void *const)haystack));
+		return (string_clone(allocator, (void *const)haystack));
 	end = (char *)haystack + string_length(haystack);
 	rlen = (uint64_t)(end - haystack);
 	nlen = string_length(needle);
 	rlen -= (string_count_sequence(haystack, needle, rlen) * nlen);
-	result = memalloc(allocator, rlen + 1);
+	result = allocator->create(allocator, rlen + 1);
 	i = 0;
 	while (haystack <= end && i < rlen)
 	{

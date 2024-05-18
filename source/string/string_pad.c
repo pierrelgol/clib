@@ -20,7 +20,7 @@ char	*string_pad_left_scalar(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_length(string) + 1 * amount;
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (i < amount)
 	{
@@ -39,7 +39,7 @@ char	*string_pad_left_sequence(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_length(string) + (string_length(sequence) * amount);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	while (i < amount)
 	{
@@ -58,7 +58,7 @@ char	*string_pad_right_scalar(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_length(string) + 1 * amount;
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	string_append_sequence(result, string, len + 1);
 	while (i < amount)
@@ -77,7 +77,7 @@ char	*string_pad_right_sequence(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_length(string) + (string_length(sequence) * amount);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	string_append_sequence(result, string, len + 1);
 	while (i < amount)

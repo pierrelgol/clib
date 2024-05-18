@@ -14,23 +14,28 @@
 
 t_printer	print_fmt_parser(const char *fmt)
 {
-	if (fmt[0] == '%' || fmt[0] == 'c')
+	int	ch[2];
+
+	if (fmt[0] != 0)
+		ch[1] = fmt[1];
+	ch[0] = fmt[0];
+	if (ch[0] == '%' || ch[0] == 'c')
 		return ((t_printer){.fmt = put_char});
-	else if (fmt[0] == 's')
+	else if (ch[0] == 's')
 		return ((t_printer){.fmt = put_string});
-	else if (fmt[0] == 'd' || fmt[0] == 'i')
+	else if (ch[0] == 'd' || ch[0] == 'i')
 		return ((t_printer){.fmt = put_int32});
-	else if (fmt[0] == 'u')
+	else if (ch[0] == 'u')
 		return ((t_printer){.fmt = put_uint32});
-	else if (fmt[0] == 'x')
+	else if (ch[0] == 'x')
 		return ((t_printer){.fmt = put_lowhex32});
-	else if (fmt[0] == 'X')
+	else if (ch[0] == 'X')
 		return ((t_printer){.fmt = put_upehex32});
-	else if (fmt[0] == 'p')
+	else if (ch[0] == 'p')
 		return ((t_printer){.fmt = put_ptr});
-	else if (fmt[0] == 'l' && (fmt[1] == 'd' || fmt[1] == 'i'))
+	else if (ch[0] == 'l' && ch[1] == 'd')
 		return ((t_printer){.fmt = put_ilong64});
-	else if ((fmt[0] == 'l' || fmt[0] == 'z') && fmt[1] == 'u')
+	else if ((ch[0] == 'l' || ch[0] == 'z') && ch[1] == 'u')
 		return ((t_printer){.fmt = put_ulong64});
 	return ((t_printer){.fmt = put_err});
 }

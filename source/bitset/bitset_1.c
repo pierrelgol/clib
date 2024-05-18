@@ -16,7 +16,7 @@ t_bitset	bitset_init_empty(void)
 {
 	t_bitset	bitset;
 
-	raw_zero(&bitset, sizeof(t_bitset));
+	memory_set(&bitset, sizeof(t_bitset), BITSET_SIZE);
 	return (bitset);
 }
 
@@ -41,7 +41,7 @@ t_bitset	bitset_init_from_str(const char *string)
 
 t_bitset	bitset_reset(t_bitset *bitset)
 {
-	raw_zero(bitset, sizeof(t_bitset));
+	memory_set(bitset, sizeof(t_bitset), BITSET_SIZE);
 	return (*bitset);
 }
 

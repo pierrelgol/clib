@@ -19,7 +19,7 @@ char	*string_join_scalar(t_allocator *const allocator, const char *string,
 	uint64_t	len;
 
 	len = string_length(string) + 1;
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	result = string_append_sequence(result, string, len + 1);
 	result = string_append_scalar(result, scalar, len + 1);
 	return (result);
@@ -32,7 +32,7 @@ char	*string_join_sequence(t_allocator *const allocator, const char *string,
 	uint64_t	len;
 
 	len = string_length(string) + string_length(sequence);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	result = string_append_sequence(result, string, len + 1);
 	result = string_append_sequence(result, sequence, len + 1);
 	return (result);
@@ -45,7 +45,7 @@ char	*string_join_scalar_sequence(t_allocator *const allocator,
 	uint64_t	len;
 
 	len = string_length(string) + string_length(sequence) + 1;
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	result = string_append_sequence(result, string, len + 1);
 	result = string_append_scalar(result, scalar, len + 1);
 	result = string_append_sequence(result, sequence, len + 1);
@@ -60,7 +60,7 @@ char	*string_join_many_sequence(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_split_length(many);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	string_append_sequence(result, string, len + 1);
 	while (many[i])
@@ -76,7 +76,7 @@ char	*string_join_many_scalar_sequence(t_allocator *const allocator,
 	uint64_t	i;
 
 	len = string_split_length(many);
-	result = memalloc(allocator, len + 1);
+	result = allocator->create(allocator, len + 1);
 	i = 0;
 	string_append_sequence(result, string, len + 1);
 	while (many[i])
