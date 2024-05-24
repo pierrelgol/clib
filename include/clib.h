@@ -271,6 +271,18 @@ uint64_t string_copy_until_none(char *dest, const char *src, const t_bitset *del
 uint64_t string_copy_until_predicate(char *dest, const char *src, bool(predicate)(int32_t ch), const uint64_t destsize);
 uint64_t string_copy_until_sequence(char *dest, const char *src, const char *needle, const uint64_t destsize);
 
+bool string_is_all_scalar(const char *source, const int32_t scalar);
+bool string_is_all_any(const char *source, t_bitset const *any);
+bool string_is_all_none(const char *source, t_bitset const *none);
+bool string_is_all_predicate(const char *source, bool (predicate)(int32_t ch));
+bool string_is_all_sequence(const char *source, const char *sequence);
+
+char *string_tokenize_scalar(t_allocator *const allocator, const char *source, const int32_t scalar, const int32_t marker);
+char *string_tokenize_any(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t marker);
+char *string_tokenize_none(t_allocator *const allocator, const char *source, t_bitset const *delimiters, const int32_t marker);
+char *string_tokenize_predicate(t_allocator *const allocator, const char *source, bool(predicate)(int32_t ch), const int32_t marker);
+char *string_tokenize_sequence(t_allocator *const allocator, const char *haystack, const char *needle, const int32_t marker);
+
 char *string_search_scalar(const char *source, const int32_t scalar, const uint64_t n);
 char *string_search_any(const char *source, t_bitset const *delimiters, const uint64_t n);
 char *string_search_none(const char *source, t_bitset const *delimiters, const uint64_t n);
