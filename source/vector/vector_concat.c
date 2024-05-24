@@ -1,18 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_length.c                                    :+:      :+:    :+:   */
+/*   vector_concat.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/14 08:59:52 by pollivie          #+#    #+#             */
-/*   Updated: 2024/02/14 08:59:53 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/24 19:40:38 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/24 19:40:38 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-uint64_t	vector_length(t_vector *self)
+t_vector *vector_concat(t_vector *dest, t_vector *src)
 {
-	return (self->count);
+	uint64_t i;
+	clib_assert(dest != NULL);
+	clib_assert(src != NULL);
+	i = 0;
+	while (vector_end_of_vec(src, i))
+		vector_insert_back(dest, vector_peek_at(src, i++));
+	return (dest);
 }

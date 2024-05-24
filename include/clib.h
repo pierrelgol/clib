@@ -14,6 +14,7 @@
 #define CLIB_H
 
 #include <fcntl.h>
+#include <limits.h>
 #include <stdarg.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -21,6 +22,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+#define clib_assert(b) (_clib_assert((b),(char*)__PRETTY_FUNCTION__))
 
 #define NOTFOUND (UINT64_MAX)
 typedef struct s_allocator t_allocator;
@@ -80,14 +83,14 @@ void        *heap_clear(t_allocator *self, void *ptr);
 void         heap_reserve(t_allocator *self, uint64_t size, uint64_t count);
 void        *heap_deinit(t_allocator *self);
 
-t_allocator *gc_init(void);
-void        *gc_create(t_allocator *self, uint64_t size);
-void        *gc_destroy(t_allocator *self, void *ptr);
-void        *gc_dup(t_allocator *self, void *ptr, uint64_t bytes);
-void        *gc_dupz(t_allocator *self, void *ptr, uint64_t bytes);
-void        *gc_clear(t_allocator *self, void *ptr);
-void         gc_reserve(t_allocator *self, uint64_t size, uint64_t count);
-void        *gc_deinit(t_allocator *self);
+t_allocator *gpa_init(void);
+void        *gpa_create(t_allocator *self, uint64_t size);
+void        *gpa_destroy(t_allocator *self, void *ptr);
+void        *gpa_dup(t_allocator *self, void *ptr, uint64_t bytes);
+void        *gpa_dupz(t_allocator *self, void *ptr, uint64_t bytes);
+void        *gpa_clear(t_allocator *self, void *ptr);
+void         gpa_reserve(t_allocator *self, uint64_t size, uint64_t count);
+void        *gpa_deinit(t_allocator *self);
 
 /******************************************************************************/
 /*                                Bit                                         */
@@ -465,6 +468,7 @@ void      list_push_at(t_list *self, uintptr_t data, uint64_t index);
 uintptr_t list_pop_front(t_list *self);
 uintptr_t list_pop_back(t_list *self);
 uintptr_t list_pop_at(t_list *self, uint64_t index);
+void      list_sort(t_node **list, int (*f)(uintptr_t d1, uintptr_t d2));
 
 t_list *list_destroy(t_list *self);
 
@@ -561,59 +565,57 @@ void queue_growth(t_queue *self);
 //                               Vector                                       //
 // ************************************************************************** //
 
+typedef int32_t(t_compare)(uintptr_t v1, uintptr_t v2);
+typedef bool(t_eql)(uintptr_t v1, uintptr_t v2);
+typedef uintptr_t(t_ctor)(t_allocator *allocator, uintptr_t elem);
+typedef void(t_dtor)(t_allocator *allocator, uintptr_t elem);
+
+#define DEFAULT_VECTOR_CAPACITY 32
 typedef struct s_vector
 {
-	uint64_t     size;
+	t_allocator *allocator;
+	uint64_t     capacity;
 	uint64_t     count;
 	uintptr_t   *data;
-	t_allocator *allocator;
 
 } t_vector;
 
-/// vector_create - create a new vector and return a pointer to it
-t_vector *vector_create(t_allocator *allocator, uint64_t size);
+t_vector  *vector_create(t_allocator *allocator);
+t_vector  *vector_destroy(t_vector *vector);
+t_vector  *vector_clear(t_vector *vector);
+bool       vector_resize(t_vector *vector, uint64_t new_size);
+t_vector  *vector_compact(t_vector *vector, uint64_t from);
+t_vector  *vector_expand(t_vector *vector, uint64_t at);
+bool       vector_is_empty(t_vector *vector);
+bool       vector_is_full(t_vector *vector);
+bool       vector_insert_at(t_vector *vector, uintptr_t value, uint64_t index);
+bool       vector_insert_back(t_vector *vector, uintptr_t value);
+bool       vector_insert_front(t_vector *vector, uintptr_t value);
+uintptr_t  vector_peek_at(t_vector *vector, uint64_t index);
+uintptr_t  vector_peek_back(t_vector *vector);
+uintptr_t  vector_peek_front(t_vector *vector);
+uintptr_t *vector_get_at(t_vector *vector, uint64_t index);
+uintptr_t *vector_get_back(t_vector *vector);
+uintptr_t *vector_get_front(t_vector *vector);
+bool       vector_set_at(t_vector *vector, uintptr_t value, uint64_t index);
+bool       vector_set_back(t_vector *vector, uintptr_t value);
+bool       vector_set_front(t_vector *vector, uintptr_t value);
+bool       vector_remove_at(t_vector *vector, uintptr_t index);
+bool       vector_remove_back(t_vector *vector);
+bool       vector_remove_front(t_vector *vector);
+bool 	   vector_copy_from(t_vector *vector, uint64_t offset, uintptr_t *src, uint64_t srcsize);
+bool       vector_copy(t_vector *vector, uintptr_t *src, uint64_t srcsize);
+bool       vector_push(t_vector *vector, uintptr_t elem);
+uintptr_t  vector_pop(t_vector *vector);
+bool       vector_enqueue(t_vector *vector, uintptr_t elem);
+uintptr_t  vector_dequeue(t_vector *vector);
+t_vector *vector_concat(t_vector *dest, t_vector *src);
+t_vector *vector_join(t_allocator *allocator, t_vector *v1, t_vector *v2);
+uint64_t  vector_count(t_vector *vector);
+uint64_t  vector_capacity(t_vector *vector);
+bool	  vector_end_of_vec(t_vector *vector ,uint64_t index);
+void      vector_sort(t_vector *vector, t_compare *compare);
 
-/// vector_destroy - destroy a vector
-t_vector *vector_destroy(t_vector *self);
-
-/// vector_resize - resize the vector to new_size
-void vector_resize(t_vector *self, uint64_t new_size);
-
-/// vector_clear - clear the vector and set the count to 0
-void vector_clear(t_vector *self);
-
-/// vector_is_empty - return true if the vector is empty
-bool vector_is_empty(t_vector *self);
-
-/// vector_is_full - return true if the vector is full
-bool vector_is_full(t_vector *self);
-
-/// vector_length - return the length of the vector
-uint64_t vector_length(t_vector *self);
-
-/// vector_push - push data onto the vector
-void vector_push(t_vector *self, uintptr_t data);
-
-/// vector_pop - pop data from the vector
-uintptr_t vector_pop(t_vector *self);
-
-/// vector_peek_at - peek at the index in the vector
-uintptr_t vector_peek_at(t_vector *self, uint64_t index);
-
-/// vector_set_at - set the data at index
-void vector_set_at(t_vector *self, uintptr_t data, uint64_t index);
-
-/// vector_get_at - get the data at index
-uintptr_t vector_get_at(t_vector *self, uint64_t index);
-
-/// vector_insert_at - insert data at index
-uintptr_t vector_insert_at(t_vector *self, uintptr_t data, uint64_t index);
-
-/// vector_remove_at - remove data at index
-uintptr_t vector_remove_at(t_vector *self, uint64_t index);
-
-/// vector_sort - sort the vector using the function f to compare data
-void vector_sort(t_vector *self, int (*f)(uintptr_t d1, uintptr_t d2));
 
 // ***********************************+************************************** //
 //                               Buffer                                       //
@@ -652,28 +654,6 @@ char     *buffer_gets(t_buffer *self, char *dest, uint32_t size);
 char     *buffer_puts(t_buffer *self, char *str);
 void      buffer_compact(t_buffer *self);
 
-// ***********************************+************************************** //
-//                               Scanner                                      //
-// ************************************************************************** //
-
-typedef struct s_scanner
-{
-	const char *stream;
-	int32_t     index;
-	int32_t     size;
-
-} t_scanner;
-
-t_scanner scanner_create(const char *stream);
-char      advance(t_scanner *scanner);
-char      rollback(t_scanner *scanner);
-char      peek(t_scanner *scanner);
-char      next(t_scanner *scanner);
-char      prev(t_scanner *scanner);
-bool      match(t_scanner *scanner, bool (*f)(int32_t));
-char      skip(t_scanner *scanner, bool (*f)(int32_t));
-bool      is_eof(t_scanner *scanner);
-
 /******************************************************************************/
 /*                                Table                                       */
 /******************************************************************************/
@@ -707,75 +687,6 @@ void      table_body_remove(t_table *self, char *key);
 void      table_body_resize(t_table *self, uint64_t capacity);
 uint64_t  table_body_find_empty(t_table *self, char *key);
 
-/******************************************************************************/
-/*                                file                                        */
-/******************************************************************************/
-
-#define LINE_SIZE 128
-
-typedef struct s_file
-{
-	int32_t      fd;
-	int32_t      mode;
-	uint32_t     flag;
-	uint64_t     size;
-	uint64_t     pos;
-	uint64_t     r;
-	uint64_t     w;
-	bool         is_open;
-	bool         buffered_io;
-	char        *path;
-	char        *basename;
-	t_buffer    *buffer;
-	t_allocator *allocator;
-
-} t_file;
-
-t_file  *file_create(t_allocator *allocator, bool is_cached);
-t_file  *file_destroy(t_file *self);
-uint64_t file_fsize(char *path, char *mode);
-int32_t  file_mode(char *mode);
-t_file  *file_get_stdout(t_allocator *allocator);
-t_file  *file_get_stdin(t_allocator *allocator);
-t_file  *file_get_stderr(t_allocator *allocator);
-bool     file_fopen(t_file *self, char *path, char *mode);
-bool     file_fclose(t_file *self);
-int32_t  file_getch(t_file *self);
-int32_t  file_putch(t_file *self, char ch);
-char    *file_gets(t_file *self);
-uint64_t file_puts(t_file *self, char *str);
-int32_t  file_read(t_file *self, char *buffer, uint32_t size);
-int32_t  file_write(t_file *self, char *buffer, uint32_t size);
-t_file  *file_open_cache_all(t_allocator *allocator, char *path, char *mode);
-
-// ***********************************+************************************** //
-//                            fstack                                          //
-// ************************************************************************** //
-
-typedef struct s_fstack
-{
-	char    *data;
-	uint32_t size;
-	uint32_t top;
-} t_fstack;
-
-t_fstack fstack_create(char *data, uint32_t size);
-char     fstack_push(t_fstack *self, char value);
-char     fstack_pop(t_fstack *self);
-
-// ***********************************+************************************** //
-//                           fqueue                                          //
-// ************************************************************************** //
-
-typedef struct s_fqueue
-{
-	char    *data;
-	uint32_t size;
-} t_fqueue;
-
-t_fqueue fqueue_create(char *data, uint32_t size);
-char     fqueue_enqueue(t_fqueue *self, char value);
-char     fqueue_dequeue(t_fqueue *self);
 
 // ***********************************+************************************** //
 //                           print                                            //
@@ -804,5 +715,9 @@ int     put_err(va_list arg, int fd);
 t_printer print_fmt_parser(const char *fmt);
 int32_t   arg_len(const char *fmt);
 int32_t   print(int fd, const char *fmt, ...);
+
+// misc
+
+void	_clib_assert(bool condition, char *func);
 
 #endif

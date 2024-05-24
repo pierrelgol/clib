@@ -64,6 +64,7 @@ DIRS   =    source/memory                           \
             source/stack                            \
             source/scanner                          \
             source/vector                           \
+            source/misc                             \
             source/table                            \
             source/bitset                           \
             source/print                            \
