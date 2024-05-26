@@ -6,7 +6,7 @@
 /*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/14 12:47:01 by pollivie          #+#    #+#             */
-/*   Updated: 2024/04/08 21:03:52 by pollivie         ###   ########.fr       */
+/*   Updated: 2024/05/26 13:47:41 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define clib_assert(b) (_clib_assert((b),(char*)__PRETTY_FUNCTION__))
+#define clib_assert(b) (_clib_assert((b), (char *) __PRETTY_FUNCTION__))
 
 #define NOTFOUND (UINT64_MAX)
 typedef struct s_allocator t_allocator;
@@ -260,6 +260,12 @@ uint64_t string_split_length(const char **split);
 uint64_t string_index_of_difference(const char *s1, const char *s2);
 uint64_t string_compute_replace_sequence_size(const char *haystack, const char *needle, const char *with);
 
+uint64_t string_compute_scalar_split_size(const char *source, const int32_t scalar);
+uint64_t string_compute_any_split_size(const char *source, t_bitset const *delimiters);
+uint64_t string_compute_none_split_size(const char *source, t_bitset const *delimiters);
+uint64_t string_compute_predicate_split_size(const char *source, bool(predicate)(int32_t ch));
+uint64_t string_compute_sequence_split_size(const char *source, const char *needle);
+
 int32_t string_compare(const char *s1, const char *s2);
 int32_t string_ncompare(const char *s1, const char *s2, const uint64_t n);
 int32_t string_casecompare(const char *s1, const char *s2);
@@ -274,7 +280,7 @@ uint64_t string_copy_until_sequence(char *dest, const char *src, const char *nee
 bool string_is_all_scalar(const char *source, const int32_t scalar);
 bool string_is_all_any(const char *source, t_bitset const *any);
 bool string_is_all_none(const char *source, t_bitset const *none);
-bool string_is_all_predicate(const char *source, bool (predicate)(int32_t ch));
+bool string_is_all_predicate(const char *source, bool(predicate)(int32_t ch));
 bool string_is_all_sequence(const char *source, const char *sequence);
 
 char *string_tokenize_scalar(t_allocator *const allocator, const char *source, const int32_t scalar, const int32_t marker);
@@ -592,17 +598,18 @@ typedef struct s_vector
 
 } t_vector;
 
-t_vector  *vector_create(t_allocator *allocator);
-t_vector  *vector_destroy(t_vector *vector);
-t_vector  *vector_clear(t_vector *vector);
-bool       vector_resize(t_vector *vector, uint64_t new_size);
-t_vector  *vector_compact(t_vector *vector, uint64_t from);
-t_vector  *vector_expand(t_vector *vector, uint64_t at);
-bool       vector_is_empty(t_vector *vector);
-bool       vector_is_full(t_vector *vector);
-bool       vector_insert_at(t_vector *vector, uintptr_t value, uint64_t index);
-bool       vector_insert_back(t_vector *vector, uintptr_t value);
-bool       vector_insert_front(t_vector *vector, uintptr_t value);
+t_vector *vector_create(t_allocator *allocator);
+t_vector *vector_destroy(t_vector *vector);
+t_vector *vector_clear(t_vector *vector);
+bool      vector_resize(t_vector *vector, uint64_t new_size);
+t_vector *vector_compact(t_vector *vector, uint64_t from);
+t_vector *vector_expand(t_vector *vector, uint64_t at);
+bool      vector_is_empty(t_vector *vector);
+bool      vector_is_full(t_vector *vector);
+bool      vector_insert_at(t_vector *vector, uintptr_t value, uint64_t index);
+bool      vector_insert_back(t_vector *vector, uintptr_t value);
+bool      vector_insert_front(t_vector *vector, uintptr_t value);
+bool vector_insert_after(t_vector *vector, uintptr_t value, uint64_t index);
 uintptr_t  vector_peek_at(t_vector *vector, uint64_t index);
 uintptr_t  vector_peek_back(t_vector *vector);
 uintptr_t  vector_peek_front(t_vector *vector);
@@ -615,19 +622,21 @@ bool       vector_set_front(t_vector *vector, uintptr_t value);
 bool       vector_remove_at(t_vector *vector, uintptr_t index);
 bool       vector_remove_back(t_vector *vector);
 bool       vector_remove_front(t_vector *vector);
-bool 	   vector_copy_from(t_vector *vector, uint64_t offset, uintptr_t *src, uint64_t srcsize);
-bool       vector_copy(t_vector *vector, uintptr_t *src, uint64_t srcsize);
-bool       vector_push(t_vector *vector, uintptr_t elem);
-uintptr_t  vector_pop(t_vector *vector);
-bool       vector_enqueue(t_vector *vector, uintptr_t elem);
-uintptr_t  vector_dequeue(t_vector *vector);
+bool       vector_remove_after(t_vector *vector, uintptr_t index);
+bool vector_copy_from(t_vector *vector, uint64_t offset, uintptr_t *src, uint64_t srcsize);
+bool      vector_copy(t_vector *vector, uintptr_t *src, uint64_t srcsize);
+bool      vector_push(t_vector *vector, uintptr_t elem);
+uintptr_t vector_pop(t_vector *vector);
+bool      vector_enqueue(t_vector *vector, uintptr_t elem);
+uintptr_t vector_dequeue(t_vector *vector);
 t_vector *vector_concat(t_vector *dest, t_vector *src);
 t_vector *vector_join(t_allocator *allocator, t_vector *v1, t_vector *v2);
 uint64_t  vector_count(t_vector *vector);
 uint64_t  vector_capacity(t_vector *vector);
-bool	  vector_end_of_vec(t_vector *vector ,uint64_t index);
+bool      vector_end_of_vec(t_vector *vector, uint64_t index);
 void      vector_sort(t_vector *vector, t_compare *compare);
-
+int64_t vector_index_of(t_vector *vector, uint64_t offset, uintptr_t elem, bool (*eql)(uintptr_t e1, uintptr_t e2));
+void vector_map_dtor(t_vector *vector, t_allocator *allocator, uintptr_t (*dtor)(t_allocator *allocator, uintptr_t elem));
 
 // ***********************************+************************************** //
 //                               Buffer                                       //
@@ -699,7 +708,6 @@ void      table_body_remove(t_table *self, char *key);
 void      table_body_resize(t_table *self, uint64_t capacity);
 uint64_t  table_body_find_empty(t_table *self, char *key);
 
-
 // ***********************************+************************************** //
 //                           print                                            //
 // ************************************************************************** //
@@ -730,6 +738,6 @@ int32_t   print(int fd, const char *fmt, ...);
 
 // misc
 
-void	_clib_assert(bool condition, char *func);
+void _clib_assert(bool condition, char *func);
 
 #endif

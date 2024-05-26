@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-static void gc_insert_front(t_memory_node **head, t_memory_node *node)
+static void gpa_insert_front(t_memory_node **head, t_memory_node *node)
 {
 	if (!*head)
 	{
@@ -27,21 +27,21 @@ static void gc_insert_front(t_memory_node **head, t_memory_node *node)
 	}
 }
 
-void *gc_destroy(t_allocator *self, void *ptr)
+void *gpa_destroy(t_allocator *self, void *ptr)
 {
 	t_memory_node *node;
 
 	node = mem_node_remove_matching(&self->usedlist, (uintptr_t) ptr);
 	if (node && self->logging)
-		print(STDOUT_FILENO, "gc_destroy(self, %p)(found)\n", ptr);
+		print(STDOUT_FILENO, "gpa_destroy(self, %p)(found)\n", ptr);
 	if (!node)
 	{
 		if (self->logging)
-			print(STDOUT_FILENO, "gc_destroy(self, %p)(leaked)\n", ptr);
+			print(STDOUT_FILENO, "gpa_destroy(self, %p)(leaked)\n", ptr);
 		return (0);
 	}
 	memory_set(node->block, 0x00, node->size);
 	node->used = 0;
-	gc_insert_front(&self->freelist, node);
+	gpa_insert_front(&self->freelist, node);
 	return (0);
 }

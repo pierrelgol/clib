@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-static void gc_insert_front(t_memory_node **head, t_memory_node *node)
+static void gpa_insert_front(t_memory_node **head, t_memory_node *node)
 {
 	if (!*head)
 	{
@@ -26,10 +26,10 @@ static void gc_insert_front(t_memory_node **head, t_memory_node *node)
 	}
 }
 
-void gc_reserve(t_allocator *self, uint64_t size, uint64_t count)
+void gpa_reserve(t_allocator *self, uint64_t size, uint64_t count)
 {
 	t_memory_node *node;
 
 	node = mem_node_create(size, count);
-	gc_insert_front(&self->freelist, node);
+	gpa_insert_front(&self->freelist, node);
 }

@@ -1,25 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gpa_dupz.c                                         :+:      :+:    :+:   */
+/*   vector_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 12:31:27 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/16 09:20:23 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/26 13:50:37 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/26 13:50:41 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/clib.h"
 
-void *gpa_dupz(t_allocator *self, void *ptr, uint64_t bytes)
+void vector_map_dtor(t_vector *vector, t_allocator *allocator, uintptr_t (*dtor)(t_allocator *allocator, uintptr_t elem))
 {
-	void *dup;
+	uint64_t index;
 
-	dup = gpa_create(self, bytes + 1);
-	if (!dup)
-		return (ptr);
-	memory_copy(dup, ptr, bytes);
-	((char *) dup)[bytes] = 0x00;
-	return (dup);
+	index = 0;
+	while (index < vector->count)
+	{
+		vector->data[index] = dtor(allocator, vector->data[index]);
+		++index;
+	}
 }

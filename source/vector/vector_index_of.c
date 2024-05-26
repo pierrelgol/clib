@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gpa_dupz.c                                         :+:      :+:    :+:   */
+/*   vector_index_of.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pollivie <pollivie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/15 12:31:27 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/16 09:20:23 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/26 13:45:51 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/26 13:47:20 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "../../include/clib.h"
 
-void *gpa_dupz(t_allocator *self, void *ptr, uint64_t bytes)
+int64_t vector_index_of(t_vector *vector, uint64_t offset, uintptr_t elem, bool (*eql)(uintptr_t e1, uintptr_t e2))
 {
-	void *dup;
+	uint64_t index;
 
-	dup = gpa_create(self, bytes + 1);
-	if (!dup)
-		return (ptr);
-	memory_copy(dup, ptr, bytes);
-	((char *) dup)[bytes] = 0x00;
-	return (dup);
+	index = 0;
+	while (index < vector->count)
+	{
+		if (eql(elem, vector->data[index]))
+			return (index);
+		++index;
+	}
+	return (-1);
 }

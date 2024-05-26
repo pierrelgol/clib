@@ -12,18 +12,18 @@
 
 #include "../../include/clib.h"
 
-t_allocator *gc_init(void)
+t_allocator *gpa_init(void)
 {
-	t_allocator *gc;
+	t_allocator *gpa;
 
-	gc = memory_alloc(sizeof(t_allocator));
-	gc->create = gc_create;
-	gc->destroy = gc_destroy;
-	gc->dup = gc_dup;
-	gc->dupz = gc_dupz;
-	gc->clear = gc_clear;
-	gc->reserve = gc_reserve;
-	gc->usedlist = NULL;
-	gc->freelist = NULL;
-	return (gc);
+	gpa = memory_alloc(sizeof(t_allocator));
+	gpa->create = gpa_create;
+	gpa->destroy = gpa_destroy;
+	gpa->dup = gpa_dup;
+	gpa->dupz = gpa_dupz;
+	gpa->clear = gpa_clear;
+	gpa->reserve = gpa_reserve;
+	gpa->usedlist = NULL;
+	gpa->freelist = NULL;
+	return (gpa);
 }

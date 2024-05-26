@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-static t_memory_node *gc_remove_front(t_memory_node **head)
+static t_memory_node *gpa_remove_front(t_memory_node **head)
 {
 	t_memory_node *node;
 
@@ -24,24 +24,24 @@ static t_memory_node *gc_remove_front(t_memory_node **head)
 	return (node);
 }
 
-void *gc_deinit(t_allocator *gc)
+void *gpa_deinit(t_allocator *gpa)
 {
 	t_memory_node *node;
 
 	node = NULL;
-	node = gc_remove_front(&gc->usedlist);
+	node = gpa_remove_front(&gpa->usedlist);
 	while (node)
 	{
 		mem_node_destroy(node);
-		node = gc_remove_front(&gc->usedlist);
+		node = gpa_remove_front(&gpa->usedlist);
 	}
 	node = NULL;
-	node = gc_remove_front(&gc->freelist);
+	node = gpa_remove_front(&gpa->freelist);
 	while (node)
 	{
 		mem_node_destroy(node);
-		node = gc_remove_front(&gc->freelist);
+		node = gpa_remove_front(&gpa->freelist);
 	}
-	memory_dealloc(gc);
+	memory_dealloc(gpa);
 	return (0);
 }

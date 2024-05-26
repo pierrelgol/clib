@@ -12,7 +12,7 @@
 
 #include "../../include/clib.h"
 
-static void gc_insert_front(t_memory_node **head, t_memory_node *node)
+static void gpa_insert_front(t_memory_node **head, t_memory_node *node)
 {
 	if (!*head)
 	{
@@ -26,7 +26,7 @@ static void gc_insert_front(t_memory_node **head, t_memory_node *node)
 	}
 }
 
-void *gc_create(t_allocator *self, uint64_t size)
+void *gpa_create(t_allocator *self, uint64_t size)
 {
 	t_memory_node *node;
 	void          *ptr;
@@ -34,15 +34,15 @@ void *gc_create(t_allocator *self, uint64_t size)
 	node = NULL;
 	node = mem_node_remove_suitable(&self->freelist, size);
 	if (node && self->logging)
-		print(STDOUT_FILENO, "gc_create(self, %lu) (reuse)\n", size);
+		print(STDOUT_FILENO, "gpa_create(self, %lu) (reuse)\n", size);
 	if (!node)
 	{
 		node = mem_node_create(size, 1);
 		if (self->logging)
-			print(STDOUT_FILENO, "gc_create(self, %lu) (new)\n", size);
+			print(STDOUT_FILENO, "gpa_create(self, %lu) (new)\n", size);
 	}
 	ptr = node->block;
 	node->used = size;
-	gc_insert_front(&self->usedlist, node);
+	gpa_insert_front(&self->usedlist, node);
 	return (ptr);
 }
