@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_index_of.c                                  :+:      :+:    :+:   */
+/*   it_mut.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pollivie <pollivie.student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 13:45:51 by pollivie          #+#    #+#             */
-/*   Updated: 2024/05/26 13:47:20 by pollivie         ###   ########.fr       */
+/*   Created: 2024/05/26 14:32:53 by pollivie          #+#    #+#             */
+/*   Updated: 2024/05/26 14:32:53 by pollivie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "../../include/clib.h"
 
-int64_t vector_index_of(t_vector *vector, uint64_t offset, uintptr_t elem, bool (*eql)(uintptr_t e1, uintptr_t e2))
+uintptr_t it_insert_front(t_iterator *self, uintptr_t elem)
 {
-	uint64_t index;
+	vector_insert_after(self->vec, elem, self->index);
+	return (elem);
+}
 
-	index = offset;
-	while (index < vector->count)
-	{
-		if (eql(elem, vector->data[index]))
-			return (index);
-		++index;
-	}
-	return (-1);
+uintptr_t it_remove_front(t_iterator *self)
+{
+	uintptr_t elem;
+
+	elem = it_peeknext(self);
+	vector_remove_after(self->vec, self->index);
+	return (elem);
 }
